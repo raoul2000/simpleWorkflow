@@ -1,0 +1,99 @@
+Describes behaviors for both the model status attribute, and the actual status
+stored in the SWActiveRecordBehavior.
+
+Definition
+	attrib : is the Model status Attribute
+	sw     : is the SimpleWorkflow behavior internal SWNode
+
+------------------------------------------------------------------------------------------------------------------
+
+Scenario 1 : enter in workflow (auto insertion)
+	initial state :
+		attrib 		= null
+		sw 			= null
+		autoinsert 	= true
+		
+	call swNextStatus() 
+		if the default workflow and its initial node can be found insert 
+		into workflow, otherwise ERROR
+		onSuccess
+			attrib <- W/initStatus
+			sw <- W/initStatus 
+	
+	beforeSave() 
+		call swNextStatus()
+
+------------------------------------------------------------------------------------------------------------------
+
+Scenario 2 : no auto insertion into workflow
+	initial state :
+		attrib 		= null
+		sw 			= null
+		autoinsert 	= false
+
+	call swNextStatus() 
+		if the default workflow and its initial node can be found insert into 
+		workflow, otherwise ERROR
+		: attrib <- W/initStatus
+		: sw <- W/initStatus 
+	
+	beforeSave() 
+		NOP (because autoinsert = false)
+		
+------------------------------------------------------------------------------------------------------------------
+
+Scenario 3 : enter in workflow
+	initial state :
+		attrib 		= W/S (set manually)
+		sw 			= null
+
+	call swNextStatus() 
+		if W/S is an initial status SUCCESS, otherwise ERROR
+		: sw <- W/S
+		
+	beforeSave() 
+		call swNextStatus()
+		
+------------------------------------------------------------------------------------------------------------------
+
+Scenario 4 : leave workflow
+	initial state :
+		attrib 		= null
+		sw 			= W/S
+
+	call swNextStatus() 
+		if W/S is a final status, otherwise ERROR
+		: sw <- null
+
+	beforeSave() 
+		call swNextStatus()		
+		
+------------------------------------------------------------------------------------------------------------------
+
+Scenario 5 : transition
+	initial state :
+		attrib 		= W1/S1
+		sw 			= W2/S2
+
+	call swNextStatus() 
+		if transition W2/S2 -> W1/S1 exist, perform transition 
+		otherwise ERROR
+		: attrib <- W2/S2
+		
+	beforeSave() 
+		call swNextStatus()		
+		
+------------------------------------------------------------------------------------------------------------------
+
+Scenario 6 : transition (loop)
+	initial state :
+		attrib 		= W1/S1
+		sw 			= W1/S1
+
+	call swNextStatus() 
+		if transition W1/S1 -> W1/S1 exist, perform transition 
+		(otherwise no error)
+		
+	beforeSave() 
+		call swNextStatus()	
+
