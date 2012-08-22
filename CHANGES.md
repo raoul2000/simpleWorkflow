@@ -1,3 +1,7 @@
+##version 1.0.0.2
+* add : Gii command to convert [yEd Graph Editor](http://www.yworks.com/en/products_yed_download.html) workflows into sW workflows (experimental)
+* add : SWyEdconverter : implemented actual graphml to sW PHP file conversion - **requires domxml PHP extension**
+
 ##version 1.0.0.1
 * enh : when loading a workflow, raise exception on duplicate node id
 	
