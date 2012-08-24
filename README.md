@@ -42,7 +42,6 @@ Once installed and correctly configured, the simpleWorkflow extension will handl
 This happens automatically when the model is read/saved from/to database, or programatically by the developer. For instance :
 
 ```php
-[php]
 $m=MyModel::model()->findByPk('1');
 if( $m->swHasStatus() ){
      echo 'status : '.$m->swGetStatus()->toString();		
