@@ -649,7 +649,7 @@ class SWActiveRecordBehavior extends CBehavior {
 					$this->swGetDefaultWorkflowId()
 				);
 									
-				if( $this->swIsInitialStatus($nextNode) == false)
+				if( $this->swIsFinalStatus($nextNode) == false)
 					throw new SWException('status is not initial : '.$nextNode->toString(),
 						SWException::SW_ERR_STATUS_UNREACHABLE);
 					
