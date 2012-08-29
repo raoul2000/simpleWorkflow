@@ -616,10 +616,10 @@ class SWActiveRecordBehavior extends CBehavior {
 			if(is_array($nextStatus) && isset($nextStatus[$this->statusAttribute])) {
 				// 	$nextStatus may be provided as an array with a 'statusAttribute' key
 				$nextStatus=$nextStatus[$this->statusAttribute];
-			}elseif( $nextStatus instanceof SWNode){
-				
+			}
+			elseif( $nextStatus instanceof SWNode)
+			{
 				$nextStatus = $nextStatus->toString();
-				
 			}
 		}
 		
@@ -649,7 +649,7 @@ class SWActiveRecordBehavior extends CBehavior {
 					$this->swGetDefaultWorkflowId()
 				);
 									
-				if( $this->swIsFinalStatus($nextNode) == false)
+				if( $this->swIsInitialStatus($nextNode) == false)
 					throw new SWException('status is not initial : '.$nextNode->toString(),
 						SWException::SW_ERR_STATUS_UNREACHABLE);
 					
@@ -660,7 +660,7 @@ class SWActiveRecordBehavior extends CBehavior {
 				// $c->swNextStatus() was called. $c is in a workflow. If its current status
 				// is a final status, remove it from workflow
 				
-				if( $this->swIsInitialStatus() == false)
+				if( $this->swIsFinalStatus() == false)
 					throw new SWException('current status is not final : '.$this->swGetStatus()->toString(),
 						SWException::SW_ERR_STATUS_UNREACHABLE);
 					

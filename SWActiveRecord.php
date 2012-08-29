@@ -3,7 +3,7 @@
  * This is the base class for all AR models that needs to handle events
  * fired by the simpleWorkflow behavior.
  * Handling simpleWorkflow events can also be achieved by creating a behavior that
- * inherits from SWActiveRecordBehavior and overload default event handlers
+ * inherits from SWActiveRecordBehavior and overloads default event handlers
  */
 class SWActiveRecord extends CActiveRecord {
 	public function onEnterWorkflow($event)
