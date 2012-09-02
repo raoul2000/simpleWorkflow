@@ -17,7 +17,7 @@ class NextStatusTest extends CDbTestCase {
 	public function testInitialisation1() {
 
 		$m=Model01::model()->findByPk('1');
-		
+		$this->assertTrue($m->swHasStatus());
 		$m->swNextStatus('S2');
 		
 		$this->assertEquals($m->swGetWorkflowId(),'workflow1');

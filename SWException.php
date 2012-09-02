@@ -1,7 +1,7 @@
 <?php
 /**
  * Exception thrown by the simpleWorkflow behavior
- */			
+ */
 class SWException extends CException {
 	const SW_ERR_ATTR_NOT_FOUND=01;
 	const SW_ERR_REETRANCE=02;
@@ -13,5 +13,8 @@ class SWException extends CException {
 	const SW_ERR_WORKFLOW_ID=08;
 	const SW_ERR_NODE_NOT_FOUND=09;
 	const SW_ERR_STATUS_UNREACHABLE=10;
+	
+	const SW_ERR_CREATE_NODE=11;
+	const SW_ERR_MISSING_NODE_ID=12;
 }
 ?>

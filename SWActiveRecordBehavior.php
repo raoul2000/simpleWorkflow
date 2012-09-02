@@ -483,7 +483,7 @@ class SWActiveRecordBehavior extends CBehavior {
 		
 		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
 		if($sourceSt != null && $sourceSt instanceof SWNode ){
-			$tr=$sourceSt->getTransition($destSt);
+			$tr=$sourceSt->getTransitionTask($destSt);
 			
 			Yii::trace('transition process = '.$tr,self::SW_LOG_CATEGORY);
 
@@ -616,10 +616,10 @@ class SWActiveRecordBehavior extends CBehavior {
 			if(is_array($nextStatus) && isset($nextStatus[$this->statusAttribute])) {
 				// 	$nextStatus may be provided as an array with a 'statusAttribute' key
 				$nextStatus=$nextStatus[$this->statusAttribute];
-			}
-			elseif( $nextStatus instanceof SWNode)
-			{
+			}elseif( $nextStatus instanceof SWNode){
+				
 				$nextStatus = $nextStatus->toString();
+				
 			}
 		}
 		
@@ -660,7 +660,7 @@ class SWActiveRecordBehavior extends CBehavior {
 				// $c->swNextStatus() was called. $c is in a workflow. If its current status
 				// is a final status, remove it from workflow
 				
-				if( $this->swIsFinalStatus() == false)
+				if( $this->swIsInitialStatus() == false)
 					throw new SWException('current status is not final : '.$this->swGetStatus()->toString(),
 						SWException::SW_ERR_STATUS_UNREACHABLE);
 					

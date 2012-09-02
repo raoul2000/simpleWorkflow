@@ -1,5 +1,5 @@
 <?php
-class Model06 extends SWActiveRecord{
+class Model06 extends SWActiveRecord {
 
 	public static function model($className=__CLASS__){
 		return parent::model($className);
@@ -18,9 +18,9 @@ class Model06 extends SWActiveRecord{
 	{
 		return array(
 			'swBehavior' => array(
-				'class'      => 'application.tests.behaviors.Custom01SWBehavior',
-				'autoInsert' => false,
-				'defaultWorkflow' => 'workflow1'
+				'class'      		=> 'application.tests.behaviors.Custom01SWBehavior',
+				'autoInsert' 		=> false,
+				'defaultWorkflow' 	=> 'workflow1'
 			)
 		);
 	}
