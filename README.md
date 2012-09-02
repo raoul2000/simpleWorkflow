@@ -1,14 +1,13 @@
 ![simpleWorkflow](http://s172418307.onlinehome.fr/project/yiiDemo/images/sw-logo-big.png)
 
 
-The simpleWorkflow extension is a set of Yii components that is dedicated to provide an easy way to manage the life cycle of CActiveRecord objects inside a workflow. It provides features to control the behavior of the active record in its associated workflow : transition tasks, status constraints, event model.
+The **simpleWorkflow** extension is a set of Yii components that is dedicated to provide an easy way to manage the life cycle of CActiveRecord objects inside a workflow. 
+It provides features to control the behavior of the active record in its associated workflow : transition tasks, status constraints, event model.
 
 
 ###Resources
 * [Demo and doc](http://s172418307.onlinehome.fr/project/yiiDemo/index.php?r=simpleworkflowdemo/index)
 * [Join discussion, report a bug](http://www.yiiframework.com/forum/index.php?/topic/12071-extension-simpleworkflow/)
-
-
 
 
 ##Documentation
@@ -67,7 +66,7 @@ if( $m->swHasStatus() ){
 }
 ```
 
-For more information on how to use the simpleWorkflow extension, please refer to the [documentation](http://s172418307.onlinehome.fr/project/yiiDemo/index.php?r=simpleworkflowdemo/index#installation)
+For more information on how to use the simpleWorkflow extension, please refer to the [full documentation](http://s172418307.onlinehome.fr/project/yiiDemo/index.php?r=simpleworkflowdemo/index)
 
 ###Gii Command
 Creating a workflow 'by hand' can become an error-prone task when several nodes and edges are required. One good option is to create the workflow using a **visual tools**, and after some searches
