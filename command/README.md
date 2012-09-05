@@ -7,15 +7,19 @@ the [yEd Graph Editor](http://www.yworks.com/en/products_yed_about.html) which i
 **The simpleWorkflow Gii Command is able to convert a workflow created by yEd and saved into *graphml* format, into a
 workflow definition file that can be directly used by the simpleWorkflow Extension**.
 
+You don't have any idea what this is all about ? **[check the video demo](http://vimeo.com/48693938)**
 
 #Requirements
+* PHP 5.2.2 or above
+* **domxml** php extension
 * Yii 1.1.10 or above (never tested with previous Yii versions)
 * make sure that Gii is correctly configured for your webapp
 * install the **simpleWorkflow Extension**
-* download and install yEd Graph Editor  
+* yEd Graph Editor  ([download](http://www.yworks.com/en/products_yed_download.html))
 
 #Installation
-* copy the `gii` folder into your `protected` folder of your webapp
+* copy the `gii` folder into your `protected` folder of your webapp. In the end you should have a folder called `simpleWorkflow` inside
+folder `protected/gii`.
 
 #Usage
 ##Creating a workflow with yEd

@@ -1,3 +1,7 @@
+==== 1.0.0.3
+	- enh : gii command : SWyEdConverter now tests that the domxml extension is available (loaded) before process
+	- update command/README.me
+	
 ==== 1.0.0.2
 	- fix : small bug fixes
 	- enh : refactor SWNode and SWPhpWorkflowSource

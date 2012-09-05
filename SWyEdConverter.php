@@ -58,6 +58,9 @@ class SWyEdConverter {
 	 */
 	public function convert($file)
 	{
+		if(!extension_loaded('domxml')){
+			throw new SWException('extension domxml not loaded : yEd converter requires domxml extension to process');
+		}
 		// reset all
 		$this->_xml           = null;
 		$this->_yedProperties = array();
