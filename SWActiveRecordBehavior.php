@@ -83,6 +83,7 @@ class SWActiveRecordBehavior extends CBehavior {
 		
 	//
 	///////////////////////////////////////////////////////////////////////////////////////////
+	
 	/**
 	 * @var string name of the class the owner should inherit from in order for SW events
 	 * to be enabled.
@@ -280,7 +281,7 @@ class SWActiveRecordBehavior extends CBehavior {
 	 *  <li>created based on the configured prefix followed by the model class name. The default workflow prefix is 'sw' so
 	 *  if the owner model is MyModel, the default workflow id will be swMyModel (case sensitive) </li>
 	 * </ul>
-	 * @return string workflow id to use with the owner component or NULL if now workflow was found
+	 * @return string workflow id to use with the owner component or NULL if no workflow was found
 	 */
 	public function swGetDefaultWorkflowId(){
 		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
@@ -347,8 +348,10 @@ class SWActiveRecordBehavior extends CBehavior {
 		
 		if($this->swHasStatus())
 		{
-			throw new SWException(Yii::t(self::SW_I8N_CATEGORY,'object already in a workflow : '.$this->swGetStatus()),
-				SWException::SW_ERR_IN_WORKFLOW);
+			throw new SWException(
+				Yii::t(self::SW_I8N_CATEGORY,'object already in a workflow : {status}',array('{status}'=>$this->swGetStatus())),
+				SWException::SW_ERR_IN_WORKFLOW
+			);
 		}
 		
 		$wfName=( $workflowId == null
@@ -356,6 +359,13 @@ class SWActiveRecordBehavior extends CBehavior {
 			: $workflowId
 		);
 		
+		if( $wfName == null )
+		{
+			throw new SWException(
+				Yii::t(self::SW_I8N_CATEGORY,'failed to get the workflow name'),
+				SWException::SW_ERR_IN_WORKFLOW
+			);
+		}
 		$initialSt=$this->getSWSource()->getInitialNode($wfName);
 		return $this->swNextStatus($initialSt);
 	}
@@ -557,7 +567,7 @@ class SWActiveRecordBehavior extends CBehavior {
 		return $swInit->equals($swNode);
 	}
 	/**
-	 * Validate the status attribute stored in the owner model. This attribute is valid if : <br/>
+	 * Validates the status attribute stored in the owner model. This attribute is valid if : <br/>
 	 * <ul>
 	 * 	<li>it is not empty</li>
 	 * 	<li>it contains a valid status name</li>
