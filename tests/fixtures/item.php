@@ -21,4 +21,12 @@ return array(
 		'id' => '5',
 		'status' => 'MetadataWorkflow/S1',
 	),
+	'id6'=>array(
+		'id' => '6',
+		'status' => 'workflowEvent/S1',
+	),
+	'id7'=>array(
+		'id' => '7',
+		'status' => 'workflowEvent/S2',
+	),
 );

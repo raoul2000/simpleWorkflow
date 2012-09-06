@@ -1,7 +1,8 @@
 <?php
+Yii::import('application.tests.unit.events.models.*');
 class Event_01 extends CDbTestCase {
     public $fixtures=array(
-        'items'=>'Model06',
+        'items'=>'ModelEvent_1',
     );
 	/**
 	 *
@@ -10,28 +11,38 @@ class Event_01 extends CDbTestCase {
 	protected function setUp()
 	{
 		parent::setUp();
+		
+		$component = Yii::createComponent(
+			array(
+			'class'=>'application.extensions.simpleWorkflow.SWPhpWorkflowSource',
+			'basePath'=> 'application.tests.unit.events.workflows'
+			)
+		);
+		Yii::app()->setComponent('swSource', $component);
 	}
 	/**
 	 *
 	 */
 	public function testEvent1() {
 		
-		$m=new Model06a();
+		$m=new ModelEvent_1();
 		
 		$this->assertEquals($m->getRefCount(),1); // no event fired up to now
 		$this->assertEquals($m->enterWorkflow,0);
 		
+		$this->assertTrue($m->asa('swBehavior') != null);
+		
 		$this->assertTrue($m->hasEventHandler('onEnterWorkflow'));
 		
 		$m->swNextStatus('S1');
-		$this->assertEquals($m->swGetStatus()->toString(),'workflow1/S1');
+		$this->assertEquals($m->swGetStatus()->toString(),'workflowEvent/S1');
 		
 		$this->assertTrue($m->swIsEventEnabled());
 		$this->assertEquals($m->enterWorkflow,1);
 		$this->assertEquals($m->getRefCount(),2);
 		
 		$m->swNextStatus('S2');
-		$this->assertEquals($m->swGetStatus()->toString(),'workflow1/S2');
+		$this->assertEquals($m->swGetStatus()->toString(),'workflowEvent/S2');
 		$this->assertEquals($m->enterWorkflow,1);
 		$this->assertEquals($m->beforeTransition,2);
 		$this->assertEquals($m->processTransition,3);
@@ -39,7 +50,7 @@ class Event_01 extends CDbTestCase {
 		$this->assertEquals($m->getRefCount(),5);
 			
 		$m->swNextStatus('S4');
-		$this->assertEquals($m->swGetStatus()->toString(),'workflow1/S4');
+		$this->assertEquals($m->swGetStatus()->toString(),'workflowEvent/S4');
 		$this->assertEquals($m->enterWorkflow,1);
 		$this->assertEquals($m->beforeTransition,5);
 		$this->assertEquals($m->processTransition,6);
@@ -47,7 +58,7 @@ class Event_01 extends CDbTestCase {
 		$this->assertEquals($m->getRefCount(),8);
 		
 		$m->swNextStatus('S5');
-		$this->assertEquals($m->swGetStatus()->toString(),'workflow1/S5');
+		$this->assertEquals($m->swGetStatus()->toString(),'workflowEvent/S5');
 		$this->assertEquals($m->enterWorkflow,1);
 		$this->assertEquals($m->beforeTransition,8);
 		$this->assertEquals($m->processTransition,9);
@@ -60,7 +71,7 @@ class Event_01 extends CDbTestCase {
 	 */
 	public function testEvent2() {
 		
-		$m=Model06::model()->findByPk('2');
+		$m=ModelEvent_1::model()->findByPk('7');
 
 		$this->assertEquals($m->getRefCount(),1); // no event fired up to now
 		$this->assertEquals($m->enterWorkflow,0);
@@ -69,7 +80,7 @@ class Event_01 extends CDbTestCase {
 		$this->assertTrue($m->validate());
 		$this->assertTrue($m->save());
 
-		$this->assertEquals($m->swGetStatus()->toString(),'workflow1/S4');
+		$this->assertEquals($m->swGetStatus()->toString(),'workflowEvent/S4');
 		$this->assertEquals($m->enterWorkflow,0);
 		$this->assertEquals($m->beforeTransition,1);
 		$this->assertEquals($m->processTransition,2);
@@ -78,7 +89,7 @@ class Event_01 extends CDbTestCase {
 
 		$m->status = 'S5';
 		$this->assertTrue($m->save());
-		$this->assertEquals($m->swGetStatus()->toString(),'workflow1/S5');
+		$this->assertEquals($m->swGetStatus()->toString(),'workflowEvent/S5');
 		$this->assertEquals($m->enterWorkflow,0);
 		$this->assertEquals($m->beforeTransition,4);
 		$this->assertEquals($m->processTransition,5);
@@ -88,18 +99,18 @@ class Event_01 extends CDbTestCase {
 	}
 	public function testEvent3() {
 		
-		$m=Model07::model()->findByPk('2');
+		$m=ModelEvent_2::model()->findByPk('7');
 
 		$this->assertEquals($m->getRefCount(),1);
 
 		$this->assertEquals($m->enterWorkflow,0);
-		$this->assertEquals($m->swGetStatus()->toString(),'workflow1/S2');
+		$this->assertEquals($m->swGetStatus()->toString(),'workflowEvent/S2');
 		
 		$m->swNextStatus('S4');
 		
 		//echo $m->toString();
 		
-		$this->assertEquals($m->swGetStatus()->toString(),'workflow1/S4');
+		$this->assertEquals($m->swGetStatus()->toString(),'workflowEvent/S4');
 		$this->assertEquals($m->enterWorkflow,0);
 		$this->assertEquals($m->beforeTransition,1);
 		$this->assertEquals($m->processTransition,2);
@@ -118,7 +129,7 @@ class Event_01 extends CDbTestCase {
 		$m->status = 'S5';
 		$m->save();
 		
-		$this->assertEquals($m->swGetStatus()->toString(),'workflow1/S5');
+		$this->assertEquals($m->swGetStatus()->toString(),'workflowEvent/S5');
 		$this->assertEquals($m->enterWorkflow,0);
 		$this->assertEquals($m->beforeTransition,4);
 		$this->assertEquals($m->processTransition,5);
