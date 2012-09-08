@@ -1,3 +1,19 @@
+##version 1.0.0.4
+* change swNextStatus() : it is not permitted anymore to call 'swNextStatus()' with no argument. To insert a model into a 
+workflow, swNextStatus() must be replaced by a call to 'swInsertToWorkflow()'.
+* enh : add method 'swRemoveFromWorkflow()'. This method is only successful when the owner model is in a final status (i.e a status
+with no outgoing transition).
+* enh : it is now possible to pass parameters to the task transition. To do so, use the optional second argument when calling
+'swNextStatus()'. 
+Example : 
+```php
+
+	// if a transition is defined between the current model status
+	// and status 'S2', it will be called with the params array as argument
+	 
+	$model->swNextStatus('S2',array('var1'=>'value1'));			
+```
+
 ##version 1.0.0.3
 * enh : gii command : SWyEdConverter now tests that the domxml extension is available (loaded) before process
 * update command/README.me

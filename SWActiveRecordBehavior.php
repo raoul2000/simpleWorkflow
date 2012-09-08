@@ -80,6 +80,7 @@ class SWActiveRecordBehavior extends CBehavior {
 	private $_status=null;						// internal status for the owner model
 	private $_wfs;								// workflow source component reference
 	private $_locked=false;						// prevent reentrance
+	private $_final=null;
 		
 	//
 	///////////////////////////////////////////////////////////////////////////////////////////
@@ -193,6 +194,7 @@ class SWActiveRecordBehavior extends CBehavior {
 			throw new SWException(Yii::t(self::SW_I8N_CATEGORY,'SWNode object expected'),SWException::SW_ERR_WRONG_TYPE);
 		Yii::trace('_updateStatus : '.$SWNode->toString(),self::SW_LOG_CATEGORY);
 		$this->_status=$SWNode;
+		$this->_final = null;
 	}
 	/**
 	 * Updates the owner component status attribute with the value passed as argument.
@@ -366,8 +368,35 @@ class SWActiveRecordBehavior extends CBehavior {
 				SWException::SW_ERR_IN_WORKFLOW
 			);
 		}
-		$initialSt=$this->getSWSource()->getInitialNode($wfName);
-		return $this->swNextStatus($initialSt);
+		$initialNode=$this->getSWSource()->getInitialNode($wfName);
+		
+		$this->onEnterWorkflow(
+			new SWEvent($this->getOwner(),null,$initialNode)
+		);
+		$this->_updateStatus($initialNode);
+		$this->_updateOwnerStatus($initialNode);
+
+	}
+	/**
+	 * Removes the owner component from its current workflow.
+	 * An exception is thrown if the owner model is not in a final status (i.e a status
+	 * with no outgoing transition).
+	 *
+	 * see  {@link SWActiveRecordBehavior::swIsFinalStatus()}
+	 * @throws SWException
+	 */
+	public function swRemoveFromWorkflow(){
+		
+		if( $this->swIsFinalStatus() == false)
+			throw new SWException('current status is not final : '.$this->swGetStatus()->toString(),
+				SWException::SW_ERR_STATUS_UNREACHABLE);
+
+		$this->onLeaveWorkflow(
+			new SWEvent($this->getOwner(),$this->_status,null)
+		);
+		$this->_status = null;
+		$this->_final  = null;
+		$this->_updateOwnerStatus('');
 	}
 	/**
 	 * This method returns a list of nodes that can be actually reached at the time the method is called. To be reachable,
@@ -489,7 +518,7 @@ class SWActiveRecordBehavior extends CBehavior {
 	 * of the owner model, otherwise, the processTransition event is raised. Note that the value
 	 * returned by the expression evaluation is ignored.
 	 */
-	private function _runTransition($sourceSt,$destSt,$event=null){
+	private function _runTransition($sourceSt,$destSt,$params=null){
 		
 		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
 		if($sourceSt != null && $sourceSt instanceof SWNode ){
@@ -500,7 +529,21 @@ class SWActiveRecordBehavior extends CBehavior {
 			if( $tr != null)
 			{
 				if( $this->transitionBeforeSave){
-					$this->getOwner()->evaluateExpression($tr,array($this->getOwner(),$sourceSt->toString(), $destSt->toString()));
+					
+					if( is_string($tr))
+					{
+						$this->getOwner()->evaluateExpression($tr,array(
+							'owner' 		=> $this->getOwner(),
+							'sourceStatus'  => $sourceSt->toString(),
+							'targetStatus'  => $destSt->toString(),
+							'params'   		=> $params)
+						);
+					}
+					else
+					{
+						$this->getOwner()->evaluateExpression($tr,array($this->getOwner(),$sourceSt->toString(), $destSt->toString(), $params));
+					}
+					
 				}else {
 					$this->_delayedTransition = $tr;
 				}
@@ -517,16 +560,21 @@ class SWActiveRecordBehavior extends CBehavior {
 	 */
 	public function swIsFinalStatus($status=null){
 		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
-		$workflowId=($this->swHasStatus()?$this->swGetWorkflowId():$this->swGetDefaultWorkflowId());
-		
-		if( $status != null){
-			$swNode=$this->getSWSource()->createSWNode($status,$workflowId);
-		}elseif($this->swHasStatus() == true) {
-			$swNode=$this->_status;
-		}else {
-			return false;
+		if($this->_final == null)
+		{
+			$workflowId=($this->swHasStatus()?$this->swGetWorkflowId():$this->swGetDefaultWorkflowId());
+			
+			if( $status != null){
+				$swNode=$this->getSWSource()->createSWNode($status,$workflowId);
+			}elseif($this->swHasStatus() == true) {
+				$swNode=$this->_status;
+			}else {
+				return false;
+			}
+			$this->_final =  (count($this->getSWSource()->getNextNodes($swNode,$workflowId))===0);
 		}
-		return count($this->getSWSource()->getNextNodes($swNode,$workflowId))===0;
+		return $this->_final;
+
 	}
 	/**
 	 * Checks if the status passed as argument, or the current status (if NULL is passed) is the initial status
@@ -604,8 +652,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	}
 	/**
 	 * Set the owner component into the status passed as argument.
-	 * If the owner component is not currently in a workflow, then tries to insert it in its  associated default
-	 * workflow (initial status).
 	 * If a transition could be performed, the owner status attribute is updated with tne new status value (string).
 	 * This methode is responsible for firing SWEvents and executing workflow tasks if defined for the given transition.
 	 *
@@ -614,43 +660,32 @@ class SWActiveRecordBehavior extends CBehavior {
 	 * processing _POST array.
 	 * @return boolean True if the transition could be performed, FALSE otherwise
 	 */
-	public function swNextStatus($nextStatus=null){
+	public function swNextStatus($nextStatus,$params=null){
 		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
+		
+		if( $nextStatus == null )
+			throw new SWException('argument "nextStatus" is missing');
 		
 		$bResult   = false;
 		$nextNode  = null;
-		$operation = null;
 		
-		if( $nextStatus!=null)
+		if(is_array($nextStatus) && isset($nextStatus[$this->statusAttribute]))
 		{
-			if(is_array($nextStatus) && isset($nextStatus[$this->statusAttribute])) {
-				// 	$nextStatus may be provided as an array with a 'statusAttribute' key
-				$nextStatus=$nextStatus[$this->statusAttribute];
-			}elseif( $nextStatus instanceof SWNode){
-				
-				$nextStatus = $nextStatus->toString();
-				
-			}
+			// $nextStatus may be provided as an array with a 'statusAttribute' key
+			// example : $array['status']
+			$nextStatus=$nextStatus[$this->statusAttribute];
 		}
-		
+		elseif( $nextStatus instanceof SWNode)
+		{
+			$nextStatus = $nextStatus->toString();
+		}
+
 		try{
 			$this->_lock();
 			
-			//////////////////////////////////////////////////////////////////////////////////////////////
-			// prepare operation
-			
-			if(  $this->swHasStatus() == false && $nextStatus == null)			//  ---- insertion into workflow (1)
+			if( $this->swHasStatus() == false && $nextStatus != null)
 			{
-				
-				// $c->swNextStatus() was called and the $c component has no current status
-					
-				$nextNode = $this->getSWSource()->getInitialNode(
-					$this->swGetDefaultWorkflowId()
-				);
-				$operation = 'insert';
-			}
-			elseif( $this->swHasStatus() == false && $nextStatus != null)		// ---- insertion into workflow (2)
-			{
+				// insertion into workflow //////////////////////////////////////////////////////////////
 				//  $c->swNextStatus($status) was called. $c is not currently in a workflow and $status is
 				// assumed to be an initial node
 
@@ -662,23 +697,18 @@ class SWActiveRecordBehavior extends CBehavior {
 				if( $this->swIsInitialStatus($nextNode) == false)
 					throw new SWException('status is not initial : '.$nextNode->toString(),
 						SWException::SW_ERR_STATUS_UNREACHABLE);
-					
-				$operation = 'insert';
-			}
-			elseif( $this->swHasStatus() == true && $nextStatus == null)		// ----- remove from workflow
-			{
-				// $c->swNextStatus() was called. $c is in a workflow. If its current status
-				// is a final status, remove it from workflow
 				
-				if( $this->swIsInitialStatus() == false)
-					throw new SWException('current status is not final : '.$this->swGetStatus()->toString(),
-						SWException::SW_ERR_STATUS_UNREACHABLE);
-					
-				$operation = 'leave';
+				$this->onEnterWorkflow(
+					new SWEvent($this->getOwner(),null,$nextNode)
+				);
+				$this->_updateStatus($nextNode);
+				$this->_updateOwnerStatus($nextNode);
+				$bResult = true;
 			}
-			elseif( $this->swHasStatus() == true && $nextStatus != null)		// ----- dotransition
+			elseif( $this->swHasStatus() == true && $nextStatus != null)
 			{
-					
+				// perform transition //////////////////////////////////////////////////////////////
+				
 				$nextNode=$this->getSWSource()->getNodeDefinition(
 					$nextStatus,
 					$this->swGetWorkflowId()
@@ -686,7 +716,22 @@ class SWActiveRecordBehavior extends CBehavior {
 					
 				if( $this->swIsNextStatus($nextNode) )
 				{
-					$operation = 'transition';
+					$event=new SWEvent($this->getOwner(),$this->_status,$nextNode);
+						
+					$this->onBeforeTransition($event);
+					$this->onProcessTransition($event);
+						
+					$this->_runTransition($this->_status,$nextNode,$params);
+					
+					$this->_updateStatus($nextNode);
+					$this->_updateOwnerStatus($nextNode);
+					
+					$this->onAfterTransition($event);
+						
+					if($this->swIsFinalStatus()){
+						$this->onFinalStatus($event);
+					}
+					$bResult = true;
 				}
 				elseif( $nextNode->equals($this->swGetStatus()) == false)
 				{
@@ -697,50 +742,6 @@ class SWActiveRecordBehavior extends CBehavior {
 				// else
 				// 		there is not transition between both status but as they are identical, no operation
 				//		should be performed.
-			}
-			
-			//////////////////////////////////////////////////////////////////////////////////////////////
-			//// Performs operation
-			
-			if($operation != null)
-			{
-					switch ($operation){
-						case 'insert':
-							$this->onEnterWorkflow(
-								new SWEvent($this->getOwner(),null,$nextNode)
-							);
-							$this->_updateStatus($nextNode);
-							$this->_updateOwnerStatus($nextNode);
-							
-							break;
-								
-						case 'leave':
-							$this->onLeaveWorkflow(
-								new SWEvent($this->getOwner(),$this->_status,null)
-							);
-							$this->_status = null;
-							$this->_updateOwnerStatus('');
-							
-							break;
-						case 'transition':
-							$event=new SWEvent($this->getOwner(),$this->_status,$nextNode);
-			
-							$this->onBeforeTransition($event);
-							$this->onProcessTransition($event);
-			
-							$this->_runTransition($this->_status,$nextNode);
-								
-							$this->_updateStatus($nextNode);
-							$this->_updateOwnerStatus($nextNode);
-								
-							$this->onAfterTransition($event);
-			
-							if($this->swIsFinalStatus()){
-								$this->onFinalStatus($event);
-							}
-							break;
-					}
-					$bResult = true;
 			}
 		} catch (CException $e) {
 			$this->_unlock();
