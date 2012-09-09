@@ -152,6 +152,18 @@ class SimpleWorkflowCode extends CCodeModel
 		);
 	}
 	/**
+	 * Render the transition task
+	 * @param string $str the transition task
+	 */
+	public function outputPhpExpression($str){
+		
+		if( strpos($str,'array(') === 0){
+			return $str;
+		}else {
+			return $this->outputString($str);
+		}
+	}
+	/**
 	 * (non-PHPdoc)
 	 * @see CCodeModel::successMessage()
 	 */
