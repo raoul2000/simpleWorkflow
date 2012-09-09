@@ -129,7 +129,7 @@ class SWPhpWorkflowSource extends SWWorkflowSource {
 			}
 			
 			$wfDefinition[$node->getId()]=$node;
-			if($node->getId()==$wf['initial']){
+			if( $node->getId()==$wf['initial'] || $node->toString() == $wf['initial']){
 				$wfDefinition['swInitialNode']= $node;
 			}
 		}
