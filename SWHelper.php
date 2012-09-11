@@ -6,45 +6,113 @@ class SWHelper {
 	
 	/**
 	 * Returns the list of all statuses that can be reached from current status of the model
-	 * passed as argument. The returned array is in the form suitable for dropDownList and listBox
-	 * (eg. arra[statusId]='status Label').<br/>
-	 *  If  $includeCurrentStatus is true, then the current status of the $model is included in
-	 *  the returned list.
-	 *
-	 * @param CModel the data model attaching a simpleWorkflow behavior
-	 * @param boolean $includeCurrentStatus when TRUE the current status in added to the list returned
+	 * passed as argument. The returned array is in the form suitable for dropDownList and listBox:
+	 * <pre>
+	 *    array(
+	 *    	'statusId' => 'status label',
+	 *    	'status Id2' => 'status label 2',
+	 *    	etc ...
+	 *    )
+	 * </pre>
+	 * Use the $options argument to speficy following options :
+	 * <ul>
+	 * <li><b>prompt</b> : specifies the prompt text shown as the first list option. Its value is empty.
+	 * Note, the prompt text will NOT be HTML-encoded</li>
+	 * <li><b>includeCurrent</b> : boolean, if TRUE (default) the current model status is included in the list,
+	 * otherwise current model status is not inserted in the returned array.</li>
+	 * <li><b>exclude</b> : array, list of statuses that should not be inserted in the returned array</li>
+	 * </ul>
+	 * Note that each status label is html encode by default.
+	 * @param CModel $model the data model attaching a simpleWorkflow behavior
+	 * @param array $options additional options
 	 * @return array the list data that can be used in dropDownList and listBox
 	 */
-	public static function nextStatuslistData($model, $includeCurrentStatus=true){
-		$result=array();
+	public static function nextStatuslistData($model, $options=array()){
+		return self::_createListData($model,$model->swGetNextStatus(),$options);
 						
-		if( $model->swHasStatus() and $includeCurrentStatus){
-			$result[$model->swGetStatus()->toString()]=$model->swGetStatus()->getLabel().'*';
-		}
-		$ar=$model->swGetNextStatus();
-		if(count($ar)!=0){
-			foreach ( $ar as $nodeObj ) {
-				$result[$nodeObj->toString()]=$nodeObj->getLabel();
-			}
-		}
-		return $result;
 	}
 	/**
 	 * Returns the list of all statuses belonging to the workflow the model passed as argument
-	 * is in. The returned array is in the form* suitable for dropDownList and listBox
-	 * (eg. arra[statusId]='status Label').<br/>
-	 * If $model is not in a workflow, an empty array is returned.
+	 * is in.
+	 * see {@link SWHelper::nextStatuslistData} for argument options
 	 *
 	 * @param CModel the data model attaching a simpleWorkflow behavior
+	 * @param array additional options
 	 * @return array the list data that can be used in dropDownList and listBox
 	 */
-	public static function allStatuslistData($model){
+	public static function allStatuslistData($model,$options=array()){
+		return self::_createListData($model,$model->swGetAllStatus(),$options);
+	}
+
+	/**
+	 *
+	 * @param array $statusList SWNode list
+	 * @param array $options (optional)
+	 * @throws CException
+	 */
+	private function _createListData($model,$statusList,$options=array())
+	{
 		$result=array();
-		$ar=$model->swGetAllStatus();
-		if(count($ar)!=0){
-			foreach ( $ar as $nodeObj ) {
-				$result[$nodeObj->toString()]=$nodeObj->getLabel();
+		$exclude=null;
+		$includeCurrent = true;
+
+		$currentStatus = ($model->swHasStatus()
+			? $model->swGetStatus()
+			: null
+		);
+		if($currentStatus != null)
+			$result[$currentStatus->toString()]=$currentStatus->getLabel();
+		
+		$encodeLabel = ( isset($options['encode'])
+			? (bool) $options['encode']
+			: true
+		);
+		
+		// process options
+		
+		if(count($options)!=0){
+
+			if(isset($options['prompt'])){
+				$result[''] = $options['prompt'];
 			}
+
+			if(isset($options['exclude']))
+			{
+				if(is_string($options['exclude']))
+					$exclude = array_map('trim',explode(",",$options['exclude']));
+				elseif(is_array($options['exclude']))
+					$exclude = $options['exclude'];
+				else
+					throw new CException('incorrect type for option "exclude" : array or string expected');
+				
+				foreach ($exclude as $key => $value) {
+					$node = new SWNode($value, $model->swGetWorkflowId());
+					$exclude[$key] = $node->toString();
+				}
+			}
+			if(isset($options['includeCurrent']) )
+				$includeCurrent =  (bool) $options['includeCurrent'];
+			
+			if($exclude != null && $currentStatus!= null && in_array($currentStatus->toString(), $exclude))
+				$includeCurrent =  false;
+		}
+		
+		if(count($statusList)!=0){
+			foreach ( $statusList as $nodeObj ) {
+				
+				if(   $exclude == null ||
+					( $exclude != null && !in_array($nodeObj->toString(), $exclude )) )
+				{
+					$result[$nodeObj->toString()]= ($encodeLabel
+						? CHtml::encode($nodeObj->getLabel())
+						: $nodeObj->getLabel()
+					);
+				}
+			}
+		}
+		
+		if($includeCurrent == false && $currentStatus !=null){
+			unset($result[$currentStatus->toString()]);
 		}
 		return $result;
 	}

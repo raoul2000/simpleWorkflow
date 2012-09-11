@@ -343,7 +343,7 @@ class SWActiveRecordBehavior extends CBehavior {
 	 *
 	 * @param string $workflowId workflow Id or NULL. If NULL the default workflow Id is used
 	 * @throws SWException the owner model is already in a workflow
-	 * @return boolean TRUE if the operation succeeded, FALSE otherwise.
+	 * @return boolean TRUE
 	 */
 	public function swInsertToWorkflow($workflowId=null){
 		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
@@ -375,7 +375,7 @@ class SWActiveRecordBehavior extends CBehavior {
 		);
 		$this->_updateStatus($initialNode);
 		$this->_updateOwnerStatus($initialNode);
-
+		return true;
 	}
 	/**
 	 * Removes the owner component from its current workflow.
@@ -652,7 +652,7 @@ class SWActiveRecordBehavior extends CBehavior {
 	}
 	/**
 	 * Set the owner component into the status passed as argument.
-	 * If a transition could be performed, the owner status attribute is updated with tne new status value (string).
+	 * If a transition could be performed, the owner status attribute is updated with the new status value in the form workflowId/nodeId.
 	 * This methode is responsible for firing SWEvents and executing workflow tasks if defined for the given transition.
 	 *
 	 * @param mixed $nextStatus string or array. If array, it must contains a key equals to the name of the status
