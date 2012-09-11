@@ -1,3 +1,6 @@
+##version 1.0.0.5
+* add swGetWorkflowSource() as public method to return the workflow source component used by the behavior
+
 ##version 1.0.0.4
 * change swNextStatus() : it is not permitted anymore to call 'swNextStatus()' with no argument. To insert a model into a 
 workflow, swNextStatus() must be replaced by a call to 'swInsertToWorkflow()'.

@@ -94,10 +94,11 @@ class SWActiveRecordBehavior extends CBehavior {
 	const SW_LOG_CATEGORY='application.simpleWorkflow';
 	const SW_I8N_CATEGORY='simpleworkflow';
 
+
 	/**
 	 * @return reference to the workflow source used by this behavior
 	 */
-	private function getSWSource(){
+	public function swGetWorkflowSource(){
 		return $this->_wfs;
 	}
 	/**
@@ -309,10 +310,10 @@ class SWActiveRecordBehavior extends CBehavior {
 					
 					$workflowName=(isset($wf['name'])
 						? $wf['name']
-						: $this->getSWSource()->workflowNamePrefix.get_class($this->getOwner())
+						: $this->swGetWorkflowSource()->workflowNamePrefix.get_class($this->getOwner())
 					);
 					
-					$this->getSWSource()->addWorkflow($wf,$workflowName);
+					$this->swGetWorkflowSource()->addWorkflow($wf,$workflowName);
 					Yii::trace('workflow provided by owner',self::SW_LOG_CATEGORY);
 					
 				}elseif(is_string($wf)) {
@@ -329,7 +330,7 @@ class SWActiveRecordBehavior extends CBehavior {
 				// ok then, let's use the owner model name as the workflow name and hope that
 				// its definition is available in the workflow basePath.
 				
-				$workflowName=$this->getSWSource()->workflowNamePrefix.get_class($this->getOwner());
+				$workflowName=$this->swGetWorkflowSource()->workflowNamePrefix.get_class($this->getOwner());
 			}
 			$this->defaultWorkflow=$workflowName;
 			Yii::trace('defaultWorkflow : '.$this->defaultWorkflow,self::SW_LOG_CATEGORY);
@@ -368,7 +369,7 @@ class SWActiveRecordBehavior extends CBehavior {
 				SWException::SW_ERR_IN_WORKFLOW
 			);
 		}
-		$initialNode=$this->getSWSource()->getInitialNode($wfName);
+		$initialNode=$this->swGetWorkflowSource()->getInitialNode($wfName);
 		
 		$this->onEnterWorkflow(
 			new SWEvent($this->getOwner(),null,$initialNode)
@@ -409,7 +410,7 @@ class SWActiveRecordBehavior extends CBehavior {
 		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
 		$n=array();
 		if($this->swHasStatus()){
-			$allNxtSt=$this->getSWSource()->getNextNodes($this->_status);
+			$allNxtSt=$this->swGetWorkflowSource()->getNextNodes($this->_status);
 			if( $allNxtSt != null)
 			{
 				foreach ( $allNxtSt as $aStatus ) {
@@ -419,7 +420,7 @@ class SWActiveRecordBehavior extends CBehavior {
 				}
 			}
 		}else{
-			$n[]=$this->getSWSource()->getInitialNode($this->swGetDefaultWorkflowId());
+			$n[]=$this->swGetWorkflowSource()->getInitialNode($this->swGetDefaultWorkflowId());
 		}
 		return $n;
 	}
@@ -433,7 +434,7 @@ class SWActiveRecordBehavior extends CBehavior {
 		if(!$this->swHasStatus() or $this->swGetWorkflowId() == null)
 			return array();
 		else
-			return $this->getSWSource()->getAllNodes($this->swGetWorkflowId());
+			return $this->swGetWorkflowSource()->getAllNodes($this->swGetWorkflowId());
 	}
 	/**
 	 * Checks if the status passed as argument can be reached from the current status. This occurs when
@@ -460,13 +461,13 @@ class SWActiveRecordBehavior extends CBehavior {
 		
 		// get (create) a SWNode object
 		
-		$nxtNode=$this->getSWSource()->createSWNode(
+		$nxtNode=$this->swGetWorkflowSource()->createSWNode(
         			$nextStatus,
         			$this->swGetDefaultWorkflowId()
         		);
 		
 		if( (! $this->swHasStatus() and $this->swIsInitialStatus($nextStatus)) or
-		    (  $this->swHasStatus() and $this->getSWSource()->isNextNode($this->_status,$nxtNode)) ){
+		    (  $this->swHasStatus() and $this->swGetWorkflowSource()->isNextNode($this->_status,$nxtNode)) ){
 			
 			// Note : the transition NULL -> S is valid only if S is an initial status
 			
@@ -474,7 +475,7 @@ class SWActiveRecordBehavior extends CBehavior {
 		    // now let's see if constraints to actually enter in the next status
 		    // are evaluated to true.
 		    
-		    $swNodeNext=$this->getSWSource()->getNodeDefinition($nxtNode);
+		    $swNodeNext=$this->swGetWorkflowSource()->getNodeDefinition($nxtNode);
 		    if($this->_evaluateConstraint($swNodeNext->getConstraint()) == true)
 		    {
 		    	$bIsNextStatus=true;
@@ -500,7 +501,7 @@ class SWActiveRecordBehavior extends CBehavior {
 	 * @return SWNode the node
 	 */
 	public function swCreateNode($str){
-		return $this->getSWSource()->createSWNode(
+		return $this->swGetWorkflowSource()->createSWNode(
 			$str,
 			$this->swGetDefaultWorkflowId()
 		);
@@ -565,13 +566,13 @@ class SWActiveRecordBehavior extends CBehavior {
 			$workflowId=($this->swHasStatus()?$this->swGetWorkflowId():$this->swGetDefaultWorkflowId());
 			
 			if( $status != null){
-				$swNode=$this->getSWSource()->createSWNode($status,$workflowId);
+				$swNode=$this->swGetWorkflowSource()->createSWNode($status,$workflowId);
 			}elseif($this->swHasStatus() == true) {
 				$swNode=$this->_status;
 			}else {
 				return false;
 			}
-			$this->_final =  (count($this->getSWSource()->getNextNodes($swNode,$workflowId))===0);
+			$this->_final =  (count($this->swGetWorkflowSource()->getNextNodes($swNode,$workflowId))===0);
 		}
 		return $this->_final;
 
@@ -598,7 +599,7 @@ class SWActiveRecordBehavior extends CBehavior {
 				? $this->swGetWorkflowId()
 				: $this->swGetDefaultWorkflowId()
 			);
-			$swNode=$this->getSWSource()->createSWNode($status,$workflowId);
+			$swNode=$this->swGetWorkflowSource()->createSWNode($status,$workflowId);
 		}
 		elseif($this->swHasStatus() == true)
 		{
@@ -611,7 +612,7 @@ class SWActiveRecordBehavior extends CBehavior {
 				SWException::SW_ERR_CREATE_FAILS);
 		}
 		
-		$swInit=$this->getSWSource()->getInitialNode($swNode->getWorkflowId());
+		$swInit=$this->swGetWorkflowSource()->getInitialNode($swNode->getWorkflowId());
 		return $swInit->equals($swNode);
 	}
 	/**
@@ -633,7 +634,7 @@ class SWActiveRecordBehavior extends CBehavior {
         	if($value instanceof SWNode){
         		$swNode=$value;
         	}else {
-        		$swNode = $this->getSWSource()->createSWNode(
+        		$swNode = $this->swGetWorkflowSource()->createSWNode(
         			$value,
         			$this->swGetDefaultWorkflowId()
         		);
@@ -689,7 +690,7 @@ class SWActiveRecordBehavior extends CBehavior {
 				//  $c->swNextStatus($status) was called. $c is not currently in a workflow and $status is
 				// assumed to be an initial node
 
-				$nextNode=$this->getSWSource()->getNodeDefinition(
+				$nextNode=$this->swGetWorkflowSource()->getNodeDefinition(
 					$nextStatus,
 					$this->swGetDefaultWorkflowId()
 				);
@@ -709,7 +710,7 @@ class SWActiveRecordBehavior extends CBehavior {
 			{
 				// perform transition //////////////////////////////////////////////////////////////
 				
-				$nextNode=$this->getSWSource()->getNodeDefinition(
+				$nextNode=$this->swGetWorkflowSource()->getNodeDefinition(
 					$nextStatus,
 					$this->swGetWorkflowId()
 				);
@@ -871,7 +872,7 @@ class SWActiveRecordBehavior extends CBehavior {
 				// the owner model already has a status value (it has been read from db)
 				// and so, set the underlying status value without performing any transition
 				
-				$st=$this->getSWSource()->getNodeDefinition($status,$this->swGetWorkflowId());
+				$st=$this->swGetWorkflowSource()->getNodeDefinition($status,$this->swGetWorkflowId());
 				$this->_updateStatus($st);
 			}
 			
