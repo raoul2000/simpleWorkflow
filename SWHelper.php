@@ -43,8 +43,30 @@ class SWHelper {
 	public static function allStatuslistData($model,$options=array()){
 		return self::_createListData($model,$model->swGetAllStatus(),$options);
 	}
-
 	/**
+	 * Create an array containing where keys are statusIds in the form workflowId/statusId
+	 * and the value is the status label.
+	 * Note that by default this method never inserts the status of the model passed as argument.
+	 * see {@link SWHelper::nextStatuslistData} for argument options
+	 *
+	 * @param CModel the data model attaching a simpleWorkflow behavior
+	 * @param array $statusList array of string where each value is the statusId
+	 * @param array $options the list data that can be used in dropDownList and listBox
+	 */
+	public function statusListData($model,$statusList,$options=array()){
+		$nodeList = array();
+		$w = $model->swGetWorkflowSource();
+		foreach($statusList as $key =>  $statusId){
+			$nodeList[] = $w->getNodeDefinition($statusId);
+		}
+		$options['includeCurrent'] = (isset($options['includeCurrent'])
+			? $options['includeCurrent']
+			: false
+		);
+		return self::_createListData($model,$nodeList,$options);
+	}
+	/**
+	 * Returns an array where keys are status id and values are status labels.
 	 *
 	 * @param array $statusList SWNode list
 	 * @param array $options (optional)
