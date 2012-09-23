@@ -12,6 +12,7 @@ echo '<?php'; ?>
 
 
 class <?php echo ucfirst($this->workflowName); ?> {
+	const WORKFLOW_ID = <?php echo "'".ucfirst($this->workflowName)."';\n"; ?>
 <?php foreach($w['node'] as $node):?>
 	const <?php echo strtoupper($node['id']) ?> = <?php echo "'".ucfirst($this->workflowName).'/'.$node['id']."';\n"; ?>
 <?php endforeach;?>
