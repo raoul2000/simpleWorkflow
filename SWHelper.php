@@ -53,7 +53,7 @@ class SWHelper {
 	 * @param array $statusList array of string where each value is the statusId
 	 * @param array $options the list data that can be used in dropDownList and listBox
 	 */
-	public function statusListData($model,$statusList,$options=array()){
+	public static function statusListData($model,$statusList,$options=array()){
 		$nodeList = array();
 		$w = $model->swGetWorkflowSource();
 		foreach($statusList as $key =>  $statusId){
