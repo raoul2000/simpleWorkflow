@@ -39,7 +39,7 @@ class SWValidator extends CValidator
 	 */
 	public $match=false;
 	
-    const SW_SCENARIO_STATUS_SEPARATOR='_';
+    const SW_SCENARIO_STATUS_SEPARATOR='-';
     const SW_SCENARIO_PREFIX='sw:';
     private $_lenPrefix=null;
     /**
@@ -125,7 +125,7 @@ class SWValidator extends CValidator
 	    		$swScenario.=$nextNode->getId();
 	    	}
     	}else {
-    		$swScenario='_'.$nextNode->toString();
+    		$swScenario=SWValidator::SW_SCENARIO_STATUS_SEPARATOR.$nextNode->toString();
     	}
     	return $swScenario;
     }

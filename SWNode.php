@@ -123,15 +123,15 @@ class SWNode extends CComponent {
 		$nodeId=$wfId=null;
 
 		if(strstr($status,'/')){
-			if(preg_match('/^([[:alpha:]][[:alnum:]]*)\/([[:alpha:]][[:alnum:]]*)$/',$status,$matches) == 1){
+			if(preg_match('/^([[:alpha:]][[:alnum:]_]*)\/([[:alpha:]][[:alnum:]_]*)$/',$status,$matches) == 1){
 				$wfId   = $matches[1];
 				$nodeId = $matches[2];
 			}
 		}
 		else{
-			if(preg_match('/^[[:alpha:]][[:alnum:]]*$/',$status) == 1){
+			if(preg_match('/^[[:alpha:]][[:alnum:]_]*$/',$status) == 1){
 				$nodeId = $status;
-				if(preg_match('/^[[:alpha:]][[:alnum:]]*$/',$workflowId) == 1){
+				if(preg_match('/^[[:alpha:]][[:alnum:]_]*$/',$workflowId) == 1){
 					$wfId = $workflowId;
 				}
 			}

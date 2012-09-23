@@ -1,3 +1,8 @@
+##version 1.0.0.6
+* change allowed status name pattern : now character '_' is allowed so a node or workflow id such as 'workflow_A/status_name' is permited.
+* change the status separator character for SW scenario names. The '_' is replaced by '-'. **UPDATED requires** SW scenario
+names such as 'xxxxx_xxxx' muste bu replaced by 'xxxx-xxxx'.
+
 ##version 1.0.0.5
 * add swGetWorkflowSource() as public method to return the workflow source component used by the behavior
 
