@@ -28,7 +28,7 @@ class SWHelper {
 	 * @return array the list data that can be used in dropDownList and listBox
 	 */
 	public static function nextStatuslistData($model, $options=array()){
-		return self::_createListData($model,$model->swGetNextStatus(),$options);
+		return SWHelper::_createListData($model,$model->swGetNextStatus(),$options);
 						
 	}
 	/**
@@ -41,7 +41,7 @@ class SWHelper {
 	 * @return array the list data that can be used in dropDownList and listBox
 	 */
 	public static function allStatuslistData($model,$options=array()){
-		return self::_createListData($model,$model->swGetAllStatus(),$options);
+		return SWHelper::_createListData($model,$model->swGetAllStatus(),$options);
 	}
 	/**
 	 * Create an array containing where keys are statusIds in the form workflowId/statusId
@@ -63,7 +63,7 @@ class SWHelper {
 			? $options['includeCurrent']
 			: false
 		);
-		return self::_createListData($model,$nodeList,$options);
+		return SWHelper::_createListData($model,$nodeList,$options);
 	}
 	/**
 	 * Returns an array where keys are status id and values are status labels.
@@ -72,7 +72,7 @@ class SWHelper {
 	 * @param array $options (optional)
 	 * @throws CException
 	 */
-	private function _createListData($model,$statusList,$options=array())
+	private static function _createListData($model,$statusList,$options=array())
 	{
 		$result=array();
 		$exclude=null;

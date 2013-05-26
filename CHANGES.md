@@ -1,10 +1,17 @@
+##version 1.0.0.8
+* gii command : add SWyEdConverterDOM that uses DOM extension. If domxml extension is available, use it in priority otherwise
+use DOM
+* update phpuni.xml to generate coverage report
+* add swSetStatus() to replace swNextStatus() which is still supported, but deprecated
+
+
 ##version 1.0.0.7
 * gii command : add class constant WORKFLOW_ID
 
 ##version 1.0.0.6
 * change allowed status name pattern : now character '_' is allowed so a node or workflow id such as 'workflow_A/status_name' is permited.
 * change the status separator character for SW scenario names. The '_' is replaced by '-'. **UPDATED requires** SW scenario
-names such as 'xxxxx_xxxx' muste bu replaced by 'xxxx-xxxx'.
+names such as 'xxxxx_xxxx' must be replaced by 'xxxx-xxxx'.
 
 ##version 1.0.0.5
 * add swGetWorkflowSource() as public method to return the workflow source component used by the behavior
