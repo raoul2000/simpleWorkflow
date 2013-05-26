@@ -143,7 +143,7 @@ class SWActiveRecordBehavior extends CBehavior {
 	}
 	/**
 	 * Test if the current status is the same as the one passed as argument.
-	 * A call to swStatusEquals() returns TRUE only if the owner component is not in a workflow.
+	 * A call to swStatusEquals(<em>null</em>) returns TRUE only if the owner component is not in a workflow.
 	 *
 	 * @param mixed $status string or SWNode instance.
 	 * @return boolean
@@ -161,6 +161,7 @@ class SWActiveRecordBehavior extends CBehavior {
 	 * This method is equivalent to swGetStatus()!=null.
 	 *
 	 * @return boolean true if the owner model is in a workflow, FALSE otherwise
+	 * @see swGetStatus
 	 */
 	public function swHasStatus(){
 		return ! $this->_status == null;
@@ -552,9 +553,9 @@ class SWActiveRecordBehavior extends CBehavior {
 		}
 	}
 	/**
-	 * Test if the status passed as argument a final status. If null is passed as argument
-	 * tests if the current status of the owner component is a final status. By definition a final
-	 * status as no outgoing transition to other status.
+	 * Checks if the status passed as argument, or the current status (if NULL is passed) is a final status
+	 * of the corresponding workflow.
+	 * By definition a final status as no outgoing transition to other status.
 	 *
 	 * @param status status to test, or null (will test current status)
 	 * @return boolean TRUE when the owner component is in a final status, FALSE otherwise
@@ -652,16 +653,23 @@ class SWActiveRecordBehavior extends CBehavior {
         return $bResult;
 	}
 	/**
+	 * This is an alias for methode {@link SWActiveRecordBehavior::swSetStatus()} and should not be used anymore
+	 * @deprecated
+	 */
+	public function swNextStatus($nextStatus,$params=null){
+		return $this->swSetStatus($nextStatus,$params);
+	}
+	/**
 	 * Set the owner component into the status passed as argument.
-	 * If a transition could be performed, the owner status attribute is updated with the new status value in the form workflowId/nodeId.
-	 * This methode is responsible for firing SWEvents and executing workflow tasks if defined for the given transition.
+	 * If a transition could be performed, the owner status attribute is updated with the new status value in the form <em>workflowId/nodeId</em>.
+	 * This method is responsible for firing {@link SWEvents} and executing workflow tasks if defined for the given transition.
 	 *
 	 * @param mixed $nextStatus string or array. If array, it must contains a key equals to the name of the status
 	 * attribute, and its value is the one of the destination node (e.g. $arr['status']). This is mainly useful when
-	 * processing _POST array.
+	 * processing _POST array. If a string is provided, it must contain the fullname of the target node (e.g. <em>workfowId/nodeId</em>)
 	 * @return boolean True if the transition could be performed, FALSE otherwise
 	 */
-	public function swNextStatus($nextStatus,$params=null){
+	public function swSetStatus($nextStatus,$params=null){
 		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
 		
 		if( $nextStatus == null )
