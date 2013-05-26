@@ -28,23 +28,23 @@ class Model0D extends SWActiveRecord{
 					$ruleSet=array(
 						array('status','SWValidator','enableSwValidation'=>true),	// mandatory
 						// simpleWorkflow Validators
-						array('username','required','on'=> array('sw:S1_S1','S1_S2','sw:S1_S3')),
-						array('username','required','on'=> 'sw:S4_S3')
+						array('username','required','on'=> array('sw:S1-S1','S1-S2','sw:S1-S3')),
+						array('username','required','on'=> 'sw:S4-S3')
 					);
 					break;
 			case 3:
 					$ruleSet=array(
 						array('status','SWValidator','enableSwValidation'=>true,'match'=>true),	// mandatory
 						// simpleWorkflow Validators
-						array('username','required','on'=>  array('sw:/^S1_S1$/','S1_S2','sw:/S1_S3/')),
+						array('username','required','on'=>  array('sw:/^S1-S1$/','S1-S2','sw:/S1-S3/')),
 					);
 					break;
 			case 4:
 					$ruleSet=array(
 						array('status','SWValidator','enableSwValidation'=>true,'match'=>true),	// mandatory
 						// simpleWorkflow Validators
-						array('username','required','on'=>  array('sw:/^S1_S1$/','S1_S2','sw:/S1_S3/')),
-						array('password','required','on'=>  'sw:/S1_.*/'),
+						array('username','required','on'=>  array('sw:/^S1-S1$/','S1-S2','sw:/S1-S3/')),
+						array('password','required','on'=>  'sw:/S1-.*/'),
 					);
 					break;
 				

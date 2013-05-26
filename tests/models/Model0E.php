@@ -1,4 +1,4 @@
-<?php		
+<?php
 class Model0E extends SWActiveRecord{
 
 	public $username;
@@ -13,7 +13,7 @@ class Model0E extends SWActiveRecord{
 	}
 	public function tableName(){
 		return 'item';
-	}		
+	}
 	public function rules()
 	{
 		$ruleSet=1;
@@ -21,16 +21,16 @@ class Model0E extends SWActiveRecord{
 			case 1:
 					$ruleSet=array(
 						array('status','SWValidator','enableSwValidation'=>true,'match'=>true),	// mandatory
-						array('username','required','on'=> 'sw:/S4_S3/'),
-						array('password','required','on' => 'sw:/S2_workflowPartial2\/P1/')
+						array('username','required','on'=> 'sw:/S4-S3/'),
+						array('password','required','on' => 'sw:/S2-workflowPartial2\/P1/')
 					);
-					break;	
+					break;
 			case 2:
 					$ruleSet=array(
 						array('status','SWValidator','enableSwValidation'=>true,'match'=>true),	// mandatory
-						array('username','required','on'=> 'sw:/_workflowPartial1\/S1/'),
+						array('username','required','on'=> 'sw:/-workflowPartial1\/S1/'),
 					);
-					break;														
+					break;
 				
 		}
 		return $ruleSet;
@@ -42,9 +42,9 @@ class Model0E extends SWActiveRecord{
 				'class'      => 'application.extensions.simpleWorkflow.SWActiveRecordBehavior',
 				'autoInsert' => false,
 				'defaultWorkflow' => 'workflowPartial1',
-			)	
+			)
 		);
-	}	
+	}
 }
 
 ?>

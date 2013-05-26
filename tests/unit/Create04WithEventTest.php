@@ -68,7 +68,6 @@ class Create04WithEventTest extends CDbTestCase {
 				'class'     => 'application.extensions.simpleWorkflow.SWActiveRecordBehavior',
 			)
 		));
-		$this->assertTrue($a->swNextStatus());
 		$this->assertTrue($a->enterWorkflow);
 	}
 	/**

@@ -9,5 +9,23 @@
 		<browser name="Internet Explorer" browser="*iexplore" />
 		<browser name="Firefox" browser="*firefox" />
 	</selenium>
-
+	
+	<filter>
+		<whitelist>
+			<directory suffix=".php">../extensions/simpleWorkflow</directory>
+			<exclude>
+				<directory suffix=".php">../extensions/simpleWorkflow/command</directory>
+				<directory suffix=".php">../extensions/simpleWorkflow/tests</directory>
+				<file>../extensions/simpleWorkflow/SWyEdConverter.php</file>
+				<file>../extensions/simpleWorkflow/SWyEdConverterDOM.php</file>
+				<file>../extensions/simpleWorkflow/SWException.php</file>
+			</exclude>
+		</whitelist>
+	</filter>
+	<logging>
+		<log type="coverage-html" target="./report" charset="UTF-8" yui="true"
+			hightlight="true" lowupperbound="50" highlowerbound="80">
+		</log>
+	</logging>
+	
 </phpunit>

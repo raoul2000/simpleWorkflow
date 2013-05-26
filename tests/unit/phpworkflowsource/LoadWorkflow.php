@@ -90,4 +90,17 @@ class LoadWorkflow extends CDbTestCase {
 		}catch(Exception $e){
 		}
 	}
+	public function testLoad_06() {
+	
+		$c = Yii::createComponent(array(
+			'class'=>'application.extensions.simpleWorkflow.SWPhpWorkflowSource',
+			'basePath' => 'application.tests.unit.phpworkflowsource.workflows',
+			'definitionType' => 'class'
+		));
+		$c->init();
+	
+		$this->assertFalse($c->isWorkflowLoaded('SWWorkflow2'));
+		$this->assertTrue($c->loadWorkflow('SWWorkflow2'));
+		$this->assertTrue($c->isWorkflowLoaded('SWWorkflow2'));
+	}
 }

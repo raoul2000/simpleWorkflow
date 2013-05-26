@@ -1,8 +1,5 @@
 <?php
-
-
 Yii::import("application.tests.workflows.SWWorkflow1");
-
 
 class WorkflowAsClass extends CDbTestCase {
 
@@ -20,8 +17,7 @@ class WorkflowAsClass extends CDbTestCase {
 	public function test1() {
 		
 		$m=new Model0F();
-		$m->status = SWWorkflow1::S1;
-		$this->assertTrue($m->swNextStatus());
+		$this->assertTrue($m->swNextStatus(SWWorkflow1::S1));
 		$this->assertTrue($m->taskCallCount == 0);
 		
 		$this->assertTrue($m->swGetStatus()->equals(SWWorkflow1::S1));
@@ -59,8 +55,8 @@ class WorkflowAsClass extends CDbTestCase {
 	public function test2() {
 	
 		$m=new Model0F();
-		$m->status = SWWorkflow1::S1;
-		$this->assertTrue($m->swNextStatus());
+
+		$this->assertTrue($m->swNextStatus(SWWorkflow1::S1));
 		$this->assertTrue($m->taskCallCount == 0);
 	
 		$this->assertTrue($m->swGetStatus()->equals(SWWorkflow1::S1));
