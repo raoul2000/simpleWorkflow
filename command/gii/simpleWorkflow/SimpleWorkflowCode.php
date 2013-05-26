@@ -128,8 +128,12 @@ class SimpleWorkflowCode extends CCodeModel
     	else
     	{
     		// perform conversion and creates the simpleWorkflow definition array
+    		if(!extension_loaded('domxml')){
+    			$converter = new SWyEdConverterDOM();
+    		}else {
+    			$converter = new SWyEdConverter();
+    		}
     		
-    		$converter = new SWyEdConverter();
     		$this->_workflow =  $converter->convert($this->_workingFile);
     	}
     	
