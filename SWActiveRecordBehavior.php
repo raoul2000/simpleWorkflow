@@ -246,8 +246,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	 */
 	public function attach($owner)
 	{
-		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
-			
 		if( ! $this->canFireEvent($owner, $this->eventClassName)){
 			if( $this->swIsEventEnabled()){
 				
@@ -297,8 +295,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	 */
 	public function swGetDefaultWorkflowId()
 	{
-		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
-		
 		if( $this->defaultWorkflow == null)
 		{
 			$workflowName=null;
@@ -357,8 +353,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	 */
 	public function swInsertToWorkflow($workflowId=null)
 	{
-		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
-		
 		if($this->swHasStatus()){
 			throw new SWException('object already in a workflow : '.$this->swGetStatus(),SWException::SW_ERR_IN_WORKFLOW);
 		}
@@ -411,7 +405,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	 */
 	public function swGetNextStatus()
 	{
-		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
 		$n=array();
 		if($this->swHasStatus()){
 			$allNxtSt=$this->swGetWorkflowSource()->getNextNodes($this->_status);
@@ -461,8 +454,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	 */
 	public function swIsNextStatus($nextStatus)
 	{
-		Yii::trace(__CLASS__.'.'.__FUNCTION__.' $nextStatus = '.$nextStatus,self::SW_LOG_CATEGORY);
-		
 		$bIsNextStatus=false;
 		
 		// get (create) a SWNode object
@@ -529,8 +520,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	 */
 	private function _runTransition($sourceSt,$destSt,$params=null)
 	{
-		
-		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
 		if($sourceSt != null && $sourceSt instanceof SWNode ){
 			$tr=$sourceSt->getTransitionTask($destSt);
 			
@@ -570,7 +559,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	 */
 	public function swIsFinalStatus($status=null)
 	{
-		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
 		if($this->_final == null)
 		{
 			$workflowId=($this->swHasStatus()?$this->swGetWorkflowId():$this->swGetDefaultWorkflowId());
@@ -600,8 +588,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	
 	public function swIsInitialStatus($status=null)
 	{
-		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
-
 		if( $status !=  null)
 		{
 			// create the node to compare with initial node
@@ -639,7 +625,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	 */
 	public function swValidate($attribute, $value)
 	{
-        Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
         $bResult=false;
         try{
         	if($value instanceof SWNode){
@@ -682,8 +667,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	 */
 	public function swSetStatus($nextStatus,$params=null)
 	{
-		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
-		
 		if( $nextStatus == null )
 			throw new SWException('argument "nextStatus" is missing');
 		
@@ -783,8 +766,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	 */
 	public function events()
 	{
-		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
-			
 		// this behavior could be attached to a CComponent based class other
 		// than CActiveRecord.
 		
@@ -827,8 +808,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	 */
 	public function beforeSave($event)
 	{
-		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
-	
 		$this->_beforeSaveInProgress = true;
 
 			$ownerStatus = $this->getOwner()->{$this->statusAttribute};
@@ -854,7 +833,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	 */
 	public function afterSave($event)
 	{
-		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
 		if( $this->_delayedTransition != null )
 		{
 			Yii::trace('running delayed transition process');
@@ -877,9 +855,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	 */
 	public function afterFind($event)
 	{
-
-		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
-
 		if( !$this->getEnabled())
 			return;
 			
@@ -924,7 +899,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	}
 	private function _raiseEvent($evName,$event)
 	{
-		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
 		if( $this->swIsEventEnabled() ){
 			$this->_logEventFire($evName, $event->source, $event->destination);
 			$this->getOwner()->raiseEvent($evName, $event);
@@ -937,7 +911,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	 */
 	public function enterWorkflow($event)
 	{
-		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
 	}
 	/**
 	 * This event is raised after the record instance is inserted into a workflow. This may occur
@@ -950,7 +923,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	 */
 	public function onEnterWorkflow($event)
 	{
-		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
 		$this->_raiseEvent('onEnterWorkflow',$event);
 	}
 	/**
@@ -960,7 +932,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	 */
 	public function leaveWorkflow($event)
 	{
-		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
 	}
 	/**
 	 * This event is raised after the record instance is removed from a workflow.
@@ -971,7 +942,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	 */
 	public function onLeaveWorkflow($event)
 	{
-		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
 		$this->_raiseEvent('onLeaveWorkflow',$event);
 	}
 	/**
@@ -981,7 +951,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	 */
 	public function beforeTransition($event)
 	{
-		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
 	}
 	/**
 	 * This event is raised before a workflow transition is applied to the owner instance.
@@ -990,7 +959,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	 */
 	public function onBeforeTransition($event)
 	{
-		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
 		$this->_raiseEvent('onBeforeTransition',$event);
 	}
 	/**
@@ -1000,7 +968,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	 */
 	public function processTransition($event)
 	{
-		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
 	}
 	/**
 	 * This event is raised when a workflow transition is in progress. In such case, the user may
@@ -1014,7 +981,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	 */
 	public function onProcessTransition($event)
 	{
-		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
 		if( $this->transitionBeforeSave || $this->_beforeSaveInProgress == false){
 			$this->_raiseEvent('onProcessTransition',$event);
 		}else {
@@ -1029,7 +995,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	 */
 	public function afterTransition($event)
 	{
-		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
 	}
 	/**
 	 * This event is raised after the onProcessTransition is fired. It is the last event fired
@@ -1041,7 +1006,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	 */
 	public function onAfterTransition($event)
 	{
-		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
 		if( $this->transitionBeforeSave || $this->_beforeSaveInProgress == false){
 			$this->_raiseEvent('onAfterTransition',$event);
 		}else {
@@ -1055,7 +1019,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	 */
 	public function finalStatus($event)
 	{
-		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
 	}
 	/**
 	 * This event is raised at the end of a transition, when the destination status is a
@@ -1066,7 +1029,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	 */
 	public function onFinalStatus($event)
 	{
-		Yii::trace(__CLASS__.'.'.__FUNCTION__,self::SW_LOG_CATEGORY);
 		if( $this->transitionBeforeSave || $this->_beforeSaveInProgress == false){
 			$this->_raiseEvent('onFinalStatus',$event);
 		}else {
