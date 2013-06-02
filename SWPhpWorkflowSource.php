@@ -12,7 +12,8 @@
  * </li>
  * </ul>
  */
-class SWPhpWorkflowSource extends SWWorkflowSource {
+class SWPhpWorkflowSource extends SWWorkflowSource
+{
 	/**
 	 * @var string the base path alias where all workflow are stored.By default, it is set to
 	 * application.models.workflows (folder  "protected/models/workflows").
@@ -38,14 +39,12 @@ class SWPhpWorkflowSource extends SWWorkflowSource {
 		$this->_workflowBasePath = Yii::getPathOfAlias($this->basePath);
 		if( is_array($this->preload) and count($this->preload)!=0){
 			foreach ( $this->preload as $wfId ) {
-				Yii::t('simpleWorkflow','preloading workflow : {name}',array('{name}'=>$wfId));
 				$this->_load($wfId,true);
 			}
 		}
 		if( $this->definitionType == 'class'){
 			Yii::import($this->basePath.'.*');
 		}
-		Yii::trace(Yii::t('simpleWorkflow','SWWorkflowSource initialized - basePath : '.$this->basePath),'application.simpleWorkflow');
 	}
 	
 	//
@@ -60,9 +59,7 @@ class SWPhpWorkflowSource extends SWWorkflowSource {
 	{
 		if( !is_string($wfId) or empty($wfId))
 		{
-			throw new SWException(Yii::t('simpleWorkflow','failed to load workflow - invalid workflow Id : {workflowId}',
-				array('{workflowId}'=>$wfId)),
-				SWException::SW_ERR_WORKFLOW_ID);
+			throw new SWException('failed to load workflow - invalid workflow Id : '.$wfId,SWException::SW_ERR_WORKFLOW_ID);
 		}
 		
 		if( !isset($this->_workflow[$wfId]) or $forceReload==true)
@@ -77,19 +74,9 @@ class SWPhpWorkflowSource extends SWWorkflowSource {
 			{
 				$fname=$this->_workflowBasePath.DIRECTORY_SEPARATOR.$wfId.'.php';
 				if( file_exists($fname)==false){
-					throw new SWException(Yii::t('simpleWorkflow','workflow definition file not found : {file}',
-						array('{file}'=>$fname)),
-						SWException::SW_ERR_WORKFLOW_NOT_FOUND
-					);
+					throw new SWException('workflow definition file not found : '.$fname,SWException::SW_ERR_WORKFLOW_NOT_FOUND);
 				}
-				
-				Yii::trace(
-					Yii::t('simpleWorkflow','loading workflow {wfId} from file {file}',
-						array('{wfId}'=>$wfId,'{file}'=>$fname)
-					),
-					'application.simpleWorkflow'
-				);
-								
+	
 				$this->_workflow[$wfId] = $this->_createWorkflow(require($fname),$wfId);
 			}
 		}
@@ -102,15 +89,12 @@ class SWPhpWorkflowSource extends SWWorkflowSource {
 	private function _createWorkflow($wf,$wfId)
 	{
 		if(!is_array($wf) || empty($wfId)){
-			throw new SWException(Yii::t('simpleWorkflow','invalid argument'));
+			throw new SWException('invalid argument');
 		}
 		$wfDefinition=array();
 		
 		if( !isset($wf['initial'])) {
-			throw new SWException(Yii::t('simpleWorkflow','missing initial status for workflow {workflow}',
-				array('{workflow}'=>$wfId)),
-				SWException::SW_ERR_IN_WORKFLOW
-			);
+			throw new SWException('missing initial status for workflow : '.$wfId,SWException::SW_ERR_IN_WORKFLOW);
 		}
 			
 		// load node list
@@ -120,10 +104,7 @@ class SWPhpWorkflowSource extends SWWorkflowSource {
 			$node=new SWNode($rnode,$wfId);
 			
 			if(in_array($node->getId(),$nodeIds )){
-				throw new SWException(Yii::t('simpleWorkflow','duplicate node id {nodeId}',
-					array('{nodeId}'=>$node->getId())),
-					SWException::SW_ERR_IN_WORKFLOW
-				);
+				throw new SWException('duplicate node id : '.$node->getId(),SWException::SW_ERR_IN_WORKFLOW);
 			}else{
 				$nodeIds[] = $node->getId();
 			}
@@ -135,11 +116,9 @@ class SWPhpWorkflowSource extends SWWorkflowSource {
 		}
 		// checks that initialnode is set
 		 
-		if(!isset($wfDefinition['swInitialNode']))
-			throw new SWException(Yii::t('simpleWorkflow','missing initial status for workflow {workflow}',
-				array('{workflow}'=>$wfId)),
-				SWException::SW_ERR_IN_WORKFLOW
-			);
+		if(!isset($wfDefinition['swInitialNode'])){
+			throw new SWException('missing initial status for workflow : '.$wfId,SWException::SW_ERR_IN_WORKFLOW);
+		}
 		
 		return $wfDefinition;
 	}
@@ -150,15 +129,12 @@ class SWPhpWorkflowSource extends SWWorkflowSource {
 	 * @return SWNode the SWNode object retrieved from the workflow collection, or NULL if this
 	 * node could not be found in the workflow collection
 	 */
-	private function _getNode($swNode){
-
+	private function _getNode($swNode)
+	{
 		$wfId=$swNode->getWorkflowId();
 		if($wfId==null)
 		{
-			throw new SWException(Yii::t('simpleWorkflow','workflow {workflow} not found',
-				array('{workflow}'=>$wfId)),
-				SWException::SW_ERR_WORKFLOW_NOT_FOUND
-			);
+			throw new SWException('workflow not found : '.$wfId,SWException::SW_ERR_WORKFLOW_NOT_FOUND);
 		}
 		
 		$this->_load($wfId,false);
@@ -180,7 +156,8 @@ class SWPhpWorkflowSource extends SWWorkflowSource {
 	 * @return boolean TRUE if the workflow whose id is $workflowId has already been loaded,
 	 * FALSE otherwise
 	 */
-	public function isWorkflowLoaded($workflowId){
+	public function isWorkflowLoaded($workflowId)
+	{
 		return isset($this->_workflow[$workflowId]);
 	}
 	/**
@@ -190,7 +167,8 @@ class SWPhpWorkflowSource extends SWWorkflowSource {
 	 * @param string $workflowId the workflow id
 	 * @param boolean $forceReload TRUE to force workflow loading, FALSE otherwise
 	 */
-	public function loadWorkflow($workflowId,$forceReload=false){
+	public function loadWorkflow($workflowId,$forceReload=false)
+	{
 		return $this->_load($workflowId,$forceReload) != null;
 	}
 	/**
@@ -198,13 +176,12 @@ class SWPhpWorkflowSource extends SWWorkflowSource {
 	 * @param array $definition the workflow definition in its array form
 	 * @param string $id the workflow id
 	 */
-	public function addWorkflow($definition, $id){
+	public function addWorkflow($definition, $id)
+	{
 		if(!is_array($definition))
-			throw new SWException(Yii::t('simpleWorkflow','array expected'));
+			throw new SWException('array expected');
 			
-		if(isset($this->_workflow[$id])){
-			Yii::trace(Yii::t('simpleWorkflow','workflow {workflow} already loaded',array('{workflow}'=>$id))	,'application.simpleWorkflow');
-		}else {
+		if( ! isset($this->_workflow[$id])){
 			$this->_workflow[$id] = $this->_createWorkflow($definition,$id);
 		}
 	}
@@ -222,19 +199,18 @@ class SWPhpWorkflowSource extends SWWorkflowSource {
 	 * (non-PHPdoc)
 	 * @see SWWorkflowSource::getNextNodes()
 	 */
-	public function getNextNodes($sourceNode,$workflowId=null){
+	public function getNextNodes($sourceNode,$workflowId=null)
+	{
 		$result=array();
 		
 		// convert startStatus into SWNode
+		
 		$startNode=$this->getNodeDefinition(
 			$this->createSWNode($sourceNode,$workflowId)
 		);
 		
 		if($startNode==null){
-			throw new SWException(Yii::t('simpleWorkflow','node {node} could not be found',
-				array('{node}'=>$sourceNode),
-				SWException::SW_ERR_NODE_NOT_FOUND
-			));
+			throw new SWException('node could not be found : '.$sourceNode,SWException::SW_ERR_NODE_NOT_FOUND);
 		}else {
 			foreach($startNode->getNext() as $nxtNodeId => $tr){
 				$result[]=$this->_getNode(new SWNode($nxtNodeId,$workflowId));
@@ -246,8 +222,8 @@ class SWPhpWorkflowSource extends SWWorkflowSource {
 	 * (non-PHPdoc)
 	 * @see SWWorkflowSource::isNextNode()
 	 */
-	public function isNextNode($sourceNode,$targetNode,$workflowId=null){
-		
+	public function isNextNode($sourceNode,$targetNode,$workflowId=null)
+	{
 		$startNode=$this->createSWNode($sourceNode,$workflowId);
 		$nextNode=$this->createSWNode(
 			$targetNode,
@@ -268,7 +244,8 @@ class SWPhpWorkflowSource extends SWWorkflowSource {
 	 * (non-PHPdoc)
 	 * @see SWWorkflowSource::getInitialNode()
 	 */
-	public function getInitialNode($workflowId){
+	public function getInitialNode($workflowId)
+	{
 		$this->_load($workflowId,false);
 		return $this->_workflow[$workflowId]['swInitialNode'];
 	}

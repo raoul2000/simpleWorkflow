@@ -2,26 +2,26 @@
 /**
  * <p>
  * This validator should be used to validate the 'status' attribute for an active record
- * object, before it is saved. It tests if the transition that is about to occur is valid.
- * Moreover, if <strong>$enableSwValidation</strong> is set to true, this validator applies all
- * validators that may have been defined by the model, for the scenario associated to the transition
+ * object before it is saved. It tests if the transition that is about to occur is valid.<br/>
+ * Moreover, if <strong>$enableSwValidation</strong> is set to <b>true</b>, this validator applies all
+ * validators that may have been defined by the model for the scenario associated to the transition
  * being done.<br/>
  * Scenario names associated with a transition, have the following format :
  * <pre>
- *  sw:[currentStatus]_[nextStatus]
+ *  sw:[currentStatus]-[nextStatus]
  *  </pre>
  * For instance, if the model being validated is currently in status 'A' and it is sent in status 'B', the
- * corresponding scenario name is 'sw:A_B'. Note that if the destination status doesn't belong to the same
- * workflow as the current status, [nextStatus] must be in the form 'workflowId/statusId' (e.g 'sw:A_workflow/B').
- * Eventually, when the model enters in a workflow, the scenario name is '_[nextStatus]' where 'nextStatus'
- * includes the workflow Id (e.g 'sw:_workflowIs/statusId').
+ * corresponding scenario name is 'sw:A-B'. Note that if the destination status doesn't belong to the same
+ * workflow as the current status, [nextStatus] must be in the form 'workflowId/statusId' (e.g 'sw:A-workflow/B').
+ * Eventually, when the model enters in a workflow, the scenario name is '-[nextStatus]' where 'nextStatus'
+ * includes the workflow Id (e.g 'sw:-workflowIs/statusId').
  * </p>
  * <p>
  * 	If this validator is initialized with parameter <b>match</b> set to TRUE, then transitions scenario defined
  * for validators are assumed to be regular expressions. If the current transition matches, then the associated
  * validator is executed.<br/>
  * For instance, if validator 'required' for attribute A applies to scenarion 'sw:/S1_.?/' then each time the
- * model will pass a transition that leaves status S1 then the \'required\' validator will be executed.
+ * model leaves status S1, then the <em>required</em> validator will be applied.
  * </p>
  */
 class SWValidator extends CValidator
@@ -53,14 +53,12 @@ class SWValidator extends CValidator
      */
 	protected function validateAttribute($model,$attribute)
     {
-    	Yii::trace(__CLASS__.'.'.__FUNCTION__,SWActiveRecordBehavior::SW_LOG_CATEGORY);
     	$value=$model->$attribute;
     	
     	if($model->swValidate($attribute,$value)==true and $this->enableSwValidation ===true){
 
 	    	$swScenario=$this->_getSWScenarioName($model, $value);
 	    	
-	    	Yii::trace('swScenario : '.$swScenario,SWActiveRecordBehavior::SW_LOG_CATEGORY);
 			if(!empty($swScenario))
 			{
 				if($this->match === true){
@@ -72,7 +70,6 @@ class SWValidator extends CValidator
 					foreach($validators as $validator)
 					{
 						if($this->_validatorMatches($validator,$swScenario)){
-							Yii::trace('applying validator : '.CVarDumper::dumpAsString($validator),SWActiveRecordBehavior::SW_LOG_CATEGORY);
 							$validator->validate($model);
 						}
 					}
@@ -93,7 +90,6 @@ class SWValidator extends CValidator
 						// only run validators that applies to the current (swScenario) scenario
 						
 						if(isset($validator->on[$swScenario])){
-							Yii::trace('applying validator : '.CVarDumper::dumpAsString($validator),SWActiveRecordBehavior::SW_LOG_CATEGORY);
 							$validator->validate($model);
 						}
 					}
@@ -105,14 +101,15 @@ class SWValidator extends CValidator
     }
     /**
      * Create the scenario name for the current transition. Scenario name has following format : <br/>
-     * <pre> [currentStatus]_[nextStatus]</pre>
+     * <pre> [currentStatus]-[nextStatus]</pre>
      *
      * @param CModel $model  the model being validated
      * @param string $nxtStatus  the next status name (destination status for the model)
      * @return string SW scenario name for this transition
      *
      */
-    private function _getSWScenarioName($model,$nxtStatus){
+    private function _getSWScenarioName($model,$nxtStatus)
+    {
     	$swScenario=null;
         $nextNode=$model->swCreateNode($nxtStatus);
     	$curNode=$model->swGetStatus();
@@ -136,7 +133,8 @@ class SWValidator extends CValidator
      * @param $validator CValidator validator to test
      * @param $swScenario string simple workflow scenario defined as a regular expression
      */
-    private function _validatorMatches($validator,$swScenario){
+    private function _validatorMatches($validator,$swScenario)
+    {
     	$bResult=false;
     	if(isset($validator->on)){
     		$validatorScenarios=(is_array($validator->on)?$validator->on:array($validator->on));
@@ -144,11 +142,11 @@ class SWValidator extends CValidator
 			{
 				// SW Scenario validator must begin with a non-empty prefix (default 'sw:')
 				// and then define a valide regular expression
+				
 				$re=$this->_extractSwScenarioPattern($valScenario);
 				
 				if( $re != null )
 				{
-					Yii::trace('testing scenario : '.$valScenario.'('.$re.') againt : '.$swScenario,SWActiveRecordBehavior::SW_LOG_CATEGORY);
 					if(preg_match($re, $swScenario)){
 						$bResult=true;
 						break;
@@ -161,15 +159,20 @@ class SWValidator extends CValidator
     /**
      * Extract a regular expression pattern out of a simepleWorkflow scenario name
      *
-     * @param $valScenario String validator scenario name (example : 'sw:/^status1_.*$/')
-     * @return String regular expression (example : '/^status1_.*$/')
+     * @param $valScenario String validator scenario name (example : 'sw:/^status1-.*$/')
+     * @return String regular expression (example : '/^status1-.*$/')
      */
-    private function _extractSwScenarioPattern($valScenario){
+    private function _extractSwScenarioPattern($valScenario)
+    {
     	$pattern=null;
-    	if($this->_lenPrefix==null)
+    	
+    	if($this->_lenPrefix==null){
     		$this->_lenPrefix=strlen(SWValidator::SW_SCENARIO_PREFIX);
-    	if( $this->_lenPrefix != 0 and
-			strpos($valScenario, SWValidator::SW_SCENARIO_PREFIX) === 0) {
+    	}
+    	
+    	if( $this->_lenPrefix != 0 &&
+			strpos($valScenario, SWValidator::SW_SCENARIO_PREFIX) === 0)
+    	{
 			$pattern=substr($valScenario, $this->_lenPrefix);
 		}
 		return $pattern;

@@ -4,8 +4,8 @@
  * basic initialization features and a set of methods that must be implemented
  * by workflow source classes.<br/>
  */
-abstract class SWWorkflowSource extends CApplicationComponent {
-
+abstract class SWWorkflowSource extends CApplicationComponent
+{
 	/**
 	 * @var array list of workflow names that shoumd ne loaded when the component is initialized
 	 */
@@ -25,7 +25,8 @@ abstract class SWWorkflowSource extends CApplicationComponent {
 	 *
 	 * @return SWNode the node object
 	 */
-	public function createSWNode($node,$workflowId){
+	public function createSWNode($node,$workflowId)
+	{
 		return new SWNode($node,$workflowId);
 	}
 	/**

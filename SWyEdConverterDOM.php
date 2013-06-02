@@ -20,7 +20,8 @@
  * is useful to extract built-in yEd attribute and also custom attribute defined by the user.<br/>
  *
  */
-class SWyEdConverterDOM {
+class SWyEdConverterDOM
+{
 	/**
 	 * Maps a named attribute with a id attribute defined in the input graphml file.
 	 * @var array
@@ -55,8 +56,8 @@ class SWyEdConverterDOM {
 	 * object.
 	 * @param string $graphmlFile the path to the graphml file to process
 	 */
-	public function convert($graphmlFile) {
-
+	public function convert($graphmlFile)
+	{
 		$this->_dom = new DOMDocument();
 		$this->_dom->load($graphmlFile);
 
@@ -89,7 +90,8 @@ class SWyEdConverterDOM {
 	 * @param array() $n nodes attributes
 	 * @param array() $e edges attributes
 	 */
-	private function _createSwWorkflow($w,$n,$e){
+	private function _createSwWorkflow($w,$n,$e)
+	{
 		$nodes=array();
 
 		foreach ($n as $key => $node) {
@@ -132,8 +134,8 @@ class SWyEdConverterDOM {
 	 * Retrieve the graphml id attribute for each named properties defines in the <em>_mapper</em>
 	 * array.
 	 */
-	private function _extractYedProperties() {
-
+	private function _extractYedProperties()
+	{
 		foreach ($this->_mapper as $attrName => $xp) {
 				
 			$nodeList = $this->_xp->query($xp);
@@ -148,8 +150,8 @@ class SWyEdConverterDOM {
 	 *
 	 * @throws CException
 	 */
-	private function _collectWorkflow(){
-
+	private function _collectWorkflow()
+	{
 		$nlGraph = $this->_xp->query('//ns:graph');
 		if($nlGraph->length == 0)
 			throw new CException("no workflow definition found");
@@ -175,8 +177,8 @@ class SWyEdConverterDOM {
 	 * @return array()
 	 * @throws CException
 	 */
-	private function _collectEdges(){
-
+	private function _collectEdges()
+	{
 		$nlEdges = $this->_xp->query('//ns:edge');
 		if($nlEdges->length == 0)
 			throw new CException("no edge could be found in this workflow");
@@ -210,7 +212,8 @@ class SWyEdConverterDOM {
 	 * @return array()
 	 * @throws CException
 	 */
-	private function _collectNodes(){
+	private function _collectNodes()
+	{
 		$nlNodes = $this->_xp->query('//ns:node');
 		if($nlNodes->length == 0)
 			throw new CException("no node could be found in this workflow");
@@ -261,7 +264,8 @@ class SWyEdConverterDOM {
 	 * @param string $str
 	 * @return boolean TRUE if the string passed as argument is null, empty, or made of space character(s)
 	 */
-	private function _isBlank($str){
+	private function _isBlank($str)
+	{
 		return !isset($str) || strlen(trim($str)) == 0;
 	}
 }

@@ -1,8 +1,9 @@
 <?php
 /**
- * Exception thrown by the simpleWorkflow behavior
+ * Exception thrown by the simpleWorkflow behavior.
  */
-class SWException extends CException {
+class SWException extends CException
+{
 	const SW_ERR_ATTR_NOT_FOUND=01;
 	const SW_ERR_REETRANCE=02;
 	const SW_ERR_WRONG_TYPE=03;

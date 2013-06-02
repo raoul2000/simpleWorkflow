@@ -20,8 +20,8 @@
  * is useful to extract built-in yEd attribute and also custom attribute defined by the user.<br/>
  *
  */
-class SWyEdConverter {
-
+class SWyEdConverter
+{
 	/**
 	 * @var array mapper between SW Workflow attributes and yEd attributes
 	 */

@@ -28,7 +28,7 @@
  * </li>
  * <li><b>workflowSourceComponent</b> (string) : <br/>
  * Name of the workflow source component to use with this behavior.<br/>
- * By ddefault this parameter is set to 'swSource'(see {@link SWPhpWorkflowSource})
+ * By ddefault this parameter is set to <em>swSource</em> (see {@link SWPhpWorkflowSource})
  * </li>
  * <li><b>enableEvent</b> (boolean) : <br/>
  * If TRUE, this behavior will fire SWEvents. Note that even if it
@@ -45,7 +45,8 @@
  * </li>
  * </ul>
  */
-class SWActiveRecordBehavior extends CBehavior {
+class SWActiveRecordBehavior extends CBehavior
+{
 	/**
 	 * @var string  This is the column name where status is stored.
 	 */
@@ -203,7 +204,6 @@ class SWActiveRecordBehavior extends CBehavior {
 		if(! $SWNode instanceof SWNode)
 			throw new SWException('SWNode object expected',SWException::SW_ERR_WRONG_TYPE);
 		
-		Yii::trace('_updateStatus : '.$SWNode->toString(),self::SW_LOG_CATEGORY);
 		$this->_status=$SWNode;
 		$this->_final = null;
 	}
@@ -266,7 +266,9 @@ class SWActiveRecordBehavior extends CBehavior {
 				throw new SWException('attribute '.$this->statusAttribute.' not found',SWException::SW_ERR_ATTR_NOT_FOUND);
 			}
 		}
+		
 		// preload the workflow source component
+		
 		$this->_wfs= Yii::app()->{$this->workflowSourceComponent};
 		
 		// load the default workflow id now because the owner model maybe able to provide it
@@ -320,7 +322,6 @@ class SWActiveRecordBehavior extends CBehavior {
 					);
 					
 					$this->swGetWorkflowSource()->addWorkflow($wf,$workflowName);
-					Yii::trace('workflow provided by owner',self::SW_LOG_CATEGORY);
 					
 				}elseif(is_string($wf)) {
 					
@@ -338,7 +339,6 @@ class SWActiveRecordBehavior extends CBehavior {
 				$workflowName=$this->swGetWorkflowSource()->workflowNamePrefix.get_class($this->getOwner());
 			}
 			$this->defaultWorkflow=$workflowName;
-			Yii::trace('defaultWorkflow : '.$this->defaultWorkflow,self::SW_LOG_CATEGORY);
 		}
 		return $this->defaultWorkflow;
 	}
@@ -480,12 +480,8 @@ class SWActiveRecordBehavior extends CBehavior {
 		    else
 		    {
 		    	$bIsNextStatus=false;
-		    	Yii::trace('constraint evaluation returned FALSE for : '.$swNodeNext->getConstraint(),
-		    		self::SW_LOG_CATEGORY
-		    	);
 		    }
 		}
-		Yii::trace('SWItemBehavior->swIsNextStatus returns : '.($bIsNextStatus==true?'true':'false'),self::SW_LOG_CATEGORY);
 		return $bIsNextStatus;
 	}
 	/**
@@ -522,8 +518,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	{
 		if($sourceSt != null && $sourceSt instanceof SWNode ){
 			$tr=$sourceSt->getTransitionTask($destSt);
-			
-			Yii::trace('transition process = '.$tr,self::SW_LOG_CATEGORY);
 
 			if( $tr != null)
 			{
@@ -749,7 +743,7 @@ class SWActiveRecordBehavior extends CBehavior {
 			}
 		} catch (CException $e) {
 			$this->_unlock();
-			Yii::log($e->getMessage(),CLogger::LEVEL_ERROR,self::SW_LOG_CATEGORY);
+			Yii::log('set status failed : '.$e->getMessage(),CLogger::LEVEL_ERROR,self::SW_LOG_CATEGORY);
 			throw $e;
 		}
 		$this->_unlock();
@@ -761,7 +755,22 @@ class SWActiveRecordBehavior extends CBehavior {
 	//
 	
 	/**
-	 *
+	 * Attach event handlers.
+	 * The behavior registers its own mandatory event handlers in case the owner model is a CActiveRecord instance.
+	 * <ul>
+	 * 	<li>onBeforeSave : perform status validation and update if needed. If configured, a task is also executed</li>
+	 *	<li>onAfterSave : if configured a task is executed</li>
+	 *	<li>onAfterFind : initialize internal status value</li>
+	 * </ul>
+	 * Additionnally, the behavior will fire custom events on various steps of the owner model life-cycle within its workflow :
+	 * <ul>
+	 	<li>onEnterWorkflow : the owner model is inserted in a workflow. Its status is now the initial status of the workflow</li>
+	 	<li>onFinalStatus : the owner model is in a status with no out going edge.</li>
+	 	<li>onLeaveWorkflow : the owner model status is set to NULL. This is possible only if the model is in a final status</li>
+	 	<li>onBeforeTransition : the owner model is about to change status</li>
+	 	<li>onProcessTransition : the owner model is changing status</li>
+	 	<li>onAfterTransition : the owner model has changed status</li>
+	 </ul>
 	 * @see base/CBehavior::events()
 	 */
 	public function events()
@@ -781,7 +790,6 @@ class SWActiveRecordBehavior extends CBehavior {
 		
 		if($this->swIsEventEnabled())
 		{
-			Yii::trace('workflow event enabled',self::SW_LOG_CATEGORY);
 			$this->getOwner()->attachEventHandler('onEnterWorkflow',array($this->getOwner(),'enterWorkflow'));
 			$this->getOwner()->attachEventHandler('onBeforeTransition',array($this->getOwner(),'beforeTransition'));
 			$this->getOwner()->attachEventHandler('onAfterTransition',array($this->getOwner(),'afterTransition'));
@@ -803,6 +811,7 @@ class SWActiveRecordBehavior extends CBehavior {
 	/**
 	 * Depending on the value of the owner status attribute, and the current status, this method performs an
 	 * actual transition.
+	 *
 	 * @param Event $event
 	 * @return boolean
 	 */
@@ -810,16 +819,16 @@ class SWActiveRecordBehavior extends CBehavior {
 	{
 		$this->_beforeSaveInProgress = true;
 
-			$ownerStatus = $this->getOwner()->{$this->statusAttribute};
-			if( $ownerStatus == null &&  $this->swHasStatus() == false )
-			{
-				if($this->autoInsert == true)
-					$this->swNextStatus();	// insert into workflow
-			}
-			else
-			{
-				$this->swNextStatus($ownerStatus);
-			}
+		$ownerStatus = $this->getOwner()->{$this->statusAttribute};
+		if( $ownerStatus == null &&  $this->swHasStatus() == false )
+		{
+			if($this->autoInsert == true)
+				$this->swNextStatus();	// insert into workflow
+		}
+		else
+		{
+			$this->swNextStatus($ownerStatus);
+		}
 
 		$this->_beforeSaveInProgress = false;
 		return true;
@@ -835,7 +844,6 @@ class SWActiveRecordBehavior extends CBehavior {
 	{
 		if( $this->_delayedTransition != null )
 		{
-			Yii::trace('running delayed transition process');
 			$tr=$this->_delayedTransition;
 			$this->_delayedTransition=null;
 			$this->getOwner()->evaluateExpression($tr);
@@ -874,8 +882,7 @@ class SWActiveRecordBehavior extends CBehavior {
 			}
 			
 		}catch(SWException $e){
-			Yii::log('failed to set status : '.$status, CLogger::LEVEL_WARNING, self::SW_LOG_CATEGORY);
-			Yii::log($e->getMessage(), CLogger::LEVEL_ERROR);
+			Yii::log('failed to set status : '.$status. 'message : '.$e->getMessage(), CLogger::LEVEL_ERROR, self::SW_LOG_CATEGORY);
 		}
 	}
 	/**

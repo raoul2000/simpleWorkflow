@@ -1,7 +1,7 @@
 <?php
 /**
  * this class implements events fired by the simpleWorkflow behavior. This event is fired
- * at different time during a transition.
+ * at different time during a transition (see (see {@link SWActiveRecordBehavior::events()}).
  */
 class SWEvent extends CEvent
 {
@@ -10,7 +10,7 @@ class SWEvent extends CEvent
 	 */
 	public $source;
 	/**
-	 * @var SWNode destination status the owner model is sent to 
+	 * @var SWNode destination status the owner model is sent to
 	 */
 	public $destination;
 	/**

@@ -2,7 +2,8 @@
 /**
  * This class implements a graph node for the simpleWorkflow extension.
  */
-class SWNode extends CComponent {
+class SWNode extends CComponent
+{
 	/**
 	 * @var string workflow identifier
 	 */
@@ -54,10 +55,10 @@ class SWNode extends CComponent {
 	 * @param string defaultWorkflowId workflow Id that is used each time a workflow is needed to complete
 	 * a status name.
 	 */
-	public function __construct($node, $defaultWorkflowId=null){
-		
+	public function __construct($node, $defaultWorkflowId=null)
+	{
 		if($node==null || empty($node))
-			throw new SWException(Yii::t('simpleWorkflow','illegal argument exception : $node cannot be empty'), SWException::SW_ERR_CREATE_NODE);
+			throw new SWException('illegal argument exception : $node cannot be empty', SWException::SW_ERR_CREATE_NODE);
 		
 		$st=array();
 		
@@ -74,7 +75,7 @@ class SWNode extends CComponent {
 			if( is_array($node))
 			{
 				if(!isset($node['id']))
-					throw new SWException(Yii::t('simpleWorkflow','missing node id'),SWException::SW_ERR_MISSING_NODE_ID);
+					throw new SWException('missing node id',SWException::SW_ERR_MISSING_NODE_ID);
 					
 				// set node id -----------------------
 			
@@ -112,14 +113,24 @@ class SWNode extends CComponent {
 	 * Parse a status name and return it as an array. The string passed as argument
 	 * may be a complete status name (e.g workflowId/nodeId) and if no workflowId is
 	 * specified, then an exception is thrown. Both workflow and node ids must match
-	 * following patter:
+	 * following pattern:
 	 * <pre>
-	 *      [[:alpha:]][[:alnum:]]*
+	 *     /^[[:alpha:]][[:alnum:]_]*$/
 	 * </pre>
+	 * For instance :
+	 * <ul>
+	 *	<li>ready : matches</li>
+	 *	<li>to_process : matches</li>
+	 *	<li>priority_1 : matches</li>
+	 *	<li>2_level : does not match</li>
+	 *	<li>to-production : does not match</li>
+	 *	<li>enable/disable : does not match</li>
+	 *</ul>
 	 * @param string status status name (wfId/nodeId or nodeId)
 	 * @return array the complete status (e.g array ( [workflow] => 'a' [node] => 'b' ))
 	 */
-	public function parseNodeId($status,$workflowId){
+	public function parseNodeId($status,$workflowId)
+	{
 		$nodeId=$wfId=null;
 
 		if(strstr($status,'/')){
@@ -138,8 +149,7 @@ class SWNode extends CComponent {
 		}
 	
 		if( $wfId == null || $nodeId == null){
-			throw new SWException(Yii::t('simpleWorkflow','failed to create node from node Id = {nodeId}, workflow Id = {workflowId}',
-				array('{nodeId}'=>$status,'{workflowId}'=>$workflowId)), SWException::SW_ERR_CREATE_NODE);
+			throw new SWException('failed to create node from node Id = '.$status.', workflow Id = '.$workflowId, SWException::SW_ERR_CREATE_NODE);
 		}
 		return array('workflow'=>$wfId,'node'=>$nodeId);
 	}
@@ -158,8 +168,7 @@ class SWNode extends CComponent {
 			if(isset($this->_metadata[$name])){
 				return $this->_metadata[$name];
 			}else{
-				throw new SWException(Yii::t('yii','Property "{property}" is not found.',
-					array('{property}'=>$name)),SWException::SW_ERR_ATTR_NOT_FOUND);
+				throw new SWException('Property "'.$name.'" is not found.',SWException::SW_ERR_ATTR_NOT_FOUND);
 			}
 		}
 	}
@@ -253,8 +262,7 @@ class SWNode extends CComponent {
 			return $other->equals($this);
 		}catch(Exception $e)
 		{
-			throw new SWException(Yii::t('simpleWorkflow','comparaison error - the value passed as argument (value={value}) cannot be converted into a SWNode',
-				array('{value}'=> $status)), $e->getCode());
+			throw new SWException('comparaison error - the value passed as argument (value='.$status.') cannot be converted into a SWNode',$e->getCode());
 		}
 	}
 }

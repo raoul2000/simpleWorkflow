@@ -2,8 +2,8 @@
 /**
  * this class provides helper methods for the simpleWorkflow behavior
  */
-class SWHelper {
-	
+class SWHelper
+{
 	/**
 	 * Returns the list of all statuses that can be reached from current status of the model
 	 * passed as argument. The returned array is in the form suitable for dropDownList and listBox:
@@ -27,9 +27,9 @@ class SWHelper {
 	 * @param array $options additional options
 	 * @return array the list data that can be used in dropDownList and listBox
 	 */
-	public static function nextStatuslistData($model, $options=array()){
+	public static function nextStatuslistData($model, $options=array())
+	{
 		return SWHelper::_createListData($model,$model->swGetNextStatus(),$options);
-						
 	}
 	/**
 	 * Returns the list of all statuses belonging to the workflow the model passed as argument
@@ -40,7 +40,8 @@ class SWHelper {
 	 * @param array additional options
 	 * @return array the list data that can be used in dropDownList and listBox
 	 */
-	public static function allStatuslistData($model,$options=array()){
+	public static function allStatuslistData($model,$options=array())
+	{
 		return SWHelper::_createListData($model,$model->swGetAllStatus(),$options);
 	}
 	/**
@@ -53,7 +54,8 @@ class SWHelper {
 	 * @param array $statusList array of string where each value is the statusId
 	 * @param array $options the list data that can be used in dropDownList and listBox
 	 */
-	public static function statusListData($model,$statusList,$options=array()){
+	public static function statusListData($model,$statusList,$options=array())
+	{
 		$nodeList = array();
 		$w = $model->swGetWorkflowSource();
 		foreach($statusList as $key =>  $statusId){
