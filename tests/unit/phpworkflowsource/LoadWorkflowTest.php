@@ -1,5 +1,5 @@
 <?php
-class LoadWorkflow extends CDbTestCase {
+class LoadWorkflowTest extends CDbTestCase {
 
 	/**
 	 *

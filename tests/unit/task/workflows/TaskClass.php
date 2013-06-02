@@ -4,7 +4,7 @@ class TaskClass {
 		// echo 'do something';
 	}
 	public function runTask2($owner,$sourceStatus,$targetStatus, $params){
-		TaskTest_2::$task2 = array(
+		Task_2_Test::$task2 = array(
 			'owner'=> $owner,
 			'sourceStatus' => $sourceStatus,
 			'targetStatus' => $targetStatus,

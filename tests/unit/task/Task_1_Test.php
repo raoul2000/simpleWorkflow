@@ -2,7 +2,7 @@
 Yii::import('application.tests.unit.task.models.*');
 Yii::import('application.tests.unit.task.workflows.*');
 
-class TaskTest_1 extends CDbTestCase {
+class Task_1_Test extends CDbTestCase {
 
 	/**
 	 *

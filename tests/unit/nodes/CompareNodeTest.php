@@ -1,5 +1,5 @@
 <?php
-class CompareNode extends CDbTestCase {
+class CompareNodeTest extends CDbTestCase {
 
 	/**
 	 *

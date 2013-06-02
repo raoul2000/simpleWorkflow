@@ -1,5 +1,5 @@
 <?php
-class CreateNode extends CDbTestCase {
+class CreateNodeTest extends CDbTestCase {
 
 	/**
 	 *
@@ -18,6 +18,7 @@ class CreateNode extends CDbTestCase {
 			'w1'	// workflow id as second constructor argument
 		);
 		$this->assertEquals($n->getId(), 'node1');
+		$this->assertEquals($n->getLabel(), $n->getId());
 		$this->assertEquals($n->getWorkflowId(), 'w1');
 	}
 	public function testCreateFromArray_02() {
@@ -39,28 +40,35 @@ class CreateNode extends CDbTestCase {
 	public function testCreateFromArray_04() {
 		$n = new SWNode(array('id'=>'w1/node1'));
 		$this->assertEquals($n->getId(), 'node1');
+		$this->assertEquals($n->getLabel(), $n->getId());
 		$this->assertEquals($n->getWorkflowId(), 'w1');
 	}
 	public function testCreateFromArray_05() {
 		$n = new SWNode(array('id'=>'w1/node1'));	// workflow id part of node id
 		$this->assertEquals($n->getId(), 'node1');
+		$this->assertEquals($n->getLabel(), $n->getId());
 		$this->assertEquals($n->getWorkflowId(), 'w1');
 	}
 	
 	public function testCreateFromString_01() {
 		$n = new SWNode('w1/node1');
 		$this->assertEquals($n->getId(), 'node1');
+		$this->assertEquals($n->getLabel(), $n->getId());
 		$this->assertEquals($n->getWorkflowId(), 'w1');
 	}
 	public function testCreateFromString_02() {
 		$n = new SWNode('node1','w1');
 		$this->assertEquals($n->getId(), 'node1');
+		$this->assertEquals($n->getLabel(), $n->getId());
 		$this->assertEquals($n->getWorkflowId(), 'w1');
 	}
 	public function testCreateFromString_03() {
 		
+		$n = new SWNode('a/node_1');
+		$this->assertEquals($n->getLabel(),'node_1');
+		
 		try{
-			$n = new SWNode('a/node_1');	// character '_' is not allowed
+			$n = new SWNode('a/node-1');	// character '-' is not allowed
 			$this->fail();
 		}catch(SWException $e){
 			$this->assertEquals($e->getCode(),SWException::SW_ERR_CREATE_NODE);
@@ -74,8 +82,9 @@ class CreateNode extends CDbTestCase {
 	}
 	public function testCreateFromString_04() {
 	
+		$n = new SWNode('a/node_1');
 		try{
-			$n = new SWNode('node_1','a');	// character '_' is not allowed
+			$n = new SWNode('node-1','a');	// character '-' is not allowed
 			$this->fail();
 		}catch(SWException $e){
 			$this->assertEquals($e->getCode(),SWException::SW_ERR_CREATE_NODE);

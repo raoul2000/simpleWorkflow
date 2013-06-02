@@ -1,5 +1,5 @@
 <?php
-class IsNextNode extends CDbTestCase {
+class IsNextNodeTest extends CDbTestCase {
 
 	/**
 	 *

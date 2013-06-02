@@ -1,5 +1,5 @@
 <?php
-class GetNextNodeIds extends CDbTestCase {
+class GetNextNodeIdsTest extends CDbTestCase {
 
 	/**
 	 *

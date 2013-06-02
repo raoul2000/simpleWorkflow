@@ -1,6 +1,6 @@
 <?php
 Yii::import('application.tests.unit.events.models.*');
-class Event_01 extends CDbTestCase {
+class Event_01_Test extends CDbTestCase {
     public $fixtures=array(
         'items'=>'ModelEvent_1',
     );

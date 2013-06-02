@@ -9,6 +9,21 @@
 		<browser name="Internet Explorer" browser="*iexplore" />
 		<browser name="Firefox" browser="*firefox" />
 	</selenium>
+
+	<testsuites>
+		<testsuite name="events">
+			<directory>./unit/events</directory>
+		</testsuite>
+		<testsuite name="nodes">
+			<directory>./unit/nodes</directory>
+		</testsuite>		
+		<testsuite name="source">
+			<directory>./unit/phpworkflowsource</directory>
+		</testsuite>		
+		<testsuite name="task">
+			<directory>./unit/task</directory>
+		</testsuite>			
+	</testsuites>
 	
 	<filter>
 		<whitelist>
@@ -19,6 +34,7 @@
 				<file>../extensions/simpleWorkflow/SWyEdConverter.php</file>
 				<file>../extensions/simpleWorkflow/SWyEdConverterDOM.php</file>
 				<file>../extensions/simpleWorkflow/SWException.php</file>
+				<file>../extensions/simpleWorkflow/SWComponent.php</file>
 			</exclude>
 		</whitelist>
 	</filter>

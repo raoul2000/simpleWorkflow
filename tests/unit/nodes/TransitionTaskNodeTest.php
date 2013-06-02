@@ -1,5 +1,5 @@
 <?php
-class TransitionTaskNode extends CDbTestCase {
+class TransitionTaskNodeTest extends CDbTestCase {
 
 	/**
 	 *

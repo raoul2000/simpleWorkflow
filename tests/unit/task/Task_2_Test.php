@@ -3,7 +3,7 @@
 Yii::import('application.tests.unit.task.models.*');
 Yii::import('application.tests.unit.task.workflows.*');
 
-class TaskTest_2 extends CDbTestCase {
+class Task_2_Test extends CDbTestCase {
 	static public $task2=null;
 
 	protected function setUp()
@@ -15,7 +15,7 @@ class TaskTest_2 extends CDbTestCase {
 			)
 		);
 		Yii::app()->setComponent('swSource', $component);
-		TaskTest_2::$task2 = null;
+		Task_2_Test::$task2 = null;
 		parent::setUp();
 	}
 	
@@ -24,17 +24,17 @@ class TaskTest_2 extends CDbTestCase {
 	
 		$this->assertTrue($ar->swHasStatus());
 		$this->assertTrue($ar->swStatusEquals('S1'));
-		$this->assertEquals(TaskTest_2::$task2,null);
+		$this->assertEquals(Task_2_Test::$task2,null);
 		
 		$this->assertTrue($ar->swNextStatus('S2',array('var1'=>'value1')));
 		
-		$this->assertTrue(is_array(TaskTest_2::$task2));
-		$this->assertEquals(TaskTest_2::$task2['sourceStatus'], 'taskWorkflow2/S1');
-		$this->assertEquals(TaskTest_2::$task2['targetStatus'], 'taskWorkflow2/S2');
+		$this->assertTrue(is_array(Task_2_Test::$task2));
+		$this->assertEquals(Task_2_Test::$task2['sourceStatus'], 'taskWorkflow2/S1');
+		$this->assertEquals(Task_2_Test::$task2['targetStatus'], 'taskWorkflow2/S2');
 		
-		$this->assertTrue(is_array(TaskTest_2::$task2['params']));
+		$this->assertTrue(is_array(Task_2_Test::$task2['params']));
 		
-		$this->assertEquals(TaskTest_2::$task2['params']['var1'], 'value1');
+		$this->assertEquals(Task_2_Test::$task2['params']['var1'], 'value1');
 	}
 	
 	public function test_02() {
@@ -42,13 +42,13 @@ class TaskTest_2 extends CDbTestCase {
 	
 		$this->assertTrue($ar->swHasStatus());
 		$this->assertTrue($ar->swStatusEquals('S1'));
-		$this->assertEquals(TaskTest_2::$task2,null);
+		$this->assertEquals(Task_2_Test::$task2,null);
 	
 		$this->assertTrue($ar->swNextStatus('S3',array('var1'=>'value1')));
 	
-		$this->assertTrue(is_array(TaskTest_2::$task2));
-		$this->assertTrue(is_array(TaskTest_2::$task2['params']));
+		$this->assertTrue(is_array(Task_2_Test::$task2));
+		$this->assertTrue(is_array(Task_2_Test::$task2['params']));
 	
-		$this->assertEquals(TaskTest_2::$task2['params']['var1'], 'value1');
+		$this->assertEquals(Task_2_Test::$task2['params']['var1'], 'value1');
 	}
 }

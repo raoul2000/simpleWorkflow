@@ -37,7 +37,7 @@ class ModelTask_C extends CActiveRecord{
 
 	public function task2($params){
 		$this->_traceFunctionCall(__FUNCTION__);
-		TaskTest_2::$task2 = array(
+		Task_2_Test::$task2 = array(
 			'params' => $params
 		);
 	}

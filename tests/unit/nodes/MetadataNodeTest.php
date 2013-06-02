@@ -1,5 +1,5 @@
 <?php
-class MetadataNode extends CDbTestCase {
+class MetadataNodeTest extends CDbTestCase {
 
 	/**
 	 *
