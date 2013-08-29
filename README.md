@@ -6,7 +6,7 @@ It provides features to control the behavior of the active record in its associa
 
 
 ###Resources
-* [Demo and doc](http://s172418307.onlinehome.fr/project/yiiDemo/index.php?r=simpleworkflowdemo/index)
+* [Project Website](http://s172418307.onlinehome.fr/project/sandbox/www/index.php?r=simpleWorkflow/page&view=home)
 * [Join discussion, report a bug](http://www.yiiframework.com/forum/index.php?/topic/12071-extension-simpleworkflow/)
 
 
