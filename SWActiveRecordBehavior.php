@@ -541,7 +541,7 @@ class SWActiveRecordBehavior extends CBehavior
 	 */
 	private function _evaluateConstraint($constraint)
 	{
-		return (($constraint === null || $this->getOwner()->evaluateExpression($constraint) === true) ? true : false);
+		return (( empty($constraint) || $this->getOwner()->evaluateExpression($constraint) === true) ? true : false);
 	}
 
 	/**
