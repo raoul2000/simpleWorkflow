@@ -1,3 +1,6 @@
+##version 1.0.9
+* add composer.json ( [cornernote](https://github.com/cornernote)) and publish to https://packagist.org/
+
 ##version 1.0.0.8
 * gii command : add SWyEdConverterDOM that uses DOM extension. If domxml extension is available, use it in priority otherwise
 use DOM

@@ -1,0 +1,29 @@
+{
+	"name" : "raoul2000/simpleWorkflow",
+	"description" : "A simple workflow engine for Yii2.",
+	"type" : "library",
+	"license" : "BSD-3-Clause",
+	"keywords" : [
+		"yii",
+		"workflow",
+		"life cycle",
+		"model"
+	],
+	"authors" : [{
+			"name" : "Raoul Boulard",
+			"email" : "raoul.boulard@gmail.com",
+			"homepage" : "https://github.com/raoul2000"
+		}
+	],
+	"require" : {
+		"php" : ">=5.1.0"
+	},
+	"require-dev" : {
+		"yiisoft/yii" : "1.1.16"
+	},
+	"homepage" : "http://s172418307.onlinehome.fr/project/sandbox/www/index.php?r=simpleWorkflow/page&view=home",
+	"support" : {
+		"issues" : "https://github.com/raoul2000/simpleWorkflow/issues",
+		"source" : "https://github.com/raoul2000/simpleWorkflow"
+	}
+}
