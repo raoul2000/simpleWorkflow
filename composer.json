@@ -1,5 +1,5 @@
 {
-	"name" : "raoul2000/simpleWorkflow",
+	"name" : "raoul2000/yii-simple-workflow",
 	"description" : "A simple workflow engine for Yii2.",
 	"type" : "library",
 	"license" : "BSD-3-Clause",
