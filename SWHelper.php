@@ -140,5 +140,109 @@ class SWHelper
 		}
 		return $result;
 	}
+
+	public static function allStatuslistId($model,$options=array()){
+		return self::_createListDataId($model,$model->swGetAllStatus(),$options);
+	}
+
+	/**
+	 * Returns an array where keys are status id and values are status ID.
+	 */
+	private static function _createListDataId($model,$statusList,$options=array())
+	{
+		self::_defaultInit($model, $options);
+
+		if(count($statusList)!=0){
+			foreach ( $statusList as $nodeObj ) {
+				
+				if(   $exclude == null ||
+					( $exclude != null && !in_array($nodeObj->toString(), $exclude )) )
+				{
+					$result[$nodeObj->toString()]= ($encodeLabel
+						? CHtml::encode($nodeObj->getId())
+						: $nodeObj->getId()
+					);
+				}
+			}
+		}
+		
+		if($includeCurrent == false && $currentStatus !=null){
+			unset($result[$currentStatus->toString()]);
+		}
+		return $result;
+	}
+	
+	private static function _defaultInit($model, $options)
+	{
+		$result=array();
+		$exclude=null;
+		$includeCurrent = true;
+
+		$currentStatus = ($model->swHasStatus()
+			? $model->swGetStatus()
+			: null
+		);
+		if($currentStatus != null)
+			$result[$currentStatus->toString()]=$currentStatus->getLabel();
+		
+		$encodeLabel = ( isset($options['encode'])
+			? (bool) $options['encode']
+			: true
+		);
+		
+		// process options
+		
+		if(count($options)!=0){
+
+			if(isset($options['prompt'])){
+				$result[''] = $options['prompt'];
+			}
+
+			if(isset($options['exclude']))
+			{
+				if(is_string($options['exclude']))
+					$exclude = array_map('trim',explode(",",$options['exclude']));
+				elseif(is_array($options['exclude']))
+					$exclude = $options['exclude'];
+				else
+					throw new CException('incorrect type for option "exclude" : array or string expected');
+				
+				foreach ($exclude as $key => $value) {
+					$node = new SWNode($value, $model->swGetWorkflowId());
+					$exclude[$key] = $node->toString();
+				}
+			}
+			if(isset($options['includeCurrent']) )
+				$includeCurrent =  (bool) $options['includeCurrent'];
+			
+			if($exclude != null && $currentStatus!= null && in_array($currentStatus->toString(), $exclude))
+				$includeCurrent =  false;
+		}
+	}
+
+	public static function allStatus($model)
+	{
+		$workflowTypes = WorkflowTypes::model()->findAllByAttributes(array('model' => $model));
+		
+		if(empty($workflowTypes))
+			return $finalArr = array();
+
+		foreach ($workflowTypes as $row) {
+			$arr[] = explode(",", $row->flow);	
+		}
+
+		foreach ($arr as $subArr) {
+			foreach ($subArr as $row) {
+				$newArr[] = $row;
+			}
+		}
+
+		$uniqueArr = array_unique($newArr);
+		foreach ($uniqueArr as $key => $row) {
+			$finalArr[] = array('id' => $row, 'val' => $row);
+		}
+		
+		return $finalArr;
+	}
 }
 ?>
