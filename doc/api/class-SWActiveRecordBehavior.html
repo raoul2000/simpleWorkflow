@@ -1,0 +1,2102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.8.0" />
+
+	<title>Class SWActiveRecordBehavior | simpleWorkflow</title>
+
+	<script type="text/javascript" src="resources/combined.js?2228282068"></script>
+	<script type="text/javascript" src="elementlist.js?2072927240"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?260161822" />
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2015443609" />
+
+</head>
+
+<body>
+	<div id="navigation" class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a href="index.html" class="brand">simpleWorkflow</a>
+				<div class="nav-collapse">
+					<ul class="nav">
+						<li class="active">
+<span>Class</span>						</li>
+
+						<li class="divider-vertical"></li>
+
+						<li>
+							<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+						</li>
+
+
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="left">
+	<div id="menu">
+		<form id="search" class="form-search">
+			<input type="hidden" name="cx" value="" />
+			<input type="hidden" name="ie" value="UTF-8" />
+			<input type="text" name="q" class="search-query" placeholder="Search" />
+		</form>
+
+
+		<div id="groups">
+		</div>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-SWActiveRecord.html">SWActiveRecord</a></li>
+				<li class="active"><a href="class-SWActiveRecordBehavior.html">SWActiveRecordBehavior</a></li>
+				<li><a href="class-SWComponent.html">SWComponent</a></li>
+				<li><a href="class-SWEvent.html">SWEvent</a></li>
+				<li><a href="class-SWException.html">SWException</a></li>
+				<li><a href="class-SWHelper.html">SWHelper</a></li>
+				<li><a href="class-SWNode.html">SWNode</a></li>
+				<li><a href="class-SWPhpWorkflowSource.html">SWPhpWorkflowSource</a></li>
+				<li><a href="class-SWValidator.html">SWValidator</a></li>
+				<li><a href="class-SWWorkflowSource.html">SWWorkflowSource</a></li>
+				<li><a href="class-SWyEdConverter.html">SWyEdConverter</a></li>
+				<li><a href="class-SWyEdConverterDOM.html">SWyEdConverterDOM</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+	<div id="rightInner">
+<div id="content" class="class">
+	<h1>Class SWActiveRecordBehavior</h1>
+
+
+	<div class="description">
+	This class implements all the logic for the simpleWorkflow extension. Following
+attributes can be initialized when this behavior is attached to the owner
+component :
+<ul>
+	<li><b>statusAttribute</b> (string) : This is the column name where status is
+	stored<br />
+	If this attribute doesn't exist for a model, the Workflow behavior is
+	automatically disabled and a warning is logged.<br />
+	In the database, this attribute must be defined as a VARCHAR() whose length
+	should be large enough to contains a complete status name with format
+	<b>workflowId/nodeId</b>.<br />
+	example :
+		<pre>
+task/pending
+postWorkflow/to_review
+</pre>
+		Default : 'status'</li>
+
+	<li><b>defaultWorkflow</b> (string) : workflow name that should be used by
+	default for the owner model<br />
+	If this parameter is not set, then it is automatically created based on the name
+	of the owner model, prefixed with 'workflowNamePrefix' defined by the workflow
+	source component. By default this value is set to 'sw' and so, for example
+	'Model1' is associated by default with workflow 'swModel1'.<br />
+	Default : SWWorkflowSource-&gt;workflowNamePrefix . ModelName</li>
+
+	<li><b>autoInsert</b> (boolean) :<br />
+	If TRUE, the model is automatically inserted in the workflow (if not already
+	done) when it is saved. If FALSE, it is developer responsability to insert the
+	model in the workflow.<br />
+	Default : true</li>
+
+	<li><b>workflowSourceComponent</b> (string) :<br />
+	Name of the workflow source component to use with this behavior.<br />
+	By ddefault this parameter is set to &lt;em&gt;swSource&lt;/em&gt; (see <code><a href="class-SWPhpWorkflowSource.html">SWPhpWorkflowSource</a></code>)</li>
+
+	<li><b>enableEvent</b> (boolean) :<br />
+	If TRUE, this behavior will fire SWEvents. Note that even if it is true, this
+	doesn't garantee that SW events will be fired as another condition is that the
+	owner component provides SWEvent handlers.<br />
+	Default : true</li>
+
+	<li><b>transitionBeforeSave</b> (boolean) :<br />
+	If TRUE, SWEvents are fired and possible transitions tasks are executed
+	<b>before</b> the owner model is actually saved. If FALSE, events and task
+	transitions are processed after save.<br />
+	It has no effect if the transition is done programatically by a call to
+	swNextStatus(), but only if it is done when the owner model is saved.<br />
+	Default : true</li>
+</ul>
+
+	</div>
+
+	<dl class="tree well">
+		<dd style="padding-left:0px">
+CBehavior
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by" />
+<b><span>SWActiveRecordBehavior</span></b>			
+			
+			
+		</dd>
+	</dl>
+
+
+
+
+
+
+
+
+	<div class="alert alert-info">
+		
+		
+		
+		
+
+		<b>Located at</b> <a href="source-class-SWActiveRecordBehavior.html#2-1045" title="Go to source code">SWActiveRecordBehavior.php</a><br />
+	</div>
+
+
+
+		<h2>Methods summary</h2>
+		<table class="summary table table-bordered table-striped" id="methods">
+		<tr data-order="swGetWorkflowSource" id="_swGetWorkflowSource">
+
+			<td class="attributes"><code>
+				 public 
+				reference
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_swGetWorkflowSource">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#99-105" title="Go to source code">swGetWorkflowSource</a>( )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>reference</code><br>to the workflow source used by this behavior<br />
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="canFireEvent" id="_canFireEvent">
+
+			<td class="attributes"><code>
+				 protected 
+				boolean
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_canFireEvent">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#106-117" title="Go to source code">canFireEvent</a>( <span>CComponent <var>$owner</var></span>, <span>string <var>$className</var></span> )</code>
+
+			<div class="description short">
+				
+<p>Checks that the owner component is able to handle workflow events that could
+be fired by this behavior</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Checks that the owner component is able to handle workflow events that could
+be fired by this behavior</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$owner</var></dt>
+						<dd><code>CComponent</code><br>$owner the owner component attaching this behavior</dd>
+						<dt><var>$className</var></dt>
+						<dd><code>string</code><br>$className</dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>boolean</code><br>TRUE if workflow events are fired, FALSE if not.<br />
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="swGetStatus" id="_swGetStatus">
+
+			<td class="attributes"><code>
+				 public 
+				<code><a href="class-SWNode.html">SWNode</a></code>
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_swGetStatus">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#118-127" title="Go to source code">swGetStatus</a>( )</code>
+
+			<div class="description short">
+				
+<p>If the owner component is inserted into a workflow, this method returns the
+SWNode object that represent this status, otherwise NULL is returned.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>If the owner component is inserted into a workflow, this method returns the
+SWNode object that represent this status, otherwise NULL is returned.</p>
+
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code><code><a href="class-SWNode.html">SWNode</a></code></code><br>the current status or NULL if no status is set<br />
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="swIsEventEnabled" id="_swIsEventEnabled">
+
+			<td class="attributes"><code>
+				 public 
+				boolean
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_swIsEventEnabled">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#128-139" title="Go to source code">swIsEventEnabled</a>( )</code>
+
+			<div class="description short">
+				
+<p>Event may be enabled by configuration (when the behavior is attached to the
+owner component) but it can be automatically disabled if the owner component
+does not define handlers for all SWEvents (i.e events fired when the owner
+component evolves in the workflow). <code><a href="class-SWActiveRecordBehavior.html#_attach">SWActiveRecordBehavior::attach()</a></code></p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Event may be enabled by configuration (when the behavior is attached to the
+owner component) but it can be automatically disabled if the owner component
+does not define handlers for all SWEvents (i.e events fired when the owner
+component evolves in the workflow). <code><a href="class-SWActiveRecordBehavior.html#_attach">SWActiveRecordBehavior::attach()</a></code></p>
+
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>boolean</code><br>TRUE if workflow events are fire by this behavior, FALSE if not.<br />
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="swIsStatus" id="_swIsStatus">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_swIsStatus">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#140-149" title="Go to source code">swIsStatus</a>( <span>mixed <var>$status</var></span> )</code>
+
+			<div class="description short">
+				
+<p>Test if the owner component is currently in the status passed as
+argument.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Test if the owner component is currently in the status passed as
+argument.</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$status</var></dt>
+						<dd><code>mixed</code><br>$status name or SWNode instance of the status to test</dd>
+					</dl></div>
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+							boolean TRUE if the owner component is in the status passed as argument, FALSE
+otherwise<br />
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="swStatusEquals" id="_swStatusEquals">
+
+			<td class="attributes"><code>
+				 public 
+				boolean
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_swStatusEquals">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#150-165" title="Go to source code">swStatusEquals</a>( <span>mixed <var>$status</var> = <span class="php-keyword1">null</span></span> )</code>
+
+			<div class="description short">
+				
+<p>Test if the current status is the same as the one passed as argument. A call
+to swStatusEquals(&lt;em&gt;null&lt;/em&gt;) returns TRUE only if the owner
+component is not in a workflow.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Test if the current status is the same as the one passed as argument. A call
+to swStatusEquals(&lt;em&gt;null&lt;/em&gt;) returns TRUE only if the owner
+component is not in a workflow.</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$status</var></dt>
+						<dd><code>mixed</code><br>$status string or SWNode instance.</dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>boolean</code><br />
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="swHasStatus" id="_swHasStatus">
+
+			<td class="attributes"><code>
+				 public 
+				boolean
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_swHasStatus">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#166-176" title="Go to source code">swHasStatus</a>( )</code>
+
+			<div class="description short">
+				
+<p>Test if the owner component is currently inserted in a workflow. This method
+is equivalent to swGetStatus()!=null.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Test if the owner component is currently inserted in a workflow. This method
+is equivalent to swGetStatus()!=null.</p>
+
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>boolean</code><br>true if the owner model is in a workflow, FALSE otherwise<br />
+					</div>
+
+
+					<h4>See</h4>
+					<div class="list">
+							<code><code><a href="class-SWActiveRecordBehavior.html#_swGetStatus">SWActiveRecordBehavior::swGetStatus()</a></code></code><br />
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="swGetWorkflowId" id="_swGetWorkflowId">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_swGetWorkflowId">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#225-234" title="Go to source code">swGetWorkflowId</a>( )</code>
+
+			<div class="description short">
+				
+<p>Returns the current workflow Id the owner component is inserted in, or NULL
+if the owner component is not inserted into a workflow.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Returns the current workflow Id the owner component is inserted in, or NULL
+if the owner component is not inserted into a workflow.</p>
+
+
+
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="attach" id="_attach">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_attach">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#235-285" title="Go to source code">attach</a>( <span>mixed <var>$owner</var></span> )</code>
+
+			<div class="description short">
+				Overloads parent attach method so at the time the behavior is about to be
+attached to the owner component, the behavior is initialized.<br />
+During the initialisation, following actions are performed:<br />
+
+<ul>
+	<li>The status attribute exists</li>
+
+	<li>Check whether or not, workflow events should be enabled, by testing if the
+	owner component class inherits from the 'SWComponent' or 'SWActiveRecord'
+	class.</li>
+</ul>
+
+			</div>
+
+			<div class="description detailed hidden">
+				Overloads parent attach method so at the time the behavior is about to be
+attached to the owner component, the behavior is initialized.<br />
+During the initialisation, following actions are performed:<br />
+
+<ul>
+	<li>The status attribute exists</li>
+
+	<li>Check whether or not, workflow events should be enabled, by testing if the
+	owner component class inherits from the 'SWComponent' or 'SWActiveRecord'
+	class.</li>
+</ul>
+
+
+
+
+
+
+					<h4>See</h4>
+					<div class="list">
+							base/CBehavior::attach()<br />
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="swGetDefaultWorkflowId" id="_swGetDefaultWorkflowId">
+
+			<td class="attributes"><code>
+				 public 
+				string
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_swGetDefaultWorkflowId">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#286-344" title="Go to source code">swGetDefaultWorkflowId</a>( )</code>
+
+			<div class="description short">
+				Finds out what should be the default workflow to use with the owner model. To
+find out what is the default workflow, this method perform following tests :
+<ul>
+	<li>behavior initialization parameter <i>defaultWorkflow</i></li>
+
+	<li>owner component method <i>workflow</i> : if the owner component is able to
+	provide the complete workflow, this method will invoke
+	SWWorkflowSource.addWorkflow</li>
+
+	<li>created based on the configured prefix followed by the model class name. The
+	default workflow prefix is 'sw' so if the owner model is MyModel, the default
+	workflow id will be swMyModel (case sensitive)</li>
+</ul>
+
+			</div>
+
+			<div class="description detailed hidden">
+				Finds out what should be the default workflow to use with the owner model. To
+find out what is the default workflow, this method perform following tests :
+<ul>
+	<li>behavior initialization parameter <i>defaultWorkflow</i></li>
+
+	<li>owner component method <i>workflow</i> : if the owner component is able to
+	provide the complete workflow, this method will invoke
+	SWWorkflowSource.addWorkflow</li>
+
+	<li>created based on the configured prefix followed by the model class name. The
+	default workflow prefix is 'sw' so if the owner model is MyModel, the default
+	workflow id will be swMyModel (case sensitive)</li>
+</ul>
+
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>string</code><br>workflow id to use with the owner component or NULL if no workflow was found<br />
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="swInsertToWorkflow" id="_swInsertToWorkflow">
+
+			<td class="attributes"><code>
+				 public 
+				boolean
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_swInsertToWorkflow">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#345-376" title="Go to source code">swInsertToWorkflow</a>( <span>string <var>$workflowId</var> = <span class="php-keyword1">null</span></span> )</code>
+
+			<div class="description short">
+				
+<p>Insert the owner component into the workflow whose id is passed as argument.
+If NULL is passed as argument, the default workflow is used. If no error occurs,
+when this method ends, the owner component's status is the initial node of the
+selected workflow.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Insert the owner component into the workflow whose id is passed as argument.
+If NULL is passed as argument, the default workflow is used. If no error occurs,
+when this method ends, the owner component's status is the initial node of the
+selected workflow.</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$workflowId</var></dt>
+						<dd><code>string</code><br>$workflowId workflow Id or NULL. If NULL the default workflow Id is used</dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>boolean</code><br>TRUE<br />
+					</div>
+
+					<h4>Throws</h4>
+					<div class="list">
+						<code><code><a href="class-SWException.html">SWException</a></code></code><br>the owner model is already in a workflow<br />
+					</div>
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="swRemoveFromWorkflow" id="_swRemoveFromWorkflow">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_swRemoveFromWorkflow">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#377-398" title="Go to source code">swRemoveFromWorkflow</a>( )</code>
+
+			<div class="description short">
+				
+<p>Removes the owner component from its current workflow. An exception is thrown
+if the owner model is not in a final status (i.e a status with no outgoing
+transition).</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Removes the owner component from its current workflow. An exception is thrown
+if the owner model is not in a final status (i.e a status with no outgoing
+transition).</p>
+
+<p>see <code><a href="class-SWActiveRecordBehavior.html#_swIsFinalStatus">SWActiveRecordBehavior::swIsFinalStatus()</a></code></p>
+
+
+
+
+
+					<h4>Throws</h4>
+					<div class="list">
+						<code><code><a href="class-SWException.html">SWException</a></code></code><br />
+					</div>
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="swGetNextStatus" id="_swGetNextStatus">
+
+			<td class="attributes"><code>
+				 public 
+				array
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_swGetNextStatus">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#399-423" title="Go to source code">swGetNextStatus</a>( )</code>
+
+			<div class="description short">
+				
+<p>This method returns a list of nodes that can be actually reached at the time
+the method is called. To be reachable, a transition must exist between the
+current status and the next status, AND if a constraint is defined, it must be
+evaluated to true.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>This method returns a list of nodes that can be actually reached at the time
+the method is called. To be reachable, a transition must exist between the
+current status and the next status, AND if a constraint is defined, it must be
+evaluated to true.</p>
+
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>array</code><br>SWNode object array for all nodes thats can be reached from the current node.<br />
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="swGetAllStatus" id="_swGetAllStatus">
+
+			<td class="attributes"><code>
+				 public 
+				array
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_swGetAllStatus">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#424-436" title="Go to source code">swGetAllStatus</a>( )</code>
+
+			<div class="description short">
+				
+<p>Returns all statuses belonging to the workflow the owner component is
+inserted in or is related to. If the owner component is not inserted in a
+workflow or related to no workflow, an empty array is returned.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Returns all statuses belonging to the workflow the owner component is
+inserted in or is related to. If the owner component is not inserted in a
+workflow or related to no workflow, an empty array is returned.</p>
+
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>array</code><br>list of SWNode objects.<br />
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="swIsNextStatus" id="_swIsNextStatus">
+
+			<td class="attributes"><code>
+				 public 
+				boolean
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_swIsNextStatus">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#437-486" title="Go to source code">swIsNextStatus</a>( <span>mixed <var>$nextStatus</var></span> )</code>
+
+			<div class="description short">
+				Checks if the status passed as argument can be reached from the current status.
+This occurs when<br />
+
+<ul>
+	<li>a transition has been defined in the workflow between those 2 status</li>
+
+	<li>the destination status has a constraint that is evaluated to true in the
+	context of the owner model</li>
+</ul>
+ Note that if the owner component is not in a workflow, this method returns true
+if argument $nextStatus is the initial status for the workflow associated with
+the owner model. In other words the initial status for a given workflow is
+considered as the 'next' status, for all component associated to this workflow
+but not inserted in it. Of course, if a constraint is associated with the
+initial status, it must be evaluated to true.
+			</div>
+
+			<div class="description detailed hidden">
+				Checks if the status passed as argument can be reached from the current status.
+This occurs when<br />
+
+<ul>
+	<li>a transition has been defined in the workflow between those 2 status</li>
+
+	<li>the destination status has a constraint that is evaluated to true in the
+	context of the owner model</li>
+</ul>
+ Note that if the owner component is not in a workflow, this method returns true
+if argument $nextStatus is the initial status for the workflow associated with
+the owner model. In other words the initial status for a given workflow is
+considered as the 'next' status, for all component associated to this workflow
+but not inserted in it. Of course, if a constraint is associated with the
+initial status, it must be evaluated to true.
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$nextStatus</var></dt>
+						<dd><code>mixed</code><br>nextStatus String or SWNode object for the next status</dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>boolean</code><br>TRUE if the status passed as argument can be reached from the current status,
+FALSE otherwise.<br />
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="swCreateNode" id="_swCreateNode">
+
+			<td class="attributes"><code>
+				 public 
+				<code><a href="class-SWNode.html">SWNode</a></code>
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_swCreateNode">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#487-502" title="Go to source code">swCreateNode</a>( <span>string <var>$str</var></span> )</code>
+
+			<div class="description short">
+				
+<p>Creates a new node from the string passed as argument. If $str doesn't
+contain a workflow Id, this method uses the workflowId associated with the owner
+model. The node created here doesn't have to exist within a workflow. This
+method is mainly used by the SWValidator</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Creates a new node from the string passed as argument. If $str doesn't
+contain a workflow Id, this method uses the workflowId associated with the owner
+model. The node created here doesn't have to exist within a workflow. This
+method is mainly used by the SWValidator</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$str</var></dt>
+						<dd><code>string</code><br>$str string status name</dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code><code><a href="class-SWNode.html">SWNode</a></code></code><br>the node<br />
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="swIsFinalStatus" id="_swIsFinalStatus">
+
+			<td class="attributes"><code>
+				 public 
+				boolean
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_swIsFinalStatus">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#546-571" title="Go to source code">swIsFinalStatus</a>( <span>status <var>$status</var> = <span class="php-keyword1">null</span></span> )</code>
+
+			<div class="description short">
+				
+<p>Checks if the status passed as argument, or the current status (if NULL is
+passed) is a final status of the corresponding workflow. By definition a final
+status as no outgoing transition to other status.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Checks if the status passed as argument, or the current status (if NULL is
+passed) is a final status of the corresponding workflow. By definition a final
+status as no outgoing transition to other status.</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$status</var></dt>
+						<dd><code>status</code><br>status to test, or null (will test current status)</dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>boolean</code><br>TRUE when the owner component is in a final status, FALSE otherwise<br />
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="swIsInitialStatus" id="_swIsInitialStatus">
+
+			<td class="attributes"><code>
+				 public 
+				boolean
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_swIsInitialStatus">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#573-607" title="Go to source code">swIsInitialStatus</a>( <span>mixed <var>$status</var> = <span class="php-keyword1">null</span></span> )</code>
+
+			<div class="description short">
+				
+<p>Checks if the status passed as argument, or the current status (if NULL is
+passed) is the initial status of the corresponding workflow. An exception is
+raised if the owner model is not in a workflow and if $status is null.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Checks if the status passed as argument, or the current status (if NULL is
+passed) is the initial status of the corresponding workflow. An exception is
+raised if the owner model is not in a workflow and if $status is null.</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$status</var></dt>
+						<dd><code>mixed</code><br>$status string or SWNode instance</dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>boolean</code><br>TRUE if the owner component is in an initial status or if $status is an initial
+status.<br />
+					</div>
+
+					<h4>Throws</h4>
+					<div class="list">
+						<code><code><a href="class-SWException.html">SWException</a></code></code><br />
+					</div>
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="swValidate" id="_swValidate">
+
+			<td class="attributes"><code>
+				 public 
+				boolean
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_swValidate">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#608-643" title="Go to source code">swValidate</a>( <span>string <var>$attribute</var></span>, <span>mixed <var>$value</var></span> )</code>
+
+			<div class="description short">
+				Validates the status attribute stored in the owner model. This attribute is
+valid if :<br />
+
+<ul>
+	<li>it is not empty</li>
+
+	<li>it contains a valid status name</li>
+
+	<li>this status can be reached from the current status</li>
+
+	<li>or it is equal to the current status (no status change)</li>
+</ul>
+
+			</div>
+
+			<div class="description detailed hidden">
+				Validates the status attribute stored in the owner model. This attribute is
+valid if :<br />
+
+<ul>
+	<li>it is not empty</li>
+
+	<li>it contains a valid status name</li>
+
+	<li>this status can be reached from the current status</li>
+
+	<li>or it is equal to the current status (no status change)</li>
+</ul>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$attribute</var></dt>
+						<dd><code>string</code><br>$attribute status attribute name (by default 'status')</dd>
+						<dt><var>$value</var></dt>
+						<dd><code>mixed</code><br>$value current value of the status attribute provided as a string or a SWNode
+object</dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>boolean</code><br>TRUE if the status attribute contains a valid value, FALSE otherwise<br />
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="swSetStatus" id="_swSetStatus">
+
+			<td class="attributes"><code>
+				 public 
+				boolean
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_swSetStatus">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#652-751" title="Go to source code">swSetStatus</a>( <span>mixed <var>$nextStatus</var></span>, <span>mixed <var>$params</var> = <span class="php-keyword1">null</span></span> )</code>
+
+			<div class="description short">
+				
+<p>Set the owner component into the status passed as argument. If a transition
+could be performed, the owner status attribute is updated with the new status
+value in the form &lt;em&gt;workflowId/nodeId&lt;/em&gt;. This method is
+responsible for firing SWEvents and executing workflow tasks if defined
+for the given transition.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Set the owner component into the status passed as argument. If a transition
+could be performed, the owner status attribute is updated with the new status
+value in the form &lt;em&gt;workflowId/nodeId&lt;/em&gt;. This method is
+responsible for firing SWEvents and executing workflow tasks if defined
+for the given transition.</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$nextStatus</var></dt>
+						<dd><code>mixed</code><br>$nextStatus string or array. If array, it must contains a key equals to the name
+of the status attribute, and its value is the one of the destination node (e.g.
+$arr['status']). This is mainly useful when processing _POST array. If a string
+is provided, it must contain the fullname of the target node (e.g.
+&lt;em&gt;workfowId/nodeId&lt;/em&gt;)</dd>
+						<dt><var>$params</var></dt>
+						<dd></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>boolean</code><br>True if the transition could be performed, FALSE otherwise<br />
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="events" id="_events">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_events">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#757-810" title="Go to source code">events</a>( )</code>
+
+			<div class="description short">
+				Attach event handlers. The behavior registers its own mandatory event handlers
+in case the owner model is a CActiveRecord instance.
+<ul>
+	<li>onBeforeSave : perform status validation and update if needed. If
+	configured, a task is also executed</li>
+
+	<li>onAfterSave : if configured a task is executed</li>
+
+	<li>onAfterFind : initialize internal status value</li>
+</ul>
+ Additionnally, the behavior will fire custom events on various steps of the
+owner model life-cycle within its workflow :
+<ul>
+	<li>onEnterWorkflow : the owner model is inserted in a workflow. Its status is
+	now the initial status of the workflow</li>
+
+	<li>onFinalStatus : the owner model is in a status with no out going edge.</li>
+
+	<li>onLeaveWorkflow : the owner model status is set to NULL. This is possible
+	only if the model is in a final status</li>
+
+	<li>onBeforeTransition : the owner model is about to change status</li>
+
+	<li>onProcessTransition : the owner model is changing status</li>
+
+	<li>onAfterTransition : the owner model has changed status</li>
+</ul>
+
+			</div>
+
+			<div class="description detailed hidden">
+				Attach event handlers. The behavior registers its own mandatory event handlers
+in case the owner model is a CActiveRecord instance.
+<ul>
+	<li>onBeforeSave : perform status validation and update if needed. If
+	configured, a task is also executed</li>
+
+	<li>onAfterSave : if configured a task is executed</li>
+
+	<li>onAfterFind : initialize internal status value</li>
+</ul>
+ Additionnally, the behavior will fire custom events on various steps of the
+owner model life-cycle within its workflow :
+<ul>
+	<li>onEnterWorkflow : the owner model is inserted in a workflow. Its status is
+	now the initial status of the workflow</li>
+
+	<li>onFinalStatus : the owner model is in a status with no out going edge.</li>
+
+	<li>onLeaveWorkflow : the owner model status is set to NULL. This is possible
+	only if the model is in a final status</li>
+
+	<li>onBeforeTransition : the owner model is about to change status</li>
+
+	<li>onProcessTransition : the owner model is changing status</li>
+
+	<li>onAfterTransition : the owner model has changed status</li>
+</ul>
+
+
+
+
+
+
+					<h4>See</h4>
+					<div class="list">
+							base/CBehavior::events()<br />
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="beforeSave" id="_beforeSave">
+
+			<td class="attributes"><code>
+				 public 
+				boolean
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_beforeSave">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#811-835" title="Go to source code">beforeSave</a>( <span>Event <var>$event</var></span> )</code>
+
+			<div class="description short">
+				
+<p>Depending on the value of the owner status attribute, and the current status,
+this method performs an actual transition.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Depending on the value of the owner status attribute, and the current status,
+this method performs an actual transition.</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$event</var></dt>
+						<dd><code>Event</code><br>$event</dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>boolean</code><br />
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="afterSave" id="_afterSave">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_afterSave">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#836-856" title="Go to source code">afterSave</a>( <span><code><a href="class-SWEvent.html">SWEvent</a></code> <var>$event</var></span> )</code>
+
+			<div class="description short">
+				
+<p>When option transitionBeforeSave is false, if a task is associated with the
+transition that was performed, it is executed now, that it after the
+activeRecord owner component has been saved. The onAfterTransition is also
+raised.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>When option transitionBeforeSave is false, if a task is associated with the
+transition that was performed, it is executed now, that it after the
+activeRecord owner component has been saved. The onAfterTransition is also
+raised.</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$event</var></dt>
+						<dd><code><code><a href="class-SWEvent.html">SWEvent</a></code></code><br>$event</dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="afterFind" id="_afterFind">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_afterFind">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#857-887" title="Go to source code">afterFind</a>( <span>CEvent <var>$event</var></span> )</code>
+
+			<div class="description short">
+				
+<p>Responds to CActiveRecord::onAfterFind event. This method is called
+when a CActiveRecord instance is created from DB access (model read from DB). At
+this time, the worklow behavior must be initialized.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Responds to CActiveRecord::onAfterFind event. This method is called
+when a CActiveRecord instance is created from DB access (model read from DB). At
+this time, the worklow behavior must be initialized.</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$event</var></dt>
+						<dd><code>CEvent</code><br>event parameter</dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="enterWorkflow" id="_enterWorkflow">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_enterWorkflow">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#914-921" title="Go to source code">enterWorkflow</a>( <span><code><a href="class-SWEvent.html">SWEvent</a></code> <var>$event</var></span> )</code>
+
+			<div class="description short">
+				
+<p>Default implementation for the onEnterWorkflow event.<br />
+This method is dedicated to be overloaded by custom event handler.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Default implementation for the onEnterWorkflow event.<br />
+This method is dedicated to be overloaded by custom event handler.</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$event</var></dt>
+						<dd><code><code><a href="class-SWEvent.html">SWEvent</a></code></code><br>the event parameter</dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="onEnterWorkflow" id="_onEnterWorkflow">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_onEnterWorkflow">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#922-934" title="Go to source code">onEnterWorkflow</a>( <span><code><a href="class-SWEvent.html">SWEvent</a></code> <var>$event</var></span> )</code>
+
+			<div class="description short">
+				
+<p>This event is raised after the record instance is inserted into a workflow.
+This may occur at construction time (new) if the behavior is initialized with
+autoInsert set to TRUE and in this case, the 'onEnterWorkflow' event is always
+fired. Consequently, when a model instance is created from database (find), the
+onEnterWorkflow is fired even if the record has already be inserted in a
+workflow (e.g contains a valid status).</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>This event is raised after the record instance is inserted into a workflow.
+This may occur at construction time (new) if the behavior is initialized with
+autoInsert set to TRUE and in this case, the 'onEnterWorkflow' event is always
+fired. Consequently, when a model instance is created from database (find), the
+onEnterWorkflow is fired even if the record has already be inserted in a
+workflow (e.g contains a valid status).</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$event</var></dt>
+						<dd><code><code><a href="class-SWEvent.html">SWEvent</a></code></code><br>the event parameter</dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="leaveWorkflow" id="_leaveWorkflow">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_leaveWorkflow">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#935-942" title="Go to source code">leaveWorkflow</a>( <span><code><a href="class-SWEvent.html">SWEvent</a></code> <var>$event</var></span> )</code>
+
+			<div class="description short">
+				
+<p>Default implementation for the onEnterWorkflow event.<br />
+This method is dedicated to be overloaded by custom event handler.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Default implementation for the onEnterWorkflow event.<br />
+This method is dedicated to be overloaded by custom event handler.</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$event</var></dt>
+						<dd><code><code><a href="class-SWEvent.html">SWEvent</a></code></code><br>the event parameter</dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="onLeaveWorkflow" id="_onLeaveWorkflow">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_onLeaveWorkflow">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#943-953" title="Go to source code">onLeaveWorkflow</a>( <span><code><a href="class-SWEvent.html">SWEvent</a></code> <var>$event</var></span> )</code>
+
+			<div class="description short">
+				
+<p>This event is raised after the record instance is removed from a workflow.
+This occures when the owner status attribut is set to NULL, for instance by
+calling $c-&gt;swNextStatus()</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>This event is raised after the record instance is removed from a workflow.
+This occures when the owner status attribut is set to NULL, for instance by
+calling $c-&gt;swNextStatus()</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$event</var></dt>
+						<dd><code><code><a href="class-SWEvent.html">SWEvent</a></code></code><br>the event parameter</dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="beforeTransition" id="_beforeTransition">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_beforeTransition">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#954-961" title="Go to source code">beforeTransition</a>( <span><code><a href="class-SWEvent.html">SWEvent</a></code> <var>$event</var></span> )</code>
+
+			<div class="description short">
+				
+<p>Default implementation for the onBeforeTransition event.<br />
+This method is dedicated to be overloaded by custom event handler.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Default implementation for the onBeforeTransition event.<br />
+This method is dedicated to be overloaded by custom event handler.</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$event</var></dt>
+						<dd><code><code><a href="class-SWEvent.html">SWEvent</a></code></code><br>the event parameter</dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="onBeforeTransition" id="_onBeforeTransition">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_onBeforeTransition">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#962-970" title="Go to source code">onBeforeTransition</a>( <span><code><a href="class-SWEvent.html">SWEvent</a></code> <var>$event</var></span> )</code>
+
+			<div class="description short">
+				
+<p>This event is raised before a workflow transition is applied to the owner
+instance.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>This event is raised before a workflow transition is applied to the owner
+instance.</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$event</var></dt>
+						<dd><code><code><a href="class-SWEvent.html">SWEvent</a></code></code><br>the event parameter</dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="processTransition" id="_processTransition">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_processTransition">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#971-978" title="Go to source code">processTransition</a>( <span><code><a href="class-SWEvent.html">SWEvent</a></code> <var>$event</var></span> )</code>
+
+			<div class="description short">
+				
+<p>Default implementation for the onProcessTransition event.<br />
+This method is dedicated to be overloaded by custom event handler.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Default implementation for the onProcessTransition event.<br />
+This method is dedicated to be overloaded by custom event handler.</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$event</var></dt>
+						<dd><code><code><a href="class-SWEvent.html">SWEvent</a></code></code><br>the event parameter</dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="onProcessTransition" id="_onProcessTransition">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_onProcessTransition">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#979-996" title="Go to source code">onProcessTransition</a>( <span><code><a href="class-SWEvent.html">SWEvent</a></code> <var>$event</var></span> )</code>
+
+			<div class="description short">
+				
+<p>This event is raised when a workflow transition is in progress. In such case,
+the user may define a handler for this event in order to run specific
+process.<br />
+Depending on the <b>'transitionBeforeSave'</b> initialization parameters, this
+event could be fired before or after the owner model is actually saved to the
+database. Of course this only applies when status change is initiated when
+saving the record. A call to swNextStatus() is not affected by the
+'transitionBeforeSave' option.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>This event is raised when a workflow transition is in progress. In such case,
+the user may define a handler for this event in order to run specific
+process.<br />
+Depending on the <b>'transitionBeforeSave'</b> initialization parameters, this
+event could be fired before or after the owner model is actually saved to the
+database. Of course this only applies when status change is initiated when
+saving the record. A call to swNextStatus() is not affected by the
+'transitionBeforeSave' option.</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$event</var></dt>
+						<dd><code><code><a href="class-SWEvent.html">SWEvent</a></code></code><br>the event parameter</dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="afterTransition" id="_afterTransition">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_afterTransition">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#997-1005" title="Go to source code">afterTransition</a>( <span><code><a href="class-SWEvent.html">SWEvent</a></code> <var>$event</var></span> )</code>
+
+			<div class="description short">
+				
+<p>Default implementation for the onAfterTransition event.<br />
+This method is dedicated to be overloaded by custom event handler.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Default implementation for the onAfterTransition event.<br />
+This method is dedicated to be overloaded by custom event handler.</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$event</var></dt>
+						<dd><code><code><a href="class-SWEvent.html">SWEvent</a></code></code><br>the event parameter</dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="onAfterTransition" id="_onAfterTransition">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_onAfterTransition">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#1006-1021" title="Go to source code">onAfterTransition</a>( <span><code><a href="class-SWEvent.html">SWEvent</a></code> <var>$event</var></span> )</code>
+
+			<div class="description short">
+				
+<p>This event is raised after the onProcessTransition is fired. It is the last
+event fired during a non-final transition.<br />
+Again, in the case of an AR being saved, this event may be fired before or after
+the record is actually save, depending on the <b>'transitionBeforeSave'</b>
+initialization parameters.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>This event is raised after the onProcessTransition is fired. It is the last
+event fired during a non-final transition.<br />
+Again, in the case of an AR being saved, this event may be fired before or after
+the record is actually save, depending on the <b>'transitionBeforeSave'</b>
+initialization parameters.</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$event</var></dt>
+						<dd><code><code><a href="class-SWEvent.html">SWEvent</a></code></code><br>the event parameter</dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="finalStatus" id="_finalStatus">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_finalStatus">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#1022-1029" title="Go to source code">finalStatus</a>( <span><code><a href="class-SWEvent.html">SWEvent</a></code> <var>$event</var></span> )</code>
+
+			<div class="description short">
+				
+<p>Default implementation for the onFinalStatus event.<br />
+This method is dedicated to be overloaded by custom event handler.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Default implementation for the onFinalStatus event.<br />
+This method is dedicated to be overloaded by custom event handler.</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$event</var></dt>
+						<dd><code><code><a href="class-SWEvent.html">SWEvent</a></code></code><br>the event parameter</dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="onFinalStatus" id="_onFinalStatus">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_onFinalStatus">#</a>
+			<code><a href="source-class-SWActiveRecordBehavior.html#1030-1044" title="Go to source code">onFinalStatus</a>( <span><code><a href="class-SWEvent.html">SWEvent</a></code> <var>$event</var></span> )</code>
+
+			<div class="description short">
+				
+<p>This event is raised at the end of a transition, when the destination status
+is a final status (i.e the owner model has reached a status from where it will
+not be able to move).</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>This event is raised at the end of a transition, when the destination status
+is a final status (i.e the owner model has reached a status from where it will
+not be able to move).</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$event</var></dt>
+						<dd><code><code><a href="class-SWEvent.html">SWEvent</a></code></code><br>the event parameter</dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		</table>
+
+
+
+		<h3>Magic methods summary</h3>
+
+
+
+
+
+		<h2>Constants summary</h2>
+		<table class="summary table table-bordered table-striped" id="constants">
+		<tr data-order="SW_LOG_CATEGORY" id="SW_LOG_CATEGORY">
+
+			<td class="attributes"><code>string</code></td>
+			<td class="name"><code>
+					<a href="source-class-SWActiveRecordBehavior.html#95" title="Go to source code"><b>SW_LOG_CATEGORY</b></a>
+			</code></td>
+			<td class="value"><code><span class="php-quote">'application.simpleWorkflow'</span></code></td>
+			<td class="description"><div>
+				<a href="#SW_LOG_CATEGORY" class="anchor">#</a>
+
+				<div class="description short">
+					
+				</div>
+
+				<div class="description detailed hidden">
+					
+
+				</div>
+			</div></td>
+		</tr>
+		<tr data-order="SW_I8N_CATEGORY" id="SW_I8N_CATEGORY">
+
+			<td class="attributes"><code>string</code></td>
+			<td class="name"><code>
+					<a href="source-class-SWActiveRecordBehavior.html#96" title="Go to source code"><b>SW_I8N_CATEGORY</b></a>
+			</code></td>
+			<td class="value"><code><span class="php-quote">'simpleworkflow'</span></code></td>
+			<td class="description"><div>
+				<a href="#SW_I8N_CATEGORY" class="anchor">#</a>
+
+				<div class="description short">
+					
+				</div>
+
+				<div class="description detailed hidden">
+					
+
+				</div>
+			</div></td>
+		</tr>
+		</table>
+
+
+
+
+		<h2>Properties summary</h2>
+		<table class="summary table table-bordered table-striped" id="properties">
+		<tr data-order="statusAttribute" id="$statusAttribute">
+			<td class="attributes"><code>
+				public  
+				string
+			</code></td>
+
+			<td class="name">
+					<a href="source-class-SWActiveRecordBehavior.html#50-53" title="Go to source code"><var>$statusAttribute</var></a>
+			</td>
+			<td class="description"><div>
+				<a href="#$statusAttribute" class="anchor">#</a>
+
+				<div class="description short">
+					
+<p>This is the column name where status is stored.</p>
+
+				</div>
+
+				<div class="description detailed hidden">
+					
+<p>This is the column name where status is stored.</p>
+
+
+				</div>
+			</div></td>
+		</tr>
+		<tr data-order="defaultWorkflow" id="$defaultWorkflow">
+			<td class="attributes"><code>
+				public  
+				string
+			</code></td>
+
+			<td class="name">
+					<a href="source-class-SWActiveRecordBehavior.html#54-57" title="Go to source code"><var>$defaultWorkflow</var></a>
+			</td>
+			<td class="description"><div>
+				<a href="#$defaultWorkflow" class="anchor">#</a>
+
+				<div class="description short">
+					
+<p>workflow name that should be used by default for the owner model.</p>
+
+				</div>
+
+				<div class="description detailed hidden">
+					
+<p>workflow name that should be used by default for the owner model.</p>
+
+
+				</div>
+			</div></td>
+		</tr>
+		<tr data-order="autoInsert" id="$autoInsert">
+			<td class="attributes"><code>
+				public  
+				boolean
+			</code></td>
+
+			<td class="name">
+					<a href="source-class-SWActiveRecordBehavior.html#58-61" title="Go to source code"><var>$autoInsert</var></a>
+			</td>
+			<td class="description"><div>
+				<a href="#$autoInsert" class="anchor">#</a>
+
+				<div class="description short">
+					
+				</div>
+
+				<div class="description detailed hidden">
+					
+
+				</div>
+			</div></td>
+		</tr>
+		<tr data-order="workflowSourceComponent" id="$workflowSourceComponent">
+			<td class="attributes"><code>
+				public  
+				string
+			</code></td>
+
+			<td class="name">
+					<a href="source-class-SWActiveRecordBehavior.html#62-65" title="Go to source code"><var>$workflowSourceComponent</var></a>
+			</td>
+			<td class="description"><div>
+				<a href="#$workflowSourceComponent" class="anchor">#</a>
+
+				<div class="description short">
+					
+<p>name of the workflow source component</p>
+
+				</div>
+
+				<div class="description detailed hidden">
+					
+<p>name of the workflow source component</p>
+
+
+				</div>
+			</div></td>
+		</tr>
+		<tr data-order="enableEvent" id="$enableEvent">
+			<td class="attributes"><code>
+				public  
+				boolean
+			</code></td>
+
+			<td class="name">
+					<a href="source-class-SWActiveRecordBehavior.html#66-69" title="Go to source code"><var>$enableEvent</var></a>
+			</td>
+			<td class="description"><div>
+				<a href="#$enableEvent" class="anchor">#</a>
+
+				<div class="description short">
+					
+				</div>
+
+				<div class="description detailed hidden">
+					
+
+				</div>
+			</div></td>
+		</tr>
+		<tr data-order="transitionBeforeSave" id="$transitionBeforeSave">
+			<td class="attributes"><code>
+				public  
+				boolean
+			</code></td>
+
+			<td class="name">
+					<a href="source-class-SWActiveRecordBehavior.html#70-73" title="Go to source code"><var>$transitionBeforeSave</var></a>
+			</td>
+			<td class="description"><div>
+				<a href="#$transitionBeforeSave" class="anchor">#</a>
+
+				<div class="description short">
+					
+				</div>
+
+				<div class="description detailed hidden">
+					
+
+				</div>
+			</div></td>
+		</tr>
+		<tr data-order="eventClassName" id="$eventClassName">
+			<td class="attributes"><code>
+				protected  
+				string
+			</code></td>
+
+			<td class="name">
+					<a href="source-class-SWActiveRecordBehavior.html#89-93" title="Go to source code"><var>$eventClassName</var></a>
+			</td>
+			<td class="description"><div>
+				<a href="#$eventClassName" class="anchor">#</a>
+
+				<div class="description short">
+					
+<p>name of the class the owner should inherit from in order for SW events to be
+enabled.</p>
+
+				</div>
+
+				<div class="description detailed hidden">
+					
+<p>name of the class the owner should inherit from in order for SW events to be
+enabled.</p>
+
+
+				</div>
+			</div></td>
+		</tr>
+		</table>
+
+
+
+
+
+
+</div>
+	</div>
+
+	<div id="footer">
+		simpleWorkflow API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</body>
+</html>

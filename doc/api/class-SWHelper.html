@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.8.0" />
+
+	<title>Class SWHelper | simpleWorkflow</title>
+
+	<script type="text/javascript" src="resources/combined.js?2228282068"></script>
+	<script type="text/javascript" src="elementlist.js?2072927240"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?260161822" />
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2015443609" />
+
+</head>
+
+<body>
+	<div id="navigation" class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a href="index.html" class="brand">simpleWorkflow</a>
+				<div class="nav-collapse">
+					<ul class="nav">
+						<li class="active">
+<span>Class</span>						</li>
+
+						<li class="divider-vertical"></li>
+
+						<li>
+							<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+						</li>
+
+
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="left">
+	<div id="menu">
+		<form id="search" class="form-search">
+			<input type="hidden" name="cx" value="" />
+			<input type="hidden" name="ie" value="UTF-8" />
+			<input type="text" name="q" class="search-query" placeholder="Search" />
+		</form>
+
+
+		<div id="groups">
+		</div>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-SWActiveRecord.html">SWActiveRecord</a></li>
+				<li><a href="class-SWActiveRecordBehavior.html">SWActiveRecordBehavior</a></li>
+				<li><a href="class-SWComponent.html">SWComponent</a></li>
+				<li><a href="class-SWEvent.html">SWEvent</a></li>
+				<li><a href="class-SWException.html">SWException</a></li>
+				<li class="active"><a href="class-SWHelper.html">SWHelper</a></li>
+				<li><a href="class-SWNode.html">SWNode</a></li>
+				<li><a href="class-SWPhpWorkflowSource.html">SWPhpWorkflowSource</a></li>
+				<li><a href="class-SWValidator.html">SWValidator</a></li>
+				<li><a href="class-SWWorkflowSource.html">SWWorkflowSource</a></li>
+				<li><a href="class-SWyEdConverter.html">SWyEdConverter</a></li>
+				<li><a href="class-SWyEdConverterDOM.html">SWyEdConverterDOM</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+	<div id="rightInner">
+<div id="content" class="class">
+	<h1>Class SWHelper</h1>
+
+
+	<div class="description">
+	
+<p>this class provides helper methods for the simpleWorkflow behavior</p>
+
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="alert alert-info">
+		
+		
+		
+		
+
+		<b>Located at</b> <a href="source-class-SWHelper.html#2-143" title="Go to source code">SWHelper.php</a><br />
+	</div>
+
+
+
+		<h2>Methods summary</h2>
+		<table class="summary table table-bordered table-striped" id="methods">
+		<tr data-order="nextStatuslistData" id="_nextStatuslistData">
+
+			<td class="attributes"><code>
+				 public static
+				array
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_nextStatuslistData">#</a>
+			<code><a href="source-class-SWHelper.html#7-33" title="Go to source code">nextStatuslistData</a>( <span>CModel <var>$model</var></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+			<div class="description short">
+				
+<p>Returns the list of all statuses that can be reached from current status of
+the model passed as argument. The returned array is in the form suitable for
+dropDownList and listBox:</p>
+
+<pre>
+   array(
+        'statusId' =&gt; 'status label',
+        'status Id2' =&gt; 'status label 2',
+        etc ...
+   )
+</pre>
+Use the $options argument to speficy following options :
+<ul>
+	<li><b>prompt</b> : specifies the prompt text shown as the first list option.
+	Its value is empty. Note, the prompt text will NOT be HTML-encoded</li>
+
+	<li><b>includeCurrent</b> : boolean, if TRUE (default) the current model status
+	is included in the list, otherwise current model status is not inserted in the
+	returned array.</li>
+
+	<li><b>exclude</b> : array, list of statuses that should not be inserted in the
+	returned array</li>
+</ul>
+ Note that each status label is html encode by default.
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Returns the list of all statuses that can be reached from current status of
+the model passed as argument. The returned array is in the form suitable for
+dropDownList and listBox:</p>
+
+<pre>
+   array(
+        'statusId' =&gt; 'status label',
+        'status Id2' =&gt; 'status label 2',
+        etc ...
+   )
+</pre>
+Use the $options argument to speficy following options :
+<ul>
+	<li><b>prompt</b> : specifies the prompt text shown as the first list option.
+	Its value is empty. Note, the prompt text will NOT be HTML-encoded</li>
+
+	<li><b>includeCurrent</b> : boolean, if TRUE (default) the current model status
+	is included in the list, otherwise current model status is not inserted in the
+	returned array.</li>
+
+	<li><b>exclude</b> : array, list of statuses that should not be inserted in the
+	returned array</li>
+</ul>
+ Note that each status label is html encode by default.
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$model</var></dt>
+						<dd><code>CModel</code><br>$model the data model attaching a simpleWorkflow behavior</dd>
+						<dt><var>$options</var></dt>
+						<dd><code>array</code><br>$options additional options</dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>array</code><br>the list data that can be used in dropDownList and listBox<br />
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="allStatuslistData" id="_allStatuslistData">
+
+			<td class="attributes"><code>
+				 public static
+				array
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_allStatuslistData">#</a>
+			<code><a href="source-class-SWHelper.html#34-46" title="Go to source code">allStatuslistData</a>( <span>CModel <var>$model</var></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+			<div class="description short">
+				
+<p>Returns the list of all statuses belonging to the workflow the model passed
+as argument is in. see <code><a href="class-SWHelper.html#_nextStatuslistData">SWHelper::nextStatuslistData()</a></code> for argument
+options</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Returns the list of all statuses belonging to the workflow the model passed
+as argument is in. see <code><a href="class-SWHelper.html#_nextStatuslistData">SWHelper::nextStatuslistData()</a></code> for argument
+options</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$model</var></dt>
+						<dd><code>CModel</code><br>the data model attaching a simpleWorkflow behavior</dd>
+						<dt><var>$options</var></dt>
+						<dd><code>array</code><br>additional options</dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>array</code><br>the list data that can be used in dropDownList and listBox<br />
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="statusListData" id="_statusListData">
+
+			<td class="attributes"><code>
+				 public static
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_statusListData">#</a>
+			<code><a href="source-class-SWHelper.html#47-69" title="Go to source code">statusListData</a>( <span>CModel <var>$model</var></span>, <span>array <var>$statusList</var></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+			<div class="description short">
+				
+<p>Create an array containing where keys are statusIds in the form
+workflowId/statusId and the value is the status label. Note that by default this
+method never inserts the status of the model passed as argument. see <code><a href="class-SWHelper.html#_nextStatuslistData">SWHelper::nextStatuslistData()</a></code> for argument options</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Create an array containing where keys are statusIds in the form
+workflowId/statusId and the value is the status label. Note that by default this
+method never inserts the status of the model passed as argument. see <code><a href="class-SWHelper.html#_nextStatuslistData">SWHelper::nextStatuslistData()</a></code> for argument options</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$model</var></dt>
+						<dd><code>CModel</code><br>the data model attaching a simpleWorkflow behavior</dd>
+						<dt><var>$statusList</var></dt>
+						<dd><code>array</code><br>$statusList array of string where each value is the statusId</dd>
+						<dt><var>$options</var></dt>
+						<dd><code>array</code><br>$options the list data that can be used in dropDownList and listBox</dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		</table>
+
+
+
+		<h3>Magic methods summary</h3>
+
+
+
+
+
+
+
+
+</div>
+	</div>
+
+	<div id="footer">
+		simpleWorkflow API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</body>
+</html>

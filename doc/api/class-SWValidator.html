@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.8.0" />
+
+	<title>Class SWValidator | simpleWorkflow</title>
+
+	<script type="text/javascript" src="resources/combined.js?2228282068"></script>
+	<script type="text/javascript" src="elementlist.js?2072927240"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?260161822" />
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2015443609" />
+
+</head>
+
+<body>
+	<div id="navigation" class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a href="index.html" class="brand">simpleWorkflow</a>
+				<div class="nav-collapse">
+					<ul class="nav">
+						<li class="active">
+<span>Class</span>						</li>
+
+						<li class="divider-vertical"></li>
+
+						<li>
+							<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+						</li>
+
+
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="left">
+	<div id="menu">
+		<form id="search" class="form-search">
+			<input type="hidden" name="cx" value="" />
+			<input type="hidden" name="ie" value="UTF-8" />
+			<input type="text" name="q" class="search-query" placeholder="Search" />
+		</form>
+
+
+		<div id="groups">
+		</div>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-SWActiveRecord.html">SWActiveRecord</a></li>
+				<li><a href="class-SWActiveRecordBehavior.html">SWActiveRecordBehavior</a></li>
+				<li><a href="class-SWComponent.html">SWComponent</a></li>
+				<li><a href="class-SWEvent.html">SWEvent</a></li>
+				<li><a href="class-SWException.html">SWException</a></li>
+				<li><a href="class-SWHelper.html">SWHelper</a></li>
+				<li><a href="class-SWNode.html">SWNode</a></li>
+				<li><a href="class-SWPhpWorkflowSource.html">SWPhpWorkflowSource</a></li>
+				<li class="active"><a href="class-SWValidator.html">SWValidator</a></li>
+				<li><a href="class-SWWorkflowSource.html">SWWorkflowSource</a></li>
+				<li><a href="class-SWyEdConverter.html">SWyEdConverter</a></li>
+				<li><a href="class-SWyEdConverterDOM.html">SWyEdConverterDOM</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+	<div id="rightInner">
+<div id="content" class="class">
+	<h1>Class SWValidator</h1>
+
+
+	<div class="description">
+	
+<p>This validator should be used to validate the 'status' attribute for an
+active record object before it is saved. It tests if the transition that is
+about to occur is valid.<br />
+Moreover, if &lt;strong&gt;$enableSwValidation&lt;/strong&gt; is set to
+<b>true</b>, this validator applies all validators that may have been defined by
+the model for the scenario associated to the transition being done.<br />
+Scenario names associated with a transition, have the following format :</p>
+
+<pre>
+ sw:[currentStatus]-[nextStatus]
+ </pre>
+For instance, if the model being validated is currently in status 'A' and it is
+sent in status 'B', the corresponding scenario name is 'sw:A-B'. Note that if
+the destination status doesn't belong to the same workflow as the current
+status, [nextStatus] must be in the form 'workflowId/statusId' (e.g
+'sw:A-workflow/B'). Eventually, when the model enters in a workflow, the
+scenario name is '-[nextStatus]' where 'nextStatus' includes the workflow Id
+(e.g 'sw:-workflowIs/statusId').
+<p>If this validator is initialized with parameter <b>match</b> set to TRUE,
+then transitions scenario defined for validators are assumed to be regular
+expressions. If the current transition matches, then the associated validator is
+executed.<br />
+For instance, if validator 'required' for attribute A applies to scenarion
+'sw:/S1_.?/' then each time the model leaves status S1, then the
+&lt;em&gt;required&lt;/em&gt; validator will be applied.</p>
+
+	</div>
+
+	<dl class="tree well">
+		<dd style="padding-left:0px">
+CValidator
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by" />
+<b><span>SWValidator</span></b>			
+			
+			
+		</dd>
+	</dl>
+
+
+
+
+
+
+
+
+	<div class="alert alert-info">
+		
+		
+		
+		
+
+		<b>Located at</b> <a href="source-class-SWValidator.html#2-180" title="Go to source code">SWValidator.php</a><br />
+	</div>
+
+
+
+		<h2>Methods summary</h2>
+		<table class="summary table table-bordered table-striped" id="methods">
+		<tr data-order="validateAttribute" id="_validateAttribute">
+
+			<td class="attributes"><code>
+				 protected 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_validateAttribute">#</a>
+			<code><a href="source-class-SWValidator.html#45-101" title="Go to source code">validateAttribute</a>( <span>CModel <var>$model</var></span>, <span>string <var>$attribute</var></span> )</code>
+
+			<div class="description short">
+				
+<p>Validate status change and applies all validators defined by the model for
+the current transition scenario if enableSwValidation is TRUE. If validator
+parameter 'match' is true, the transition scenario is matched against validator
+scenario (which are assumed to be regular expressions).</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Validate status change and applies all validators defined by the model for
+the current transition scenario if enableSwValidation is TRUE. If validator
+parameter 'match' is true, the transition scenario is matched against validator
+scenario (which are assumed to be regular expressions).</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$model</var></dt>
+						<dd><code>CModel</code><br>$model the model to validate</dd>
+						<dt><var>$attribute</var></dt>
+						<dd><code>string</code><br>$attribute the model attribute to validate</dd>
+					</dl></div>
+
+
+
+					<h4>See</h4>
+					<div class="list">
+							validators/CValidator::validateAttribute()<br />
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		</table>
+
+
+
+		<h3>Magic methods summary</h3>
+
+
+
+
+
+		<h2>Constants summary</h2>
+		<table class="summary table table-bordered table-striped" id="constants">
+		<tr data-order="SW_SCENARIO_STATUS_SEPARATOR" id="SW_SCENARIO_STATUS_SEPARATOR">
+
+			<td class="attributes"><code>string</code></td>
+			<td class="name"><code>
+					<a href="source-class-SWValidator.html#42" title="Go to source code"><b>SW_SCENARIO_STATUS_SEPARATOR</b></a>
+			</code></td>
+			<td class="value"><code><span class="php-quote">'-'</span></code></td>
+			<td class="description"><div>
+				<a href="#SW_SCENARIO_STATUS_SEPARATOR" class="anchor">#</a>
+
+				<div class="description short">
+					
+				</div>
+
+				<div class="description detailed hidden">
+					
+
+				</div>
+			</div></td>
+		</tr>
+		<tr data-order="SW_SCENARIO_PREFIX" id="SW_SCENARIO_PREFIX">
+
+			<td class="attributes"><code>string</code></td>
+			<td class="name"><code>
+					<a href="source-class-SWValidator.html#43" title="Go to source code"><b>SW_SCENARIO_PREFIX</b></a>
+			</code></td>
+			<td class="value"><code><span class="php-quote">'sw:'</span></code></td>
+			<td class="description"><div>
+				<a href="#SW_SCENARIO_PREFIX" class="anchor">#</a>
+
+				<div class="description short">
+					
+				</div>
+
+				<div class="description detailed hidden">
+					
+
+				</div>
+			</div></td>
+		</tr>
+		</table>
+
+
+
+
+		<h2>Properties summary</h2>
+		<table class="summary table table-bordered table-striped" id="properties">
+		<tr data-order="enableSwValidation" id="$enableSwValidation">
+			<td class="attributes"><code>
+				public  
+				boolean
+			</code></td>
+
+			<td class="name">
+					<a href="source-class-SWValidator.html#29-35" title="Go to source code"><var>$enableSwValidation</var></a>
+			</td>
+			<td class="description"><div>
+				<a href="#$enableSwValidation" class="anchor">#</a>
+
+				<div class="description short">
+					
+<p>(default FALSE) Enables simpleWorkflow Validation. When TRUE, the SWValidator
+not only validates status change for the model, but also applies all validators
+that may have been created and which are associated with the scenario for the
+transition being done. Such scenario names are based on both the current and the
+next status name.</p>
+
+				</div>
+
+				<div class="description detailed hidden">
+					
+<p>(default FALSE) Enables simpleWorkflow Validation. When TRUE, the SWValidator
+not only validates status change for the model, but also applies all validators
+that may have been created and which are associated with the scenario for the
+transition being done. Such scenario names are based on both the current and the
+next status name.</p>
+
+
+				</div>
+			</div></td>
+		</tr>
+		<tr data-order="match" id="$match">
+			<td class="attributes"><code>
+				public  
+				boolean
+			</code></td>
+
+			<td class="name">
+					<a href="source-class-SWValidator.html#36-40" title="Go to source code"><var>$match</var></a>
+			</td>
+			<td class="description"><div>
+				<a href="#$match" class="anchor">#</a>
+
+				<div class="description short">
+					
+<p>(default FALSE) When true, the scenario name is evaluated as a regular
+expression that must match the transition name being done.</p>
+
+				</div>
+
+				<div class="description detailed hidden">
+					
+<p>(default FALSE) When true, the scenario name is evaluated as a regular
+expression that must match the transition name being done.</p>
+
+
+				</div>
+			</div></td>
+		</tr>
+		</table>
+
+
+
+
+
+
+</div>
+	</div>
+
+	<div id="footer">
+		simpleWorkflow API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</body>
+</html>

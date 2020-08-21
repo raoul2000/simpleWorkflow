@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.8.0" />
+
+	<title>Class SWPhpWorkflowSource | simpleWorkflow</title>
+
+	<script type="text/javascript" src="resources/combined.js?2228282068"></script>
+	<script type="text/javascript" src="elementlist.js?2072927240"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?260161822" />
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2015443609" />
+
+</head>
+
+<body>
+	<div id="navigation" class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a href="index.html" class="brand">simpleWorkflow</a>
+				<div class="nav-collapse">
+					<ul class="nav">
+						<li class="active">
+<span>Class</span>						</li>
+
+						<li class="divider-vertical"></li>
+
+						<li>
+							<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+						</li>
+
+
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="left">
+	<div id="menu">
+		<form id="search" class="form-search">
+			<input type="hidden" name="cx" value="" />
+			<input type="hidden" name="ie" value="UTF-8" />
+			<input type="text" name="q" class="search-query" placeholder="Search" />
+		</form>
+
+
+		<div id="groups">
+		</div>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-SWActiveRecord.html">SWActiveRecord</a></li>
+				<li><a href="class-SWActiveRecordBehavior.html">SWActiveRecordBehavior</a></li>
+				<li><a href="class-SWComponent.html">SWComponent</a></li>
+				<li><a href="class-SWEvent.html">SWEvent</a></li>
+				<li><a href="class-SWException.html">SWException</a></li>
+				<li><a href="class-SWHelper.html">SWHelper</a></li>
+				<li><a href="class-SWNode.html">SWNode</a></li>
+				<li class="active"><a href="class-SWPhpWorkflowSource.html">SWPhpWorkflowSource</a></li>
+				<li><a href="class-SWValidator.html">SWValidator</a></li>
+				<li><a href="class-SWWorkflowSource.html">SWWorkflowSource</a></li>
+				<li><a href="class-SWyEdConverter.html">SWyEdConverter</a></li>
+				<li><a href="class-SWyEdConverterDOM.html">SWyEdConverterDOM</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+	<div id="rightInner">
+<div id="content" class="class">
+	<h1>Class SWPhpWorkflowSource</h1>
+
+
+	<div class="description">
+	This class gives access to workflow and statuses stored as PHP files. Following
+attributes can be initialized when the component is configured:
+<ul>
+	<li><b>basePath</b> (string) : the base path alias where all workflow are
+	stored.By default, it is set to application.models.workflows (folder
+	"protected/models/workflows").</li>
+
+	<li><b>definitionType</b> (string) : Defines the type of PHP file to load. A
+	Workflow can be defined in a PHP file that contains a simple array definition
+	(definitionType = 'array'), or by a class (definitionType = 'class'). By default
+	this attribute is set to 'array'.</li>
+</ul>
+
+	</div>
+
+	<dl class="tree well">
+		<dd style="padding-left:0px">
+CApplicationComponent
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by" />
+			<a href="class-SWWorkflowSource.html"><span>SWWorkflowSource</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:60px">
+			<img src="resources/inherit.png" alt="Extended by" />
+<b><span>SWPhpWorkflowSource</span></b>			
+			
+			
+		</dd>
+	</dl>
+
+
+
+
+
+
+
+
+	<div class="alert alert-info">
+		
+		
+		
+		
+
+		<b>Located at</b> <a href="source-class-SWPhpWorkflowSource.html#2-267" title="Go to source code">SWPhpWorkflowSource.php</a><br />
+	</div>
+
+
+
+		<h2>Methods summary</h2>
+		<table class="summary table table-bordered table-striped" id="methods">
+		<tr data-order="init" id="_init">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_init">#</a>
+			<code><a href="source-class-SWPhpWorkflowSource.html#29-48" title="Go to source code">init</a>( )</code>
+
+			<div class="description short">
+				
+<p>Initialize the component with configured values. To preload workflows, set
+configuration setting 'preload' to an array containing all workflows to preload.
+If no preload is set workflows are loaded on demand.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Initialize the component with configured values. To preload workflows, set
+configuration setting 'preload' to an array containing all workflows to preload.
+If no preload is set workflows are loaded on demand.</p>
+
+
+
+
+
+
+					<h4>See</h4>
+					<div class="list">
+							<code><code><a href="class-SWWorkflowSource.html">SWWorkflowSource</a></code></code><br />
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="isWorkflowLoaded" id="_isWorkflowLoaded">
+
+			<td class="attributes"><code>
+				 public 
+				boolean
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_isWorkflowLoaded">#</a>
+			<code><a href="source-class-SWPhpWorkflowSource.html#152-162" title="Go to source code">isWorkflowLoaded</a>( <span>string <var>$workflowId</var></span> )</code>
+
+			<div class="description short">
+				
+<p>Verify if a workflow has been loaded.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Verify if a workflow has been loaded.</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$workflowId</var></dt>
+						<dd><code>string</code><br>$workflowId workflow id</dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>boolean</code><br>TRUE if the workflow whose id is $workflowId has already been loaded, FALSE
+otherwise<br />
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="loadWorkflow" id="_loadWorkflow">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_loadWorkflow">#</a>
+			<code><a href="source-class-SWPhpWorkflowSource.html#163-173" title="Go to source code">loadWorkflow</a>( <span>string <var>$workflowId</var></span>, <span>boolean <var>$forceReload</var> = <span class="php-keyword1">false</span></span> )</code>
+
+			<div class="description short">
+				
+<p>Loads the workflow whose id is passed as argument. By default, if the
+workflow has already been loaded it is not reloaded unless $forceReload is
+TRUE</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Loads the workflow whose id is passed as argument. By default, if the
+workflow has already been loaded it is not reloaded unless $forceReload is
+TRUE</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$workflowId</var></dt>
+						<dd><code>string</code><br>$workflowId the workflow id</dd>
+						<dt><var>$forceReload</var></dt>
+						<dd><code>boolean</code><br>$forceReload TRUE to force workflow loading, FALSE otherwise</dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="addWorkflow" id="_addWorkflow">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_addWorkflow">#</a>
+			<code><a href="source-class-SWPhpWorkflowSource.html#174-187" title="Go to source code">addWorkflow</a>( <span>array <var>$definition</var></span>, <span>string <var>$id</var></span> )</code>
+
+			<div class="description short">
+				
+<p>This method is used to add a new workflow definition to the current workflow
+collection.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>This method is used to add a new workflow definition to the current workflow
+collection.</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$definition</var></dt>
+						<dd><code>array</code><br>$definition the workflow definition in its array form</dd>
+						<dt><var>$id</var></dt>
+						<dd><code>string</code><br>$id the workflow id</dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getNodeDefinition" id="_getNodeDefinition">
+
+			<td class="attributes"><code>
+				 public 
+				<code><a href="class-SWNode.html">SWNode</a></code>
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getNodeDefinition">#</a>
+			<code><a href="source-class-SWPhpWorkflowSource.html#188-197" title="Go to source code">getNodeDefinition</a>( <span>mixed <var>$node</var></span>, <span>mixed <var>$defaultWorkflowId</var> = <span class="php-keyword1">null</span></span> )</code>
+
+			<div class="description short">
+				
+<p>(non-PHPdoc)</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>(non-PHPdoc)</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$node</var></dt>
+						<dd><code>mixed</code><br>node String or SWNode object to look for</dd>
+						<dt><var>$defaultWorkflowId</var></dt>
+						<dd></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code><code><a href="class-SWNode.html">SWNode</a></code></code><br>the node as it is defined in a workflow, or NULL if not found<br />
+					</div>
+
+
+					<h4>See</h4>
+					<div class="list">
+							<code><code><a href="class-SWWorkflowSource.html#_getNodeDefinition">SWWorkflowSource::getNodeDefinition()</a></code></code><br />
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getNextNodes" id="_getNextNodes">
+
+			<td class="attributes"><code>
+				 public 
+				array
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getNextNodes">#</a>
+			<code><a href="source-class-SWPhpWorkflowSource.html#198-220" title="Go to source code">getNextNodes</a>( <span>mixed <var>$sourceNode</var></span>, <span>mixed <var>$workflowId</var> = <span class="php-keyword1">null</span></span> )</code>
+
+			<div class="description short">
+				
+<p>(non-PHPdoc)</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>(non-PHPdoc)</p>
+
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>array</code><br>SWNode array<br />
+					</div>
+
+
+					<h4>See</h4>
+					<div class="list">
+							<code><code><a href="class-SWWorkflowSource.html#_getNextNodes">SWWorkflowSource::getNextNodes()</a></code></code><br />
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="isNextNode" id="_isNextNode">
+
+			<td class="attributes"><code>
+				 public 
+				boolean
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_isNextNode">#</a>
+			<code><a href="source-class-SWPhpWorkflowSource.html#221-242" title="Go to source code">isNextNode</a>( <span>mixed <var>$sourceNode</var></span>, <span>mixed <var>$targetNode</var></span>, <span>mixed <var>$workflowId</var> = <span class="php-keyword1">null</span></span> )</code>
+
+			<div class="description short">
+				
+<p>(non-PHPdoc)</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>(non-PHPdoc)</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$sourceNode</var></dt>
+						<dd><code>mixed</code><br>$sourceNode can be provided as a SWNode object, or as a string that can contain
+a workflowId or not.</dd>
+						<dt><var>$targetNode</var></dt>
+						<dd><code>mixed</code><br>$targetNode target node to test</dd>
+						<dt><var>$workflowId</var></dt>
+						<dd></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>boolean</code><br>true if $nextStatus can be reached from $startStatus<br />
+					</div>
+
+
+					<h4>See</h4>
+					<div class="list">
+							<code><code><a href="class-SWWorkflowSource.html#_isNextNode">SWWorkflowSource::isNextNode()</a></code></code><br />
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getInitialNode" id="_getInitialNode">
+
+			<td class="attributes"><code>
+				 public 
+				SWnode
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getInitialNode">#</a>
+			<code><a href="source-class-SWPhpWorkflowSource.html#243-251" title="Go to source code">getInitialNode</a>( <span>mixed <var>$workflowId</var></span> )</code>
+
+			<div class="description short">
+				
+<p>(non-PHPdoc)</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>(non-PHPdoc)</p>
+
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>SWnode</code><br>initial node for $workflowId<br />
+					</div>
+
+
+					<h4>See</h4>
+					<div class="list">
+							<code><code><a href="class-SWWorkflowSource.html#_getInitialNode">SWWorkflowSource::getInitialNode()</a></code></code><br />
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getAllNodes" id="_getAllNodes">
+
+			<td class="attributes"><code>
+				 public 
+				array
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getAllNodes">#</a>
+			<code><a href="source-class-SWPhpWorkflowSource.html#252-266" title="Go to source code">getAllNodes</a>( <span>string <var>$workflowId</var></span> )</code>
+
+			<div class="description short">
+				
+<p>(non-PHPdoc)</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>(non-PHPdoc)</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$workflowId</var></dt>
+						<dd><code>string</code><br>$workflowId id of the workflow that owns all nodes returned</dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>array</code><br>all nodes belonging to workflow $workflowId<br />
+					</div>
+
+
+					<h4>See</h4>
+					<div class="list">
+							<code><code><a href="class-SWWorkflowSource.html#_getAllNodes">SWWorkflowSource::getAllNodes()</a></code></code><br />
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		</table>
+
+		<h3>Methods inherited from <a href="class-SWWorkflowSource.html#methods">SWWorkflowSource</a></h3>
+		<p class="elementList">
+			<code><a href="class-SWWorkflowSource.html#_createSWNode">createSWNode()</a></code>
+		</p>
+
+
+		<h3>Magic methods summary</h3>
+
+
+
+
+
+
+
+
+		<h2>Properties summary</h2>
+		<table class="summary table table-bordered table-striped" id="properties">
+		<tr data-order="basePath" id="$basePath">
+			<td class="attributes"><code>
+				public  
+				string
+			</code></td>
+
+			<td class="name">
+					<a href="source-class-SWPhpWorkflowSource.html#17-21" title="Go to source code"><var>$basePath</var></a>
+			</td>
+			<td class="description"><div>
+				<a href="#$basePath" class="anchor">#</a>
+
+				<div class="description short">
+					
+<p>the base path alias where all workflow are stored.By default, it is set to
+application.models.workflows (folder "protected/models/workflows").</p>
+
+				</div>
+
+				<div class="description detailed hidden">
+					
+<p>the base path alias where all workflow are stored.By default, it is set to
+application.models.workflows (folder "protected/models/workflows").</p>
+
+
+				</div>
+			</div></td>
+		</tr>
+		<tr data-order="definitionType" id="$definitionType">
+			<td class="attributes"><code>
+				public  
+				string
+			</code></td>
+
+			<td class="name">
+					<a href="source-class-SWPhpWorkflowSource.html#22-25" title="Go to source code"><var>$definitionType</var></a>
+			</td>
+			<td class="description"><div>
+				<a href="#$definitionType" class="anchor">#</a>
+
+				<div class="description short">
+					
+<p>Definition type for workflow. Allowed values are : class, array. Default is
+'array'</p>
+
+				</div>
+
+				<div class="description detailed hidden">
+					
+<p>Definition type for workflow. Allowed values are : class, array. Default is
+'array'</p>
+
+
+				</div>
+			</div></td>
+		</tr>
+		</table>
+
+		<h3>Properties inherited from <a href="class-SWWorkflowSource.html#properties">SWWorkflowSource</a></h3>
+		<p class="elementList">
+			<code><a href="class-SWWorkflowSource.html#$preload"><var>$preload</var></a></code>, 
+			<code><a href="class-SWWorkflowSource.html#$workflowNamePrefix"><var>$workflowNamePrefix</var></a></code>
+		</p>
+
+
+
+
+
+</div>
+	</div>
+
+	<div id="footer">
+		simpleWorkflow API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.8.0" />
+
+	<title>Class SWyEdConverterDOM | simpleWorkflow</title>
+
+	<script type="text/javascript" src="resources/combined.js?2228282068"></script>
+	<script type="text/javascript" src="elementlist.js?2072927240"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?260161822" />
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2015443609" />
+
+</head>
+
+<body>
+	<div id="navigation" class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a href="index.html" class="brand">simpleWorkflow</a>
+				<div class="nav-collapse">
+					<ul class="nav">
+						<li class="active">
+<span>Class</span>						</li>
+
+						<li class="divider-vertical"></li>
+
+						<li>
+							<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+						</li>
+
+
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="left">
+	<div id="menu">
+		<form id="search" class="form-search">
+			<input type="hidden" name="cx" value="" />
+			<input type="hidden" name="ie" value="UTF-8" />
+			<input type="text" name="q" class="search-query" placeholder="Search" />
+		</form>
+
+
+		<div id="groups">
+		</div>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-SWActiveRecord.html">SWActiveRecord</a></li>
+				<li><a href="class-SWActiveRecordBehavior.html">SWActiveRecordBehavior</a></li>
+				<li><a href="class-SWComponent.html">SWComponent</a></li>
+				<li><a href="class-SWEvent.html">SWEvent</a></li>
+				<li><a href="class-SWException.html">SWException</a></li>
+				<li><a href="class-SWHelper.html">SWHelper</a></li>
+				<li><a href="class-SWNode.html">SWNode</a></li>
+				<li><a href="class-SWPhpWorkflowSource.html">SWPhpWorkflowSource</a></li>
+				<li><a href="class-SWValidator.html">SWValidator</a></li>
+				<li><a href="class-SWWorkflowSource.html">SWWorkflowSource</a></li>
+				<li><a href="class-SWyEdConverter.html">SWyEdConverter</a></li>
+				<li class="active"><a href="class-SWyEdConverterDOM.html">SWyEdConverterDOM</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+	<div id="rightInner">
+<div id="content" class="class">
+	<h1>Class SWyEdConverterDOM</h1>
+
+
+	<div class="description">
+	Converts a workflow created with yEd Graph Editor (freeware) and saved in
+graphml format into an array suitable to be used with the simpleWorkflow
+extension (sW).<br />
+The conversion is based on the $mapper array, which defines matches between sW
+attributes and properties used by yEd. Following sW values are references using
+a predefined name :
+<ul>
+	<li>workflow - initial : is the id of the initial node</li>
+
+	<li>node - id : id of a given node</li>
+
+	<li>node - constraint : PHP expression used as constraint for a node</li>
+
+	<li>node - label : text label for a node</li>
+
+	<li>node - metadata.* : custom metadata value</li>
+
+	<li>edge - task : PHP expression executed when the transition is performed</li>
+</ul>
+ yEd Graph Editor node attributes are referenced in two ways : by their
+attribute name or by an xpath expression that applies to the y:ShapeNode element
+used by yEd to draw each node. The later is mainly usefule to extract the node
+label and possibly, some other informations like for instance the background
+color or text color used to render each node. The former is useful to extract
+built-in yEd attribute and also custom attribute defined by the user.<br />
+
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="alert alert-info">
+		
+		
+		
+		
+
+		<b>Located at</b> <a href="source-class-SWyEdConverterDOM.html#2-271" title="Go to source code">SWyEdConverterDOM.php</a><br />
+	</div>
+
+
+
+		<h2>Methods summary</h2>
+		<table class="summary table table-bordered table-striped" id="methods">
+		<tr data-order="convert" id="_convert">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_convert">#</a>
+			<code><a href="source-class-SWyEdConverterDOM.html#54-84" title="Go to source code">convert</a>( <span>string <var>$graphmlFile</var></span> )</code>
+
+			<div class="description short">
+				
+<p>Convert a graphml file describing a workflow into an array suitable to create
+a &lt;em&gt;simpleWorkflow&lt;/em&gt; object.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Convert a graphml file describing a workflow into an array suitable to create
+a &lt;em&gt;simpleWorkflow&lt;/em&gt; object.</p>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$graphmlFile</var></dt>
+						<dd><code>string</code><br>$graphmlFile the path to the graphml file to process</dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		</table>
+
+
+
+		<h3>Magic methods summary</h3>
+
+
+
+
+
+
+
+
+</div>
+	</div>
+
+	<div id="footer">
+		simpleWorkflow API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</body>
+</html>

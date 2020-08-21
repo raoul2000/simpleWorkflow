@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.8.0" />
+
+	<title>simpleWorkflow</title>
+
+	<script type="text/javascript" src="resources/combined.js"></script>
+	<script type="text/javascript" src="elementlist.js"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?260161822" />
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2015443609" />
+
+</head>
+
+<body>
+	<div id="navigation" class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a href="index.html" class="brand">simpleWorkflow</a>
+				<div class="nav-collapse">
+					<ul class="nav">
+						<li>
+<span>Class</span>						</li>
+
+						<li class="divider-vertical"></li>
+
+						<li>
+							<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+						</li>
+
+
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="left">
+	<div id="menu">
+		<form id="search" class="form-search">
+			<input type="hidden" name="cx" value="" />
+			<input type="hidden" name="ie" value="UTF-8" />
+			<input type="text" name="q" class="search-query" placeholder="Search" autofocus />
+		</form>
+
+
+		<div id="groups">
+		</div>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-SWActiveRecord.html">SWActiveRecord</a></li>
+				<li><a href="class-SWActiveRecordBehavior.html">SWActiveRecordBehavior</a></li>
+				<li><a href="class-SWComponent.html">SWComponent</a></li>
+				<li><a href="class-SWEvent.html">SWEvent</a></li>
+				<li><a href="class-SWException.html">SWException</a></li>
+				<li><a href="class-SWHelper.html">SWHelper</a></li>
+				<li><a href="class-SWNode.html">SWNode</a></li>
+				<li><a href="class-SWPhpWorkflowSource.html">SWPhpWorkflowSource</a></li>
+				<li><a href="class-SWValidator.html">SWValidator</a></li>
+				<li><a href="class-SWWorkflowSource.html">SWWorkflowSource</a></li>
+				<li><a href="class-SWyEdConverter.html">SWyEdConverter</a></li>
+				<li><a href="class-SWyEdConverterDOM.html">SWyEdConverterDOM</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+	<div id="rightInner">
+<div id="content">
+	<h1>simpleWorkflow</h1>
+
+
+
+
+
+<h2>Classes summary</h2>
+<table class="summary table table-bordered table-striped" id="classes">
+<tr>
+	<td class="name"><a href="class-SWActiveRecord.html">SWActiveRecord</a></td>
+	<td>This is the base class for all AR models that needs to handle events fired by
+the simpleWorkflow behavior. Handling simpleWorkflow events can also be achieved
+by creating a behavior that inherits from SWActiveRecordBehavior and overload
+default event handlers
+<!-- by Texy2! --></td>
+</tr>
+<tr>
+	<td class="name"><a href="class-SWActiveRecordBehavior.html">SWActiveRecordBehavior</a></td>
+	<td>This class implements all the logic for the simpleWorkflow extension. Following
+attributes can be initialized when this behavior is attached to the owner
+component :
+<ul>
+	<li><b>statusAttribute</b> (string) : This is the column name where status is
+	stored<br />
+	If this attribute doesn't exist for a model, the Workflow behavior is
+	automatically disabled and a warning is logged.<br />
+	In the database, this attribute must be defined as a VARCHAR() whose length
+	should be large enough to contains a complete status name with format
+	<b>workflowId/nodeId</b>.<br />
+	example : &lt;pre&gt; task/pending postWorkflow/to_review &lt;/pre&gt; Default :
+	'status'</li>
+
+	<li><b>defaultWorkflow</b> (string) : workflow name that should be used by
+	default for the owner model<br />
+	If this parameter is not set, then it is automatically created based on the name
+	of the owner model, prefixed with 'workflowNamePrefix' defined by the workflow
+	source component. By default this value is set to 'sw' and so, for example
+	'Model1' is associated by default with workflow 'swModel1'.<br />
+	Default : SWWorkflowSource-&gt;workflowNamePrefix . ModelName</li>
+
+	<li><b>autoInsert</b> (boolean) :<br />
+	If TRUE, the model is automatically inserted in the workflow (if not already
+	done) when it is saved. If FALSE, it is developer responsability to insert the
+	model in the workflow.<br />
+	Default : true</li>
+
+	<li><b>workflowSourceComponent</b> (string) :<br />
+	Name of the workflow source component to use with this behavior.<br />
+	By ddefault this parameter is set to &lt;em&gt;swSource&lt;/em&gt; (see <code><a href="class-SWPhpWorkflowSource.html">SWPhpWorkflowSource</a></code>)</li>
+
+	<li><b>enableEvent</b> (boolean) :<br />
+	If TRUE, this behavior will fire SWEvents. Note that even if it is true, this
+	doesn't garantee that SW events will be fired as another condition is that the
+	owner component provides SWEvent handlers.<br />
+	Default : true</li>
+
+	<li><b>transitionBeforeSave</b> (boolean) :<br />
+	If TRUE, SWEvents are fired and possible transitions tasks are executed
+	<b>before</b> the owner model is actually saved. If FALSE, events and task
+	transitions are processed after save.<br />
+	It has no effect if the transition is done programatically by a call to
+	swNextStatus(), but only if it is done when the owner model is saved.<br />
+	Default : true</li>
+</ul>
+</td>
+</tr>
+<tr>
+	<td class="name"><a href="class-SWComponent.html">SWComponent</a></td>
+	<td>This is the base class for all components that needs to handle events fired by
+the simpleWorkflow behavior. Note that in most cases, this class is not used as
+the sW behavior is usually attached to a CActiveRecord object.</td>
+</tr>
+<tr>
+	<td class="name"><a href="class-SWEvent.html">SWEvent</a></td>
+	<td>this class implements events fired by the simpleWorkflow behavior. This event is
+fired at different time during a transition (see (see <code><a href="class-SWActiveRecordBehavior.html#_events">SWActiveRecordBehavior::events()</a></code>).</td>
+</tr>
+<tr>
+	<td class="name"><a href="class-SWException.html">SWException</a></td>
+	<td>Exception thrown by the simpleWorkflow behavior.</td>
+</tr>
+<tr>
+	<td class="name"><a href="class-SWHelper.html">SWHelper</a></td>
+	<td>this class provides helper methods for the simpleWorkflow behavior</td>
+</tr>
+<tr>
+	<td class="name"><a href="class-SWNode.html">SWNode</a></td>
+	<td>This class implements a graph node for the simpleWorkflow extension.</td>
+</tr>
+<tr>
+	<td class="name"><a href="class-SWPhpWorkflowSource.html">SWPhpWorkflowSource</a></td>
+	<td>This class gives access to workflow and statuses stored as PHP files. Following
+attributes can be initialized when the component is configured:
+<ul>
+	<li><b>basePath</b> (string) : the base path alias where all workflow are
+	stored.By default, it is set to application.models.workflows (folder
+	"protected/models/workflows").</li>
+
+	<li><b>definitionType</b> (string) : Defines the type of PHP file to load. A
+	Workflow can be defined in a PHP file that contains a simple array definition
+	(definitionType = 'array'), or by a class (definitionType = 'class'). By default
+	this attribute is set to 'array'.</li>
+</ul>
+</td>
+</tr>
+<tr>
+	<td class="name"><a href="class-SWValidator.html">SWValidator</a></td>
+	<td>
+<p>This validator should be used to validate the 'status' attribute for an
+active record object before it is saved. It tests if the transition that is
+about to occur is valid.<br />
+Moreover, if &lt;strong&gt;$enableSwValidation&lt;/strong&gt; is set to
+<b>true</b>, this validator applies all validators that may have been defined by
+the model for the scenario associated to the transition being done.<br />
+Scenario names associated with a transition, have the following format :
+&lt;pre&gt; <a href="currentStatus">sw</a>-[nextStatus] &lt;/pre&gt; For
+instance, if the model being validated is currently in status 'A' and it is sent
+in status 'B', the corresponding scenario name is 'sw:A-B'. Note that if the
+destination status doesn't belong to the same workflow as the current status,
+[nextStatus] must be in the form 'workflowId/statusId' (e.g 'sw:A-workflow/B').
+Eventually, when the model enters in a workflow, the scenario name is
+'-[nextStatus]' where 'nextStatus' includes the workflow Id (e.g
+'sw:-workflowIs/statusId').</p>
+
+<p>If this validator is initialized with parameter <b>match</b> set to TRUE,
+then transitions scenario defined for validators are assumed to be regular
+expressions. If the current transition matches, then the associated validator is
+executed.<br />
+For instance, if validator 'required' for attribute A applies to scenarion
+'sw:/S1_.?/' then each time the model leaves status S1, then the
+&lt;em&gt;required&lt;/em&gt; validator will be applied.</p>
+</td>
+</tr>
+<tr>
+	<td class="name"><a href="class-SWWorkflowSource.html">SWWorkflowSource</a></td>
+	<td>This is the base class for all workflow source implementations. It provides
+basic initialization features and a set of methods that must be implemented by
+workflow source classes.<br />
+</td>
+</tr>
+<tr>
+	<td class="name"><a href="class-SWyEdConverter.html">SWyEdConverter</a></td>
+	<td>Converts a workflow created with yEd Graph Editor (freeware) and saved in
+graphml format into an array suitable to be used with the simpleWorkflow
+extension (sW).<br />
+The conversion is based on the $mapper array, which defines matches between sW
+attributes and properties used by yEd. Following sW values are references using
+a predefined name :
+<ul>
+	<li>workflow - initial : is the id of the initial node</li>
+
+	<li>node - id : id of a given node</li>
+
+	<li>node - constraint : PHP expression used as constraint for a node</li>
+
+	<li>node - label : text label for a node</li>
+
+	<li>node - metadata.* : custom metadata value</li>
+
+	<li>edge - task : PHP expression executed when the transition is performed</li>
+</ul>
+ yEd Graph Editor node attributes are referenced in two ways : by their
+attribute name or by an xpath expression that applies to the y:ShapeNode element
+used by yEd to draw each node. The later is mainly usefule to extract the node
+label and possibly, some other informations like for instance the background
+color or text color used to render each node. The former is useful to extract
+built-in yEd attribute and also custom attribute defined by the user.<br />
+</td>
+</tr>
+<tr>
+	<td class="name"><a href="class-SWyEdConverterDOM.html">SWyEdConverterDOM</a></td>
+	<td>Converts a workflow created with yEd Graph Editor (freeware) and saved in
+graphml format into an array suitable to be used with the simpleWorkflow
+extension (sW).<br />
+The conversion is based on the $mapper array, which defines matches between sW
+attributes and properties used by yEd. Following sW values are references using
+a predefined name :
+<ul>
+	<li>workflow - initial : is the id of the initial node</li>
+
+	<li>node - id : id of a given node</li>
+
+	<li>node - constraint : PHP expression used as constraint for a node</li>
+
+	<li>node - label : text label for a node</li>
+
+	<li>node - metadata.* : custom metadata value</li>
+
+	<li>edge - task : PHP expression executed when the transition is performed</li>
+</ul>
+ yEd Graph Editor node attributes are referenced in two ways : by their
+attribute name or by an xpath expression that applies to the y:ShapeNode element
+used by yEd to draw each node. The later is mainly usefule to extract the node
+label and possibly, some other informations like for instance the background
+color or text color used to render each node. The former is useful to extract
+built-in yEd attribute and also custom attribute defined by the user.<br />
+</td>
+</tr>
+</table>
+
+
+
+
+
+</div>
+	</div>
+
+	<div id="footer">
+		simpleWorkflow API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.8.0" />
+	<meta name="robots" content="noindex" />
+
+	<title>File SWEvent.php | simpleWorkflow</title>
+
+	<script type="text/javascript" src="resources/combined.js?2228282068"></script>
+	<script type="text/javascript" src="elementlist.js?2072927240"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?260161822" />
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?2015443609" />
+
+</head>
+
+<body>
+	<div id="navigation" class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a href="index.html" class="brand">simpleWorkflow</a>
+				<div class="nav-collapse">
+					<ul class="nav">
+						<li>
+							<a href="class-SWEvent.html" title="Summary of SWEvent"><span>Class</span></a>
+						</li>
+
+						<li class="divider-vertical"></li>
+
+						<li>
+							<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+						</li>
+
+
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="left">
+	<div id="menu">
+		<form id="search" class="form-search">
+			<input type="hidden" name="cx" value="" />
+			<input type="hidden" name="ie" value="UTF-8" />
+			<input type="text" name="q" class="search-query" placeholder="Search" />
+		</form>
+
+
+		<div id="groups">
+		</div>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-SWActiveRecord.html">SWActiveRecord</a></li>
+				<li><a href="class-SWActiveRecordBehavior.html">SWActiveRecordBehavior</a></li>
+				<li><a href="class-SWComponent.html">SWComponent</a></li>
+				<li class="active"><a href="class-SWEvent.html">SWEvent</a></li>
+				<li><a href="class-SWException.html">SWException</a></li>
+				<li><a href="class-SWHelper.html">SWHelper</a></li>
+				<li><a href="class-SWNode.html">SWNode</a></li>
+				<li><a href="class-SWPhpWorkflowSource.html">SWPhpWorkflowSource</a></li>
+				<li><a href="class-SWValidator.html">SWValidator</a></li>
+				<li><a href="class-SWWorkflowSource.html">SWWorkflowSource</a></li>
+				<li><a href="class-SWyEdConverter.html">SWyEdConverter</a></li>
+				<li><a href="class-SWyEdConverterDOM.html">SWyEdConverterDOM</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+	<div id="rightInner">
+<pre id="source"><code><span id="1" class="l"><a class="l" href="#1"> 1 </a><span class="xlang">&lt;?php</span>
+</span><span id="2" class="l"><a class="l" href="#2"> 2 </a><span class="php-comment">/**
+</span></span><span id="3" class="l"><a class="l" href="#3"> 3 </a><span class="php-comment"> * this class implements events fired by the simpleWorkflow behavior. This event is fired
+</span></span><span id="4" class="l"><a class="l" href="#4"> 4 </a><span class="php-comment"> * at different time during a transition (see (see {@link SWActiveRecordBehavior::events()}).
+</span></span><span id="5" class="l"><a class="l" href="#5"> 5 </a><span class="php-comment"> */</span>
+</span><span id="6" class="l"><a class="l" href="#6"> 6 </a><span class="php-keyword1">class</span> <a id="SWEvent" href="#SWEvent">SWEvent</a> <span class="php-keyword1">extends</span> CEvent
+</span><span id="7" class="l"><a class="l" href="#7"> 7 </a>{
+</span><span id="8" class="l"><a class="l" href="#8"> 8 </a>    <span class="php-comment">/**
+</span></span><span id="9" class="l"><a class="l" href="#9"> 9 </a><span class="php-comment">     * @var SWNode source status the owner model is in
+</span></span><span id="10" class="l"><a class="l" href="#10">10 </a><span class="php-comment">     */</span>
+</span><span id="11" class="l"><a class="l" href="#11">11 </a>    <span class="php-keyword1">public</span> <span class="php-var"><a id="$source" href="#$source">$source</a></span>;
+</span><span id="12" class="l"><a class="l" href="#12">12 </a>    <span class="php-comment">/**
+</span></span><span id="13" class="l"><a class="l" href="#13">13 </a><span class="php-comment">     * @var SWNode destination status the owner model is sent to
+</span></span><span id="14" class="l"><a class="l" href="#14">14 </a><span class="php-comment">     */</span>
+</span><span id="15" class="l"><a class="l" href="#15">15 </a>    <span class="php-keyword1">public</span> <span class="php-var"><a id="$destination" href="#$destination">$destination</a></span>;
+</span><span id="16" class="l"><a class="l" href="#16">16 </a>    <span class="php-comment">/**
+</span></span><span id="17" class="l"><a class="l" href="#17">17 </a><span class="php-comment">     * Constructor.
+</span></span><span id="18" class="l"><a class="l" href="#18">18 </a><span class="php-comment">     * @param mixed sender of this event
+</span></span><span id="19" class="l"><a class="l" href="#19">19 </a><span class="php-comment">     */</span>
+</span><span id="20" class="l"><a class="l" href="#20">20 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="___construct" href="#___construct">__construct</a>(<span class="php-var">$sender</span>,<span class="php-var">$source</span>,<span class="php-var">$destination</span>)
+</span><span id="21" class="l"><a class="l" href="#21">21 </a>    {
+</span><span id="22" class="l"><a class="l" href="#22">22 </a>        parent::__construct(<span class="php-var">$sender</span>);
+</span><span id="23" class="l"><a class="l" href="#23">23 </a>        <span class="php-var">$this</span>-&gt;source=<span class="php-var">$source</span>;
+</span><span id="24" class="l"><a class="l" href="#24">24 </a>        <span class="php-var">$this</span>-&gt;destination=<span class="php-var">$destination</span>;
+</span><span id="25" class="l"><a class="l" href="#25">25 </a>    }
+</span><span id="26" class="l"><a class="l" href="#26">26 </a>}
+</span><span id="27" class="l"><a class="l" href="#27">27 </a><span class="xlang">?&gt;</span>
+</span><span id="28" class="l"><a class="l" href="#28">28 </a></span></code></pre>
+	</div>
+
+	<div id="footer">
+		simpleWorkflow API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</body>
+</html>
