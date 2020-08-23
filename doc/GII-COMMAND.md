@@ -2,9 +2,8 @@
 
 *An easy way to create workflows for the simpleWorkflow extension*
 
-<iframe src="//player.vimeo.com/video/48693938" width="500"
-				height="400" frameborder="0" webkitallowfullscreen
-				mozallowfullscreen allowfullscreen></iframe>
+
+[Check this great video](http://player.vimeo.com/video/48693938)
 
 ## Gii command + yEd Graph Editor
 
