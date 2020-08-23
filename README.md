@@ -77,6 +77,4 @@ For more information on how to use the simpleWorkflow extension, please refer to
 Creating a workflow 'by hand' can become an error-prone task when several nodes and edges are required. One good option is to create the workflow using a **visual tools**, and after some searches
 it seems that one of the best application to do it is [yEd Graph Editor](http://www.yworks.com/en/products_yed_about.html). Of course, it is free to use !
 
-
-Once created and saved to graphml format, the workflow can be converted into a simpleworkflow, ready to use. To learn more about the simpleWorkflow Gii command, please check the
-`command` folder.
+Want to know more ? [Read how to use the GII command](./doc/GII-COMMAND.md) to create your workflow...
