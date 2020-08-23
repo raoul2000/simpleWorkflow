@@ -1,4 +1,5 @@
-# Presentation
+
+# Overview
 
 The simpleWorkflow extension is a set of Yii components that is dedicated to provide an easy way to manage the life cycle of CActiveRecord objeccs inside a workflow.
 
@@ -469,7 +470,7 @@ On the other hand, the simpleWorkflow extension provides an API that allows the 
 
 # API Documentation
 
-The simpleWorkflow extension includes a complete API that can be used to set and modify the status of a given record programatically. All methods defined in this API starts with 'sw' and are associated with the simpleWorkflow behavior so they can be invoked directly on the attaching model.
+The simpleWorkflow extension includes a complete API that can be used to set and modify the status of a given record programatically. All methods defined in this API starts with **sw** prefix and are associated with the simpleWorkflow behavior so they can be invoked directly on the attaching model.
 
 For example, the code below loads a record from DB, and check if it already has a status. If it's not the case, insert it into its default workflow.
 
@@ -483,7 +484,7 @@ if( $m->swHasStatus() ){
 }
 ```
 
-The API documentation is available [here](./api/index.html). In particular you may be intrested in the `SWActiveRecordBehavior` class which implements all the simpleWorkflow logic.
+The [API documentation](http://s172418307.onlinehome.fr/project/sandbox/www/resources/simpleWorkflow/api/index.html) is available online and also included in the extension package. In particular you may be intrested in the `SWActiveRecordBehavior` class which implements all the simpleWorkflow logic.
 
 # References
 
@@ -492,7 +493,8 @@ Now that you know a little be more about the simpleWorkflow extension, it is obv
 If you want to know more about the subject, and discover what a complete workflow engine looks like, here is a list of intresting links (my inspiration).
 
 - [An activity based Workflow Engine for PHP](http://www.tonymarston.net/php-mysql/workflow.html#modelling)
-- [Workflow Patterns home page]
-- [Galaxia : an open source workflow engine]
-- [ezComponent : workflow]
+- [Workflow Patterns home page](http://www.workflowpatterns.com/)
+- [Galaxia : an open source workflow engine](http://workflow.tikiwiki.org/tiki-index.php?page=homepage)
+- [ezComponent : workflow](http://www.ezcomponents.org/docs/api/latest/introduction_Workflow.html)
+
 
