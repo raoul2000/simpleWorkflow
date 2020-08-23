@@ -497,4 +497,10 @@ If you want to know more about the subject, and discover what a complete workflo
 - [Galaxia : an open source workflow engine](http://workflow.tikiwiki.org/tiki-index.php?page=homepage)
 - [ezComponent : workflow](http://www.ezcomponents.org/docs/api/latest/introduction_Workflow.html)
 
+# Bonus
+
+Creating a workflow 'by hand' can become an error-prone task when several nodes and edges are required. One good option is to create the workflow using a **visual tools**, and after some searches
+it seems that one of the best application to do it is [yEd Graph Editor](http://www.yworks.com/en/products_yed_about.html). Of course, it is free to use !
+
+Want to know more ? [Read how to use the GII command](GII-COMMAND.md) to create your workflow...
 

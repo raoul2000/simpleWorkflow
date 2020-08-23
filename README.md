@@ -9,7 +9,7 @@ It provides features to control the behavior of the active record in its associa
 ### Resources
 - [Usage Guide](./doc/DOCUMENTATION.md)
 - [API documentation](http://s172418307.onlinehome.fr/project/sandbox/www/resources/simpleWorkflow/api/index.html)
-- [Join discussion, report a bug](http://www.yiiframework.com/forum/index.php?/topic/12071-extension-simpleworkflow/)
+- [Join discussion](http://www.yiiframework.com/forum/index.php?/topic/12071-extension-simpleworkflow/)
 
 ## Documentation
 
