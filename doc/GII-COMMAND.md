@@ -1,11 +1,17 @@
+- [Workflow Creation](#workflow-creation)
+- [Gii command + yEd Graph Editor](#gii-command--yed-graph-editor)
+  - [Installation](#installation)
+  - [Creating a workflow with yEd](#creating-a-workflow-with-yed)
+  - [Conversion with Gii](#conversion-with-gii)
+  - [Code templates](#code-templates)
+
 # Workflow Creation
 
 *An easy way to create workflows for the simpleWorkflow extension*
 
-
 [Check this great video](http://player.vimeo.com/video/48693938)
 
-## Gii command + yEd Graph Editor
+# Gii command + yEd Graph Editor
 
 Creating a workflow 'by hand' can become an error-prone task when several nodes and edges are required. One good option is to create the workflow using a visual tools, and after some searches it seems that one of the best (and free) application to do it is yEd Graph Editor.
 
@@ -17,7 +23,7 @@ In this video you'll see how easy it is to :
 - save the workflow as a `graphml` file
 - use the Gii command to convert the graphml file into a PHP file that contains your worklow ready to be used by simpleWorkflow
 
-### Installation
+## Installation
 
 To be able to create your workflow using yEd Graph Editor you must :
 
@@ -26,7 +32,7 @@ To be able to create your workflow using yEd Graph Editor you must :
 - Install the simpleWorkflow Gii Command. Just copy the `simpleWorkflow/command/gii` folder to your protected folder
 - Make sure that the Gii module is enabled in your `protected/config/main.php` file
 
-### Creating a workflow with yEd
+## Creating a workflow with yEd
 
 To create our workflow with yEd we use the workflow template provided with the extension. This is because This is because our yEd workflow needs to define some custom attributes that will be handled by the simpleWorkflow extension (e.g contraints, tasks, metadata, etc.).
 
@@ -101,13 +107,14 @@ When you're done, save your workflow into a graphml formated file
 
 **warning**: it is important to select the correct file format when saving your workflow, otherwise the conversion to simpleWorkflow format will fail.
 
-### Conversion with Gii
+## Conversion with Gii
 
 Now that your yEd workflow is saved into a graphml file, we must convert it into a simpleWorkflow format.
 To do so, select simpleWorkflow Generator from the main Gii page, and upload your workflow.
 
 The last part is to complete de form and choose a code template.
-#### Code templates
+
+## Code templates
 
 Two code templates are available :
 

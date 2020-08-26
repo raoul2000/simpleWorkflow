@@ -1,21 +1,49 @@
+![logo](./files/sw-logo-big.png)
+
+
+- [Overview](#overview)
+	- [Definition](#definition)
+	- [Example](#example)
+- [Introducing simpleWorklow](#introducing-simpleworklow)
+- [Get Started](#get-started)
+	- [Download](#download)
+	- [Clone](#clone)
+	- [Configure](#configure)
+- [Yii blog Reloaded](#yii-blog-reloaded)
+	- [Workflow definition](#workflow-definition)
+	- [<a href="http://youtu.be/F1lJFlB-89Q">Oh behave !</a>](#oh-behave-)
+	- [Source code](#source-code)
+- [Principles](#principles)
+- [Workflow Tasks](#workflow-tasks)
+- [Status constraints](#status-constraints)
+- [Workflow Driven Validation](#workflow-driven-validation)
+	- [The basis](#the-basis)
+	- [Transition Scenario](#transition-scenario)
+	- [Advanced Transition Scenario](#advanced-transition-scenario)
+- [Events](#events)
+- [API Documentation](#api-documentation)
+- [References](#references)
+- [Bonus](#bonus)
 
 # Overview
 
-The simpleWorkflow extension is a set of Yii components that is dedicated to provide an easy way to manage the life cycle of CActiveRecord objeccs inside a workflow.
+The simpleWorkflow extension is a set of Yii components that is dedicated to provide an easy way to manage the life cycle of `CActiveRecord` objects inside a workflow.
 
 If you are already familiar with the concept of 'workflow' you can jump to the next chapter.
-Definition
+
+## Definition
 
 According to wikipedia :
 
 > A workflow consists of a sequence of connected steps. It is a depiction of a sequence of operations, declared as work of a person, a group of persons, an organization of staff, or one or more simple or complex mechanisms. Workflow may be seen as any abstraction of real work, segregated in workshare, work split or other types of ordering. For control purposes, workflow may be a view on real work under a chosen aspect, thus serving as a virtual representation of actual work.
 
-[read more on Wikipedia](http://en.wikipedia.org/wiki/Workflow)
+*[read more on Wikipedia](http://en.wikipedia.org/wiki/Workflow)*
 
-Workflows (also called Petri net) is a vast subject and the aim of this document is not to go deeply in the theorical fields. As described in the next chapter, the simpleWorkflow extension only implements a simple subset of it. However, if you are intrested in better understanding theorical basis on the subject, you'll find some references at the end of this page.
-Example
+Workflows (also called *Petri net*) is a vast subject and the aim of this document is not to go deeply in the theorical fields. As described in the next chapter, the simpleWorkflow extension only implements a simple subset of it. However, if you are intrested in better understanding theorical basis on the subject, you'll find some references at the end of this page.
 
-To demonstrate how the workflow concept can be used in a valuable way, let's consider a real life example that can be found embeded with all Yii framework releases : the Yii Blog Demo. This demo web app implements a basic blogging system where a user can write and publish posts. If you have ever installed and played with this demos, you may have noticed that a post may be in different states (or statuses), each one of them represented by constants values declared in the Post model itself.
+## Example
+
+To demonstrate how the workflow concept can be used in a valuable way, let's consider a real life example that can be found embeded with all Yii framework releases : **the Yii Blog Demo**. This demo web app implements a basic blogging system where a user can write and publish posts. If you have ever installed and played with this demos, you may have noticed that a post may be in different states (or statuses), each one of them represented by constants values declared in the Post model itself.
 
 `models/Post.php`
 ```php
@@ -38,11 +66,11 @@ Post workflow definition (Yii blog Demo):
 - 6 possible transitions
 - initial status : *draft*
 
-To handle this very simple workflow, there is not much to do as the user has complete freedom to set a post status : any status can be reached from any other status. In this case, there is no need for a dedicated extension that would handle workflow logic.
+To handle this very simple workflow, there is not much to do as the user has complete freedom to set a post status : *any status can be reached from any other status*. In this case, there is no need for a dedicated extension that would handle workflow logic.
 
 Let's imagine something a little bit more complex.
 
-Our new Yii blog system is now a multi-user publishing system, where each user is assigned tasks : some are redactors (reporter), some make corrections and layout work (they know css), and there is of course some chief editors who are responsible for publication.
+Our new Yii blog system is now a *multi-user publishing system*, where each user is assigned tasks : some are redactors (reporter), some make corrections and layout work (they know css), and there is of course some chief editors who are responsible for publication.
 
 If we want to be able to handle posts in our new publishing system, we must think of a more elaborated workflow that will fit this new organisation. First of all, let's list possible post statuses :
 
@@ -78,21 +106,21 @@ The simpleWorkflow extension handles status transitions for CActiveRecord based 
 
 All the logic to handle workflow is located into a behavior that, once attached to a model, will handle status changes for this model. To provide information on workflow, the simpleWorkflow source component is also available.
 
-## Get Started
+# Get Started
 
-### Download
+## Download
 
 Fastest way to get started: get the extension, unzip its contents in your extensions folder and configure it.
 
 [Download simpleWorkflow](https://github.com/raoul2000/simpleWorkflow/archive/master.zip)
 
-### Clone
+## Clone
 
 You can also clone the git repository by heading to the GitHub project page and following the instructions there.
 
 [simpleWorkflow on GitHub](https://github.com/raoul2000/simpleWorkflow)
 
-### Configure
+## Configure
 
 Next step is to modify the configuration of your web application. We need to import all files included in the extension, and to declare the `swSource` component.
 
@@ -115,23 +143,22 @@ Next step is to modify the configuration of your web application. We need to imp
 
 The simpleWorkflow extension is now ready to be used.
 
-## Yii blog Reloaded
+# Yii blog Reloaded
 
 Let's demonstrate on a real example, how the simpleWorkflow extension can be used. To do so, we will use the Yii blog demo webapp provided with all Yii framework releases. Our goal here is not to handle the very simple Yii blog default workflow, but the one a little be more complex that we imagined before.
 
-### Workflow definition
+## Workflow definition
 
 First of all we must create the workflow definition file, and make it accessible to the simple workflow source component. In the current version of the extension, all workflows are defined as associative arrays. The excepted array structure is the following :
 
-```
-initial => (string) id of the one and only entry node
-node => (array) list of node definition with the following structure
-    id => (string) unique identifier for the node
-    label => (string, optional) display name for the node
-    constraint => (string, optional) php expression that is evaluated in the context of the owner component
-    transition => (mixed, optional) list of ids for all nodes than can be reached from this node.
-    This list can be a coma separated string or an array.
-```
+- `initial` : (string) id of the one and only entry node
+- `node` : (array) list of node definition with the following structure
+	- `id` : (string) unique identifier for the node
+    - `label` : (string, optional) display name for the node
+    - `constraint` : (string, optional) php expression that is evaluated in the context of the owner component
+    - `transition` : (mixed, optional) list of ids for all nodes than can be reached from this node.
+    - 
+This list can be a coma separated string or an array.
 
 Let's define this workflow :
 
@@ -153,10 +180,10 @@ array(
 )
 ```
 
-Note that no 'label' has been defined, and in this case the simpleWorkflow behavior will use the status id as the label.
+Note that no 'label' has been defined, and in this case the simpleWorkflow behavior will *use the status id as the label*.
 This definition describes only possible transitions between statuses, and that's enough for now.
 
-Next is make this definition available to the workflow source component (swSource) that we have previously added to the configuration file. By default, this component assumes that workflows are stored in `application.models.workflows` but this can be changed if you prefer to store them in another folder. For this example, the default will be fine.
+Next is make this definition available to the workflow source component (`swSource`) that we have previously added to the configuration file. By default, this component assumes that workflows are stored in `application.models.workflows` but this can be changed if you prefer to store them in another folder. For this example, the default will be fine.
 
 The workflow definition must come in the form of a PHP file that is evaluated as the workflow definition array itself (the one we have just created). The name of the file must be the same as the name of the workflow. As this workflow implement posts statuses, we will name it **swPost**.
 
@@ -201,7 +228,7 @@ public function behaviors()
 This step and the next one are required because we are using an existing web application that we must modify so it can support the *simpleWorkflow* extension.The workflow design is an early process that should normally be done at the begining of the application development, and integrated in the architecture.
 
 - One important thing to remember is that simpleWorkflow needs to be able to store the current status of an active record object into a column which must be of type string. The Yii blog demo defines the status column as an integer and so we must change this before being able to continue.
-    - Change status column type in table Post to VARCHAR(50)
+    - Change status column type in table Post to `VARCHAR(50)`
 - For this example, we need to delete all existing records from the Post table. Please note that it would be possible to keep these records by defining status ids that match the one currently stored in the table (numerical values). However, to keep this example simple, choose not to do so.
     - clear the Post table
 
@@ -251,8 +278,7 @@ At last, we must modify the admin view implemented as a `CGridView` widget (`zii
 
 That's it, we are done ! With not so many changes, our Blog application is now able to handle our new workflow: the simpleWorkflow extension garantees that a Post will correctly evolve through the workflow and that for example, a Post that is published has first been corrected.
 
-
-## Principles
+# Principles
 
 The main class is the `SWActiveRecordBehavior` which is nothing but a standard behavior that will manage how its attached model will behave. This model, must have a specific attribute that is used to store the current status. By default, this attribute should be named 'status' but it is possible to configure the attribute name you want to use, when declaring the behavior. This attribute must be defined as a 'string' because that's the internal representation implemented by the simpleWorkflow extension.
 
@@ -300,7 +326,7 @@ return array(
 ?>	
 ```
 
-Of course, we are assuming here that we have a mailManager component ready to be used and that this component has a methode called sendCorrectionMail.
+Of course, we are assuming here that we have a *mailManager* component ready to be used and that this component has a methode called sendCorrectionMail.
 
 To understand exactly when is the task transition executed, please refer to the Events chapter.
 
@@ -361,9 +387,9 @@ In our blog system, a Post has various attributes : category, tags, priority, et
 
 In terms of validation rules for the Post model, this new requirement can be said this way :
 
-- When the Post is sent from Draft to Correction status, is must have a category
-- When the Post is sent from Correction to Ready status, is must have tags
-- When the Post is sent from Ready to Published status, is must have a priority
+- When the Post is sent from *Draft* to *Correction* status, is must have a category
+- When the Post is sent from *Correction* to *Ready status*, is must have tags
+- When the Post is sent from *Ready* to *Published* status, is must have a priority
 
 At validation time, we must check that the next status can be reached and that our rules apply on other attributes. This can easely be done using the SWValidator features.
 
@@ -402,14 +428,14 @@ If parameter `enableSwValidation` is set to TRUE, once the status model change h
 - fetch all validators (for the model) that apply to this scenario
 - execute those validators them on the model
 
-### Transition Scenario
+## Transition Scenario
 
-If the SWValidator is configured to run attributes validation on transition, it is important to understand that scenario names are automatically created for each transition. The format of such scenario name must be : `sw:[startStatus]_[endStatus]`
+If the `SWValidator` is configured to run attributes validation on transition, it is important to understand that scenario names are automatically created for each transition. The format of such scenario name must be : `sw:[startStatus]_[endStatus]`
 
 Consequently, you must set the appropriate scenario name for those validators dedicated to be used on workflow transitions. For instance, in the previous rules set declaration, the 'required' validator will be applied on the category attribute when the model is sent from status Draft to Correction.
 In the same way, the tags attribute is required when the model is sent from Correction to Ready, etc...
 
-### Advanced Transition Scenario
+## Advanced Transition Scenario
 
 Using scenario names as defined above, to trigger model validation on status change may become quite complex when the workflow reaches a certain size. Imagine you want to implement a validation rule like : all model that leave the status 'Correction' must have tags. For our small workflow, that's no big deal because we only have 2 outgoing transitions from the 'Correction' status. We just have to write :
 
@@ -462,11 +488,11 @@ Workflow events are a powerful way to customize the default workflow behavior fo
 
 When is transition done ?
 
-When the status is changed because the record instance is saved, events onTransition, onAfterTransition and possibly onFinalStatus may be fired before or after the record is actually saved, depending on the transitionBeforeSave initialization parameter.
+When the status is changed because the record instance is saved, events **onTransition**, **onAfterTransition** and possibly **onFinalStatus** may be fired before or after the record is actually saved, depending on the `transitionBeforeSave` initialization parameter.
 
-By default this parameter is set to TRUE so these 3 events are always fired before the record instance is saved. This must be taken into account if, for example, an event handler is refering to an auto-incremented column whose value is set only after the record is saved. In such case the behavior must be initialized with transitionBeforeSave to FALSE.
+By default this parameter is set to TRUE so these 3 events are always fired before the record instance is saved. This must be taken into account if, for example, an event handler is refering to an auto-incremented column whose value is set only after the record is saved. In such case the behavior must be initialized with `transitionBeforeSave` to FALSE.
 
-On the other hand, the simpleWorkflow extension provides an API that allows the developper to change status. When the `swNextStatus($nextStatus)` method is used, the transitionBeforeSave has no effect, as the record instance is not saved.
+On the other hand, the simpleWorkflow extension provides an API that allows the developper to change status. When the `swNextStatus($nextStatus)` method is used, the `transitionBeforeSave` has no effect, as the record instance is not saved.
 
 # API Documentation
 
